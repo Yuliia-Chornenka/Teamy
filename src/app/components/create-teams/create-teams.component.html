@@ -1,0 +1,6 @@
+<div *ngFor="let team of teams let idx = index">
+  <div>
+    Team {{ idx+1 }}:
+    <p *ngFor="let student of team"> {{ student }} </p>
+  </div>
+</div>

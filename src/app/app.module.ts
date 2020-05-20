@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { NewProjectFormComponent } from './components/new-project-form/new-project-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewProjectFormComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    CreateTeamsComponent
   ],
   imports: [
     BrowserModule,
