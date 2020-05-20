@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Teamy"
+    }
+  },
+  "defaultProject": "Teamy",
+  "cli": {
+    "analytics": "d816176a-1357-4b22-9cb0-37d4a155f04e"
+  }
 }
