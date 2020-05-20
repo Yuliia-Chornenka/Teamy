@@ -1,0 +1,70 @@
+@import "../../variables/colors";
+
+.container {
+  width: 85%;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+
+  &_column {
+    flex-direction: column;
+  }
+}
+
+.header {
+
+  &__contacts {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__main {
+    display: flex;
+    background-color: $purple;
+  }
+}
+
+.info {
+  display: flex;
+
+  &__item {
+    margin-right: 2%;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.socials, .sign {
+  display: flex;
+
+  &__item {
+    margin-right: 2%;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.nav {
+  display: flex;
+
+  &__item {
+    margin-right: 50%;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.sign {
+  &__btn {
+    white-space: nowrap;
+    font-size: 16px;
+  }
+}
