@@ -1,0 +1,18 @@
+@import "../../variables/colors";
+
+.footer {
+  background-color: $black;
+  color: $white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  &__policy a {
+    color: $yellow;
+    text-transform: capitalize;
+  }
+
+  &__copyright p span {
+    color: $yellow;
+  }
+}
