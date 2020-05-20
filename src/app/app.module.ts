@@ -5,16 +5,21 @@ import { AppComponent } from './app.component';
 import { NewProjectFormComponent } from './components/new-project-form/new-project-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewProjectFormComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
