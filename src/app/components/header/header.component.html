@@ -1,39 +1,42 @@
 <header class="header">
-  <div class="container">
-    <div class="header__contacts">
+  <div class="header__contacts">
+    <div class="container">
       <div class="header__info">
         <ul class="info">
           <li class="info__item">
-            <a class="info__link" href="#">info@teamy.com</a>
+            <a class="info__link" href="mailto: info@teamy.com">info@teamy.com</a>
           </li>
           <li class="info__item">
-            <a class="info__link" href="#">+380664049376</a>
+            <a class="info__link" href="tel:+380664049376">+380664049376</a>
           </li>
         </ul>
       </div>
 
       <div class="header__socials">
-        <ul class="socials">
-          <li class="socials__item">
-            <a class="socials__link" href="#">fb</a>
-          </li>
-          <li class="socials__item">
-            <a class="socials__link" href="#">tw</a>
-          </li>
-          <li class="socials__item">
-            <a class="socials__link" href="#">insta</a>
-          </li>
-          <li class="socials__item">
-            <a class="socials__link" href="#">google</a>
-          </li>
-        </ul>
-      </div>
+      <ul class="socials">
+        <li class="socials__item">
+          <a class="socials__link fb" href="https://www.facebook.com"></a>
+        </li>
+        <li class="socials__item">
+          <a class="socials__link twitter" href="https://twitter.com"></a>
+        </li>
+        <li class="socials__item">
+          <a class="socials__link insta" href="https://www.instagram.com"></a>
+        </li>
+        <li class="socials__item">
+          <a class="socials__link google" href="https://www.google.com"></a>
+        </li>
+      </ul>
+    </div>
     </div>
   </div>
+
   <div class="header__main">
     <div class="container">
       <div class="header__logo">
-        <h2>Teamy</h2>
+        <a routerLink="/">
+          <h2>Teamy</h2>
+        </a>
       </div>
 
       <div class="header__nav">
@@ -53,10 +56,11 @@
       <div class="header__sign">
         <ul class="sign">
           <li class="sign__item">
-            <a class="sign__btn" routerLink="/register">Sign up</a>
+            <button mat-raised-button class="sign__btn" routerLink="/register">Sign up</button>
           </li>
+
           <li class="sign__item">
-            <a class="sign__btn" routerLink="/login">Sign in</a>
+            <button mat-raised-button class="sign__btn" routerLink="/login">Sign in</button>
           </li>
         </ul>
       </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatInput } from "@angular/material/input";
 import { MatFormFieldControl } from "@angular/material/form-field";
 import { MatButtonModule } from "@angular/material/button";
@@ -11,6 +11,7 @@ import { AddUserService } from "../../Sevices/add-user.service";
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [
     { provide: MatFormFieldControl, useExisting: MatInput},
     { provide: MatButtonModule },

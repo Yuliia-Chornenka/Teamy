@@ -14,16 +14,23 @@
 }
 
 .header {
+  height: 110px;
 
   &__contacts {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    font-size: 14px;
+    background-color: $purple;
+
   }
 
   &__main {
     display: flex;
-    background-color: $purple;
+  }
+
+  &__logo {
+    cursor: pointer;
   }
 }
 
@@ -31,7 +38,7 @@
   display: flex;
 
   &__item {
-    margin-right: 2%;
+    margin-right: 25px;
 
     &:last-child {
       margin-right: 0;
@@ -39,15 +46,41 @@
   }
 }
 
-.socials, .sign {
+.socials {
   display: flex;
 
   &__item {
-    margin-right: 2%;
+    margin-right: 20px;
+    width: 18px;
+    height: 18px;
 
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  &__link {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: flex;
+  }
+
+  &__link.fb {
+    background-image: url("https://freeiconshop.com/wp-content/uploads/edd/like-outline.png");
+  }
+
+  &__link.twitter {
+    background-image: url("https://freeiconshop.com/wp-content/uploads/edd/twitter-solid.png");
+  }
+
+  &__link.insta {
+    background-image: url("https://freeiconshop.com/wp-content/uploads/edd/instagram-new-glyph.png");
+  }
+
+  &__link.google {
+    background-image: url("https://freeiconshop.com/wp-content/uploads/edd/google-plus-solid.png");
   }
 }
 
@@ -64,8 +97,20 @@
 }
 
 .sign {
+  display: flex;
+
+  &__item {
+    margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
   &__btn {
     white-space: nowrap;
     font-size: 16px;
+    color: $white;
+    background-color: $purple;
   }
 }

@@ -5,6 +5,7 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  position: relative;
 }
 
 ul {
@@ -20,4 +21,8 @@ button {
   background-color: transparent;
   border: none;
   outline: none;
+}
+
+section {
+  min-height: 600px;
 }
