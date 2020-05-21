@@ -1,0 +1,36 @@
+.new-project {
+  &__container {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  &__input {
+    width: 100%;
+    text-align: center;
+  }
+
+  &__requirements-list {
+    padding: 0;
+  }
+
+  &__requirement-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__button {
+      margin: 10px;
+  }
+}
