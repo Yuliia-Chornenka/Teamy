@@ -11,7 +11,7 @@ import { IUser } from '../Models/user.model';
 
 export class AddUserService {
 
-  baseUrl = 'https://xxx';
+  baseUrl = '/api/user';
 
   constructor(private http: HttpClient) { }
 
