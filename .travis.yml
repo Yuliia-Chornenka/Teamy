@@ -10,6 +10,8 @@ branches:
   only:
     - master
 
+after_script:
+  - bash ./telegram_notification.sh
 
 deploy:
   provider: heroku
