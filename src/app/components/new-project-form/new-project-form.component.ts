@@ -1,16 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { ProjectService } from 'src/app/Services/project.service';
+import { Router } from '@angular/router';
 
 interface IRequirement {
   title: string;
   priority: boolean;
 }
 
-interface Project {
-  title: string;
-  deadline: number;
-  requirements: IRequirement[];
-  description: string;
+interface IProject {
+  title: string,
+  deadline: number,
+  requirements: IRequirement[],
+  description: string
+}
+
+interface IResponse {
+  id: string;
 }
 
 @Component({
@@ -23,11 +29,12 @@ interface Project {
 
 export class NewProjectFormComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private projectService: ProjectService, private router: Router) { }
 
   newProjectForm: FormGroup;
-  newProject: Project[];
+  newProject: IProject;
   minDate = new Date();
+  projectId: string;
 
 
 
@@ -41,8 +48,8 @@ export class NewProjectFormComponent implements OnInit {
 
 
     this.newProjectForm.valueChanges.subscribe(formData => {
-      this.newProject = {...formData, deadline: Date.parse(formData.deadline)};
-    });
+      this.newProject = { ...formData, deadline: Date.parse(formData.deadline) };
+    })
 
   }
 
@@ -63,6 +70,24 @@ export class NewProjectFormComponent implements OnInit {
 
   deleteRequirement(index: number) {
     this.requirementsForms.removeAt(index);
+  }
+
+  createProject() {
+    this.projectService.createNewProject(this.newProject).subscribe({
+      next: (response) => {
+
+        const { id } = response;
+
+        this.projectId = id;
+      },
+      error: (msg) => {
+
+        console.log(msg)
+
+      }, complete: () => {
+        this.router.navigate([`project/${this.projectId}`]);
+      }
+    })
   }
 
 

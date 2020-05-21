@@ -31,7 +31,7 @@ const routes: Routes = [
     component: NewProjectFormComponent
   },
   {
-    path: 'project',
+    path: 'project/:id',
     component: ProjectComponent
   },
   {
