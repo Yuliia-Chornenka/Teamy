@@ -8,18 +8,23 @@ const io = require("socket.io")(http);
 
 const authRoute = require("./backend/routes/api/auth");
 const createProjectRoute = require("./backend/routes/api/create-project");
+const getProject = require("./backend/routes/api/getProject");
 
 dotenv.config();
 
 app.use(express.json());
 app.use(express.static(__dirname + "/dist/Teamy"));
 
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname + "/dist/Teamy/index.html"));
-});
+
 
 app.use("/api/user", authRoute);
 app.use("/api", createProjectRoute);
+app.use("/api", getProject);
+
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname + "/dist/Teamy/index.html"));
+});
 
 // Chat sockets
 io.sockets.on("connection", (socket) => {

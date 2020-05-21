@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
 import { ProjectService } from 'src/app/Services/project.service';
+import { Router } from '@angular/router';
 
 interface IRequirement {
   title: string;
@@ -14,6 +15,10 @@ interface IProject {
   description: string
 }
 
+interface IResponse {
+  id: string;
+}
+
 @Component({
   selector: 'app-new-project-form',
   templateUrl: './new-project-form.component.html',
@@ -24,11 +29,12 @@ interface IProject {
 
 export class NewProjectFormComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private projectService: ProjectService) { }
+  constructor(private fb: FormBuilder, private projectService: ProjectService, private router: Router) { }
 
   newProjectForm: FormGroup;
   newProject: IProject;
-  minDate = new Date()
+  minDate = new Date();
+  projectId: string;
 
 
 
@@ -69,14 +75,17 @@ export class NewProjectFormComponent implements OnInit {
   createProject() {
     this.projectService.createNewProject(this.newProject).subscribe({
       next: (response) => {
-        console.log(response)
+
+        const { id } = response;
+
+        this.projectId = id;
       },
       error: (msg) => {
 
         console.log(msg)
 
       }, complete: () => {
-
+        this.router.navigate([`project/${this.projectId}`]);
       }
     })
   }

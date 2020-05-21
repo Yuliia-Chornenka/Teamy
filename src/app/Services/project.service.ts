@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { IProject } from '../Models/project'
 import { Observable } from 'rxjs';
 
+interface IId {
+  id: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +14,9 @@ export class ProjectService {
 
   constructor(private http: HttpClient) { }
 
-  createNewProject(newProject: IProject): Observable<IProject> {
-    return this.http.post<IProject>(`/api/create-project`, newProject)
+  createNewProject(newProject: IProject): Observable<IId> {
+    return this.http.post<IId>(`/api/create-project`, newProject)
   }
+
+  
 }
