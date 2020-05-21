@@ -1,0 +1,26 @@
+<mat-spinner *ngIf="isPending" class="form__spinner"></mat-spinner>
+
+<h2 mat-dialog-title align="center"> Add new member </h2>
+<mat-dialog-content>
+  <form [formGroup]="formNewMember" (ngSubmit)="onSubmit()">
+     <mat-form-field class="form__input">
+        <mat-label>Name:</mat-label>
+        <input matInput required formControlName="name">
+        <mat-error *ngIf="formNewMember.get('name').invalid"> {{ getErrorMessageName() }} </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form__input">
+        <mat-label>Email:</mat-label>
+        <input matInput required formControlName="email">
+        <mat-error *ngIf="formNewMember.get('email').invalid"> {{ getErrorMessageEmail() }} </mat-error>
+      </mat-form-field>
+
+    <mat-error align="center" *ngIf="!successSubmitted"> We can't add new member now, please try again later </mat-error>
+
+    <div class="form__btn-wrapper">
+      <button mat-raised-button mat-dialog-close class="form__btn" [disabled]="isPending"> Cancel </button>
+      <button mat-raised-button type="submit" [disabled]="formNewMember.invalid || isPending"> Submit </button>
+    </div>
+
+  </form>
+</mat-dialog-content>

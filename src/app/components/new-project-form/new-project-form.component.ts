@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
 import { ProjectService } from 'src/app/Services/project.service';
 
 interface IRequirement {
-  title: string,
-  priority: boolean
+  title: string;
+  priority: boolean;
 }
 
 interface IProject {
@@ -34,11 +34,11 @@ export class NewProjectFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.newProjectForm = this.fb.group({
-      title: "",
-      deadline: "",
-      description: "",
+      title: '',
+      deadline: '',
+      description: '',
       requirements: this.fb.array([])
-    })
+    });
 
 
     this.newProjectForm.valueChanges.subscribe(formData => {
@@ -48,22 +48,22 @@ export class NewProjectFormComponent implements OnInit {
   }
 
   get requirementsForms() {
-    return this.newProjectForm.get('requirements') as FormArray
+    return this.newProjectForm.get('requirements') as FormArray;
   }
 
   addRequirement() {
 
     const requirement = this.fb.group({
-      title: "",
+      title: '',
       priority: false
-    })
+    });
 
-    this.requirementsForms.push(requirement)
+    this.requirementsForms.push(requirement);
 
   }
 
   deleteRequirement(index: number) {
-    this.requirementsForms.removeAt(index)
+    this.requirementsForms.removeAt(index);
   }
 
   createProject() {
