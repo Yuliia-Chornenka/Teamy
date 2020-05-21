@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 
 interface IRequirement {
-  title: string,
-  priority: boolean
+  title: string;
+  priority: boolean;
 }
 
 interface Project {
-  title: string,
-  deadline: number,
-  requirements: IRequirement[],
-  description: string
+  title: string;
+  deadline: number;
+  requirements: IRequirement[];
+  description: string;
 }
 
 @Component({
@@ -27,42 +27,42 @@ export class NewProjectFormComponent implements OnInit {
 
   newProjectForm: FormGroup;
   newProject: Project[];
-  minDate = new Date()
+  minDate = new Date();
 
 
 
   ngOnInit(): void {
     this.newProjectForm = this.fb.group({
-      title: "",
-      deadline: "",
-      description: "",
+      title: '',
+      deadline: '',
+      description: '',
       requirements: this.fb.array([])
-    })
+    });
 
 
     this.newProjectForm.valueChanges.subscribe(formData => {
       this.newProject = {...formData, deadline: Date.parse(formData.deadline)};
-    })
+    });
 
   }
 
   get requirementsForms() {
-    return this.newProjectForm.get('requirements') as FormArray
+    return this.newProjectForm.get('requirements') as FormArray;
   }
 
   addRequirement() {
 
     const requirement = this.fb.group({
-      title: "",
+      title: '',
       priority: false
-    })
+    });
 
-    this.requirementsForms.push(requirement)
+    this.requirementsForms.push(requirement);
 
   }
 
   deleteRequirement(index: number) {
-    this.requirementsForms.removeAt(index)
+    this.requirementsForms.removeAt(index);
   }
 
 

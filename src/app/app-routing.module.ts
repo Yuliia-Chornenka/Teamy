@@ -4,32 +4,42 @@ import { NotFoundPageComponent } from './components/not-found-page/not-found-pag
 import { NewProjectFormComponent } from './components/new-project-form/new-project-form.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { RegistrationComponent } from "./components/registration/registration.component";
-import { LoginComponent } from "./components/login/login.component";
+import { RegistrationComponent } from './components/registration/registration.component';
+import { LoginComponent } from './components/login/login.component';
+import { ProjectComponent } from './components/project/project.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: WelcomeComponent
   },
   {
-    path: "register",
+    path: 'register',
     component: RegistrationComponent
   },
   {
-    path: "login",
+    path: 'login',
     component: LoginComponent
   },
   {
-    path: "chat",
+    path: 'chat',
     component: ChatComponent
   },
   {
-    path: "create-project",
+    path: 'create-project',
     component: NewProjectFormComponent
   },
   {
-    path: "**",
+    path: 'project',
+    component: ProjectComponent
+  },
+  {
+    path: 'profile',
+    component: UserProfileComponent
+  },
+  {
+    path: '**',
     component: NotFoundPageComponent
   }
 ];
