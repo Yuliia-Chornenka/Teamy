@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
 
-
-
-
 interface IRequirement {
   title: string,
   priority: boolean
 }
 
+interface Project {
+  title: string,
+  deadline: number,
+  requirements: IRequirement[]
+}
+
 @Component({
   selector: 'app-new-project-form',
   templateUrl: './new-project-form.component.html',
-  styleUrls: ['./new-project-form.component.css']
+  styleUrls: ['./new-project-form.component.scss']
 })
 
 
@@ -22,22 +25,8 @@ export class NewProjectFormComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   newProjectForm: FormGroup;
+  newProject: Project[];
 
-
-
-
-  // title: string;
-  // deadline: string;
-  // requirements: IRequirement[] = [{
-  //   title: "",
-  //   priority: false
-  // }, {
-  //   title: "",
-  //   priority: false
-  // }, {
-  //   title: "",
-  //   priority: false
-  // }];
 
 
   ngOnInit(): void {
@@ -48,7 +37,9 @@ export class NewProjectFormComponent implements OnInit {
     })
 
 
-    this.newProjectForm.valueChanges.subscribe(console.log)
+    this.newProjectForm.valueChanges.subscribe(formData => {
+      this.newProject = {...formData, deadline: Date.parse(formData.deadline)};
+    })
 
   }
 
@@ -67,7 +58,7 @@ export class NewProjectFormComponent implements OnInit {
 
   }
 
-  deleteRequirement(index) {
+  deleteRequirement(index: number) {
     this.requirementsForms.removeAt(index)
   }
 
