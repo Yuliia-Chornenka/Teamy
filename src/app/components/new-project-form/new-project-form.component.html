@@ -3,10 +3,26 @@
     <h1>New project</h1>
     <form [formGroup]="newProjectForm" class="new-project__form">
       <mat-form-field>
-        <input matInput placeholder="Project title" formControlName="title" class="new-project__input" />
+        <input
+          matInput
+          placeholder="Project title"
+          formControlName="title"
+          class="new-project__input"
+        />
       </mat-form-field>
 
-      <ul formArrayName="requirements" class="new-project__requirements-list">
+      <div>
+        <mat-form-field>
+          <textarea
+            matInput
+            placeholder="Description..."
+            formControlName="description"
+            class="new-project__input new-project__input--textarea"
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+      <ol formArrayName="requirements" class="new-project__requirements-list">
         <li
           *ngFor="let require of requirementsForms.controls; let i = index"
           [formGroupName]="i"
@@ -21,6 +37,7 @@
               />
             </mat-form-field>
           </div>
+
           <div class="new-project__requirement-controls">
             <mat-checkbox formControlName="priority">Priority</mat-checkbox>
 
@@ -34,8 +51,13 @@
             </button>
           </div>
         </li>
-      </ul>
-      <button mat-raised-button color="accent" (click)="addRequirement()" class="new-project__button">
+      </ol>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="addRequirement()"
+        class="new-project__button"
+      >
         + Add requirement
       </button>
       <div>
@@ -45,7 +67,8 @@
             [matDatepicker]="picker"
             formControlName="deadline"
             placeholder="Deadline"
-            class="new-project__input" />
+            class="new-project__input"
+            [min]="minDate" />
           <mat-datepicker-toggle
             matSuffix
             [for]="picker"
