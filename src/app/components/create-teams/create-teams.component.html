@@ -1,6 +1,126 @@
-<div *ngFor="let team of teams let idx = index">
-  <div>
-    Team {{ idx+1 }}:
-    <p *ngFor="let student of team"> {{ student }} </p>
+<div class="container">
+
+  <ng-container *ngIf="!isTeamExist">
+    <p class="list__title">All members:</p>
+    <div class="list">
+      <p class="list__item" *ngFor="let student of students">{{student}}</p>
+    </div>
+  </ng-container>
+
+
+<div class="form__wrapper" *ngIf="!isTeamExist">
+  <form [formGroup]="formCreateTeams" class="form">
+    <mat-form-field class="form__input">
+      <mat-label>How many teams you need to create?</mat-label>
+      <input #quantity matInput required type="number" formControlName="quantity">
+      <mat-error *ngIf="formCreateTeams.get('quantity').invalid"> {{ getErrorQuantity() }}</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="form__btn"
+            [disabled]="formCreateTeams.invalid || formCreateTeams.disabled"
+            (click)="createRandomTeams(students, quantity.value)">
+            Create random teams
+    </button>
+    <button mat-raised-button color="accent" class="form__btn"
+            [disabled]="formCreateTeams.invalid || formCreateTeams.disabled"
+            (click)="createTeamsByOwn(quantity.value)">
+            Create teams by yourself
+    </button>
+
+    <mat-error *ngIf="!successCreation"> We can't save your task now, please try again later </mat-error>
+  </form>
+</div>
+
+  <ng-container *ngIf="isOwnTeam">
+    <p class="list__title">Your teams:</p>
+    <div class="teams">
+      <mat-card *ngFor="let team of ownTeamsQuantity let idx = index" class="teams__item">
+        <mat-card-title class="teams__item-title">Team {{ idx+1 }}:</mat-card-title>
+        <mat-card-content>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isTeamExist && isRandomTeam">
+    <p class="list__title">Your teams:</p>
+    <div class="teams">
+      <mat-card *ngFor="let team of randomTeams let idx = index" class="teams__item">
+        <mat-card-title class="teams__item-title">Team {{ idx+1 }}:</mat-card-title>
+        <mat-card-content>
+          <div *ngFor="let student of team" class="teams__item-participant">
+            <span class="teams__item-student"> {{ student }} </span>
+            <button mat-button matSuffix mat-icon-button>
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <button mat-raised-button color="warn" class="teams__accept-btn">
+      Accept teams & send invitations
+    </button>
+  </ng-container>
+
+
+
+
+
+
+
+</div>
+
+
+<ng-container>
+  <p class="list__title">Your teams:</p>
+
+  <div cdkDropListGroup>
+
+    <div class="example-container" *ngFor="let team of randomTeams let idx = index">
+      <h2>Team {{ idx+1 }}:</h2>
+      <div
+        cdkDropList
+        [cdkDropListData]="todo"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let student of team" cdkDrag>{{student}}</div>
+      </div>
+
+    </div>
+
+  </div>
+
+</ng-container>
+
+
+
+
+
+<div class="example-container">
+  <h2>To do</h2>
+
+  <div
+    cdkDropList
+    #todoList="cdkDropList"
+    [cdkDropListData]="todo"
+    [cdkDropListConnectedTo]="[doneList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+  </div>
+</div>
+
+<div class="example-container">
+  <h2>Done</h2>
+
+  <div
+    cdkDropList
+    #doneList="cdkDropList"
+    [cdkDropListData]="done"
+    [cdkDropListConnectedTo]="[todoList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
   </div>
 </div>

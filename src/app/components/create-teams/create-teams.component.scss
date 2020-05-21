@@ -1,0 +1,143 @@
+@import "../../variables/colors";
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__title {
+    font-size: 24px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  &__item {
+    width: 15%;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    color: $white;
+    background-color: $lightpurple;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
+
+.form {
+  text-align: center;
+
+  &__wrapper {
+    width: 100%;
+    margin: 35px 0;
+  }
+
+  &__input {
+    width: 300px;
+    margin-right: 30px;
+  }
+
+  &__btn {
+    margin-right: 30px;
+  }
+}
+
+.teams {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  &__item {
+    width: 20%;
+    min-height: 150px;
+    margin: 10px;
+    background-color: #F7F7F7;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+
+    &-title {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    &-participant {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px auto;
+      font-size: 16px;
+      color: white;
+      background-color: $lightpurple;
+      width: 80%;
+      padding: 3px;
+      cursor: pointer;
+    }
+
+    &-student {
+      width: 80%;
+      text-align: center;
+    }
+  }
+
+  &__accept-btn {
+    display: block;
+    margin: 30px auto;
+  }
+}
+
+
+
+
+.example-container {
+  width: 400px;
+  max-width: 100%;
+  margin: 0 25px 25px 0;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.example-list {
+  border: solid 1px #ccc;
+  min-height: 60px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  display: block;
+}
+
+.example-box {
+  padding: 20px 10px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
