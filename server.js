@@ -19,6 +19,7 @@ app.get('/*', function (req, res) {
 
 app.use('/api/user', authRoute);
 
+
 // Chat sockets
 io.sockets.on('connection', (socket) => {
   socket.on('room', (data) => {
