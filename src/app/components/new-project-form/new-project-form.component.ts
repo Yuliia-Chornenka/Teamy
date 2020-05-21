@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { ProjectService } from 'src/app/Services/project.service';
 
 interface IRequirement {
   title: string,
   priority: boolean
 }
 
-interface Project {
+interface IProject {
   title: string,
   deadline: number,
   requirements: IRequirement[],
@@ -23,10 +24,10 @@ interface Project {
 
 export class NewProjectFormComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private projectService: ProjectService) { }
 
   newProjectForm: FormGroup;
-  newProject: Project[];
+  newProject: IProject;
   minDate = new Date()
 
 
@@ -41,7 +42,7 @@ export class NewProjectFormComponent implements OnInit {
 
 
     this.newProjectForm.valueChanges.subscribe(formData => {
-      this.newProject = {...formData, deadline: Date.parse(formData.deadline)};
+      this.newProject = { ...formData, deadline: Date.parse(formData.deadline) };
     })
 
   }
@@ -63,6 +64,21 @@ export class NewProjectFormComponent implements OnInit {
 
   deleteRequirement(index: number) {
     this.requirementsForms.removeAt(index)
+  }
+
+  createProject() {
+    this.projectService.createNewProject(this.newProject).subscribe({
+      next: (response) => {
+        console.log(response)
+      },
+      error: (msg) => {
+
+        console.log(msg)
+
+      }, complete: () => {
+
+      }
+    })
   }
 
 
