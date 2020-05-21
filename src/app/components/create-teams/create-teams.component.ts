@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
+
+import { AddNewMemberFormComponent } from '../add-new-member-form/add-new-member-form.component';
 
 @Component({
   selector: 'app-create-teams',
@@ -9,41 +12,24 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 })
 export class CreateTeamsComponent implements OnInit {
 
+  @Input() students: Array<string>;
 
-  todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home',
-    'Fall asleep'
-  ];
-
-  done = [
-    'Get up',
-    'Brush teeth',
-    'Take a shower',
-    'Check e-mail',
-    'Walk dog'
-  ];
-
-
-  students = ['Юля Чорненька', 'Саша', 'Таня', 'Настя', 'Ігор', 'Вова', 'Ваня', 'Діма', 'Андрій', 'Катя', 'Oleh', 'Vlad', 'Nina'];
   randomTeams = [];
-  ownTeams = [];
-  ownTeamsQuantity = [];
   isTeamExist = false;
-  isRandomTeam = false;
-  isOwnTeam = false;
-
+  isPending = false;
   formCreateTeams: FormGroup;
   successCreation = true;
 
-
-  constructor() { }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.formCreateTeams = new FormGroup({
       quantity: new FormControl('', [ Validators.required, Validators.min(2) ]),
     });
+  }
+
+  openDialogNewMember() {
+    this.dialog.open(AddNewMemberFormComponent);
   }
 
   get quantityControl(): AbstractControl {
@@ -58,39 +44,37 @@ export class CreateTeamsComponent implements OnInit {
   }
 
   createRandomTeams(arrayOfStudents, numberOfTeams): void {
-    this.isTeamExist = true;
-    this.isRandomTeam = true;
-    const numberOfParticipants = Math.floor(arrayOfStudents.length / numberOfTeams);
-
-    for (let i = arrayOfStudents.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arrayOfStudents[i], arrayOfStudents[j]] = [arrayOfStudents[j], arrayOfStudents[i]];
-    }
-
-    for (let i = 1; i <= numberOfTeams; i++) {
-      const team = arrayOfStudents.splice(0, numberOfParticipants);
-      this.randomTeams.push(team);
-    }
+    this.isPending = true;
 
     if (arrayOfStudents.length) {
+      this.isPending = false;
+      this.isTeamExist = true;
+
+      const numberOfParticipants = Math.floor(arrayOfStudents.length / numberOfTeams);
+
+      for (let i = arrayOfStudents.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arrayOfStudents[i], arrayOfStudents[j]] = [arrayOfStudents[j], arrayOfStudents[i]];
+      }
+
+      for (let i = 1; i <= numberOfTeams; i++) {
+        const team = arrayOfStudents.splice(0, numberOfParticipants);
+        this.randomTeams.push(team);
+      }
+
+      if (arrayOfStudents.length) {
         arrayOfStudents.forEach((student, index) => {
           this.randomTeams[index].push(student);
         });
+      }
+    } else {
+      this.isTeamExist = false;
     }
   }
 
-  createTeamsByOwn(numberOfTeams): void {
-    this.isOwnTeam = true;
-    this.formCreateTeams.disable();
-
-    for (let i = 1; i <= numberOfTeams; i++) {
-      this.ownTeamsQuantity.push(i);
-    }
+  addTeams(): void {
+    console.log(this.randomTeams);
   }
-
-
-
-
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {

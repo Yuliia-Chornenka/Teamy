@@ -1,5 +1,15 @@
 @import "../../variables/colors";
 
+.wrapper {
+  max-width: 1200px;
+  width: 85%;
+  margin: 0 auto;
+}
+
+.create__teams-wrapper {
+  position: relative;
+}
+
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -20,7 +30,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+  }
+
+  &__add-btn {
+    margin-left: 30px;
   }
 }
 
@@ -47,6 +60,13 @@
   justify-content: center;
   flex-wrap: wrap;
 
+  &__spinner {
+    position: absolute;
+    z-index: 10;
+    top: calc(50% - 65px);
+    left: calc(50% - 50px);
+  }
+
   &__item {
     width: 20%;
     min-height: 150px;
@@ -68,8 +88,9 @@
       color: white;
       background-color: $lightpurple;
       width: 80%;
-      padding: 3px;
-      cursor: pointer;
+      padding: 10px;
+      cursor: move;
+      border-radius: 4px;
     }
 
     &-student {
@@ -80,43 +101,15 @@
 
   &__accept-btn {
     display: block;
-    margin: 30px auto;
+    margin: 20px auto;
+  }
+
+  &__error {
+    text-align: center;
+    margin-bottom: 20px;
   }
 }
 
-
-
-
-.example-container {
-  width: 400px;
-  max-width: 100%;
-  margin: 0 25px 25px 0;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.example-list {
-  border: solid 1px #ccc;
-  min-height: 60px;
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
-  display: block;
-}
-
-.example-box {
-  padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
-  color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  cursor: move;
-  background: white;
-  font-size: 14px;
-}
 
 .cdk-drag-preview {
   box-sizing: border-box;
@@ -131,13 +124,5 @@
 }
 
 .cdk-drag-animating {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.example-box:last-child {
-  border: none;
-}
-
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
