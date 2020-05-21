@@ -1,0 +1,7 @@
+<p>chat:</p>
+<ul style="list-style-type: none;">
+  <li *ngFor="let message of messages">{{ message.user }}: {{ message.text }}</li>
+</ul>
+<form [formGroup]="chatForm" (ngSubmit)="sendMessage(chatForm.value)">
+  <input formControlName="text" type="text">
+</form>
