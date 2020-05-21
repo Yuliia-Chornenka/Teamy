@@ -16,8 +16,11 @@
   }
 
   &__input {
-    width: 100%;
     text-align: center;
+
+    &--textarea {
+      text-align: left;
+    }
   }
 
   &__requirements-list {
@@ -31,6 +34,6 @@
   }
 
   &__button {
-      margin: 10px;
+    margin: 10px;
   }
 }

@@ -9,7 +9,8 @@ interface IRequirement {
 interface Project {
   title: string,
   deadline: number,
-  requirements: IRequirement[]
+  requirements: IRequirement[],
+  description: string
 }
 
 @Component({
@@ -26,6 +27,7 @@ export class NewProjectFormComponent implements OnInit {
 
   newProjectForm: FormGroup;
   newProject: Project[];
+  minDate = new Date()
 
 
 
@@ -33,6 +35,7 @@ export class NewProjectFormComponent implements OnInit {
     this.newProjectForm = this.fb.group({
       title: "",
       deadline: "",
+      description: "",
       requirements: this.fb.array([])
     })
 
