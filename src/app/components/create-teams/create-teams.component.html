@@ -3,7 +3,7 @@
   <ng-container *ngIf="!isTeamExist">
     <p class="list__title">All members:</p>
     <div class="list">
-      <p class="list__item" *ngFor="let student of students">{{student}}</p>
+      <p class="list__item" *ngFor="let member of members">{{member}}</p>
       <button mat-fab color="accent" class="list__add-btn"
               (click)="openDialogNewMember()">
         <mat-icon>add</mat-icon>
@@ -24,7 +24,7 @@
               matTooltip="After creation you will not be able to change the number of teams, but you can move members between teams"
               matTooltipPosition='above'
               [disabled]="formCreateTeams.invalid || formCreateTeams.disabled"
-              (click)="createRandomTeams(students, quantity.value)">
+              (click)="createRandomTeams(members, quantity.value)">
         Create random teams
       </button>
 

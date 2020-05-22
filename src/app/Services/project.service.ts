@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IProject } from '../Models/project'
+import { IProject } from '../Models/project';
 import { Observable } from 'rxjs';
 
 interface IId {
@@ -17,22 +17,24 @@ export class ProjectService {
 
   constructor(private http: HttpClient) { }
 
-  projectId: string;
-  projecTtitle: string;
+  // projectId: string;
+  // projecTtitle: string;
 
   createNewProject(newProject: IProject): Observable<IId> {
-    return this.http.post<IId>(`/api/project/create`, newProject)
+    return this.http.post<IId>(`/api/project/create`, newProject);
   }
 
-  saveProjectData(id: string, title: string) {
-    this.projectId = id;
-    this.projecTtitle = title;
-  }
+  // saveProjectData(id: string, title: string) {
+  //   this.projectId = id;
+  //   this.projecTtitle = title;
+  // }
 
 
   getProject(projectId: string) {
-    return this.http.get(`/api/project/${projectId}`)
+    return this.http.get(`/api/project/${projectId}`);
   }
 
-
+  becomeProjectMember(projectId: string): Observable<object> {
+    return this.http.patch(`/api/project/${projectId}`, {});
+  }
 }

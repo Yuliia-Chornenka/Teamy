@@ -32,4 +32,32 @@ router.get("/:projectId", async (req, res) => {
   res.end(JSON.stringify(project));
 });
 
+router.patch("/:id",  async (req, res) => {
+  try {
+    const memberId  = '789'; //req.user.id
+
+    const project = await Project.findById(req.params.id, (error) => {
+      if (error) {
+        return res.status(500).json({message: 'Failed to find a project'});
+      }
+    });
+
+    project.members.push(memberId);
+
+    const updatedProject = await Project.findByIdAndUpdate(req.params.id,
+      project, {new: true}, (error) => {
+        if (error) {
+          return res.status(500).json({message: 'Failed to update'});
+        }
+      });
+
+    res.json(updatedProject);
+  } catch (e) {
+    res.status(500).json({
+      message: 'Something went wrong. Try again later.',
+      error: e,
+    });
+  }
+});
+
 module.exports = router;

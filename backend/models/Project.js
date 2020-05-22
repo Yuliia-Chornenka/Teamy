@@ -31,6 +31,10 @@ const projectSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
+  teams: {
+    type: Array,
+    required: true,
+  },
   requirements: {
     type: Array,
     required: true,
