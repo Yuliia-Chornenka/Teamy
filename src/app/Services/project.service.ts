@@ -30,4 +30,9 @@ export class ProjectService {
   }
 
 
+  getProject(projectId: string) {
+    return this.http.get(`/api/project/${projectId}`)
+  }
+
+
 }

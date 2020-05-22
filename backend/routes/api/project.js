@@ -17,10 +17,10 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
+router.get("/:projectId", async (req, res) => {
+  const { projectId } = req.params;
 
-  const project = await Project.findById(id, (err, doc) => {
+  const project = await Project.findById(projectId, (err, doc) => {
     if (err) {
       res.writeHead(400, { "Content-Type": "application/json" });
 
