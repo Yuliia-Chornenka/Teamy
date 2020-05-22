@@ -1,0 +1,128 @@
+@import "../../variables/colors";
+
+.wrapper {
+  max-width: 1200px;
+  width: 85%;
+  margin: 0 auto;
+}
+
+.create__teams-wrapper {
+  position: relative;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__title {
+    font-size: 24px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  &__item {
+    width: 15%;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    color: $white;
+    background-color: $lightpurple;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__add-btn {
+    margin-left: 30px;
+  }
+}
+
+.form {
+  text-align: center;
+
+  &__wrapper {
+    width: 100%;
+    margin: 35px 0;
+  }
+
+  &__input {
+    width: 300px;
+    margin-right: 30px;
+  }
+
+  &__btn {
+    margin-right: 30px;
+  }
+}
+
+.teams {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  &__spinner {
+    position: absolute;
+    z-index: 10;
+    top: calc(50% - 65px);
+    left: calc(50% - 50px);
+  }
+
+  &__item {
+    width: 20%;
+    min-height: 150px;
+    margin: 10px;
+    background-color: #F7F7F7;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+
+    &-title {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    &-participant {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px auto;
+      font-size: 16px;
+      color: white;
+      background-color: $lightpurple;
+      width: 80%;
+      padding: 10px;
+      cursor: move;
+      border-radius: 4px;
+    }
+
+    &-student {
+      width: 80%;
+      text-align: center;
+    }
+  }
+
+  &__accept-btn {
+    display: block;
+    margin: 20px auto;
+  }
+
+  &__error {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

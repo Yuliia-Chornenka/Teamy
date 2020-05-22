@@ -1,0 +1,22 @@
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 60vh;
+  padding: 30px;
+  box-sizing: border-box;
+
+  &__description {
+    font-size: 26px;
+    font-weight: bold;
+
+    &-wrapper {
+      text-align: center;
+    }
+  }
+
+  &__img {
+    width: 450px;
+  }
+}

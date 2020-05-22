@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { ProjectService } from 'src/app/Services/project.service';
+import { Router } from '@angular/router';
 
 interface IRequirement {
-  title: string,
-  priority: boolean
+  title: string;
+  priority: boolean;
 }
 
-interface Project {
+interface IProject {
   title: string,
   deadline: number,
   requirements: IRequirement[],
   description: string
 }
+
+
 
 @Component({
   selector: 'app-new-project-form',
@@ -23,48 +27,77 @@ interface Project {
 
 export class NewProjectFormComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private projectService: ProjectService, private router: Router) { }
 
   newProjectForm: FormGroup;
-  newProject: Project[];
-  minDate = new Date()
+  newProject: IProject;
+  minDate = new Date();
+  formatedProjectTitle: string;
 
 
 
   ngOnInit(): void {
     this.newProjectForm = this.fb.group({
-      title: "",
-      deadline: "",
-      description: "",
+      title: '',
+      deadline: '',
+      description: '',
       requirements: this.fb.array([])
-    })
+    });
 
 
     this.newProjectForm.valueChanges.subscribe(formData => {
-      this.newProject = {...formData, deadline: Date.parse(formData.deadline)};
+      this.newProject = { ...formData, deadline: Date.parse(formData.deadline) };
     })
+
+
 
   }
 
   get requirementsForms() {
-    return this.newProjectForm.get('requirements') as FormArray
+    return this.newProjectForm.get('requirements') as FormArray;
   }
 
   addRequirement() {
 
     const requirement = this.fb.group({
-      title: "",
+      title: '',
       priority: false
-    })
+    });
 
-    this.requirementsForms.push(requirement)
+    this.requirementsForms.push(requirement);
 
   }
 
   deleteRequirement(index: number) {
-    this.requirementsForms.removeAt(index)
+    this.requirementsForms.removeAt(index);
   }
 
+  createProject() {
+    this.projectService.createNewProject(this.newProject).subscribe({
+      next: (response) => {
+
+        const { id, title } = response;
+
+        console.log(response)
+
+        this.projectService.saveProjectData(id, title);
+
+        this.formatedProjectTitle = this.formatProjectTitleForUrl(title);
+      },
+      error: (msg) => {
+
+        console.log(msg)
+
+      }, complete: () => {
+        this.router.navigate([`project/${this.formatedProjectTitle}`]);
+      }
+    })
+  }
+
+
+  formatProjectTitleForUrl(projectTitle: string): string {
+    return projectTitle.toLowerCase().split(" ").join('-');
+  }
 
 
 }

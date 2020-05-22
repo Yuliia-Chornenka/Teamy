@@ -3,13 +3,20 @@
 .footer {
   background-color: $black;
   color: $white;
-  position: absolute;
-  bottom: 0;
+  //position: absolute;
+  //bottom: 0;
   width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
 
   &__policy a {
     color: $yellow;
     text-transform: capitalize;
+  }
+
+  &__copyright p {
+    margin: 0;
   }
 
   &__copyright p span {

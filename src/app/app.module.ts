@@ -13,22 +13,31 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { LoginComponent } from './components/login/login.component';
-import { MatCardModule } from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatButtonModule } from "@angular/material/button";
-import { HttpClientModule } from "@angular/common/http";
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { ChatMessageComponent } from './components/chat/chat-message/chat-message.component';
 import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
 import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
+
+import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AddNewMemberFormComponent } from './components/add-new-member-form/add-new-member-form.component';
+import { ProjectComponent } from './components/project/project.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 @NgModule({
@@ -40,16 +49,27 @@ import { ChatInfoComponent } from './components/chat/chat-info/chat-info.compone
     HeaderComponent,
     FooterComponent,
     WelcomeComponent,
+    CreateTeamsComponent,
     RegistrationComponent,
     LoginComponent,
     ChatMessageComponent,
     ChatUsersComponent,
     ChatInfoComponent,
+    AddNewMemberFormComponent,
+    ProjectComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    DragDropModule,
     MatCardModule,
     MatFormFieldModule,
     MatIconModule,
@@ -66,7 +86,9 @@ import { ChatInfoComponent } from './components/chat/chat-info/chat-info.compone
     MatDatepickerModule,
     MatNativeDateModule,
     HttpClientModule,
-    TextFieldModule
+    TextFieldModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
