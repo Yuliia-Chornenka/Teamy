@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
 import { ProjectService } from 'src/app/Services/project.service';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 interface IRequirement {
   title: string;
@@ -15,9 +16,7 @@ interface IProject {
   description: string
 }
 
-interface IResponse {
-  id: string;
-}
+
 
 @Component({
   selector: 'app-new-project-form',
@@ -29,7 +28,7 @@ interface IResponse {
 
 export class NewProjectFormComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private projectService: ProjectService, private router: Router) { }
+  constructor(private fb: FormBuilder, private projectService: ProjectService, private router: Router, public dialog: MatDialog) { }
 
   newProjectForm: FormGroup;
   newProject: IProject;
@@ -89,7 +88,6 @@ export class NewProjectFormComponent implements OnInit {
       }
     })
   }
-
 
 
 }

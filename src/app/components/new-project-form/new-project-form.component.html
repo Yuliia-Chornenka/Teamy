@@ -1,42 +1,43 @@
 <div class="new-project">
   <div class="new-project__container">
-    <h1>New project</h1>
+    <h1>New Project</h1>
     <form [formGroup]="newProjectForm" class="new-project__form">
-      <mat-form-field>
+      <mat-form-field
+        class="new-project__form-field new-project__form-field--title"
+      >
         <input
           matInput
+          required
           placeholder="Project title"
           formControlName="title"
-          class="new-project__input"
+          class="new-project__input new-project__input--title"
         />
       </mat-form-field>
 
-      <div>
-        <mat-form-field>
-          <textarea
-            matInput
-            placeholder="Description..."
-            formControlName="description"
-            class="new-project__input new-project__input--textarea"
-          ></textarea>
-        </mat-form-field>
-      </div>
+      <mat-form-field class="new-project__form-field">
+        <textarea
+          matInput
+          required
+          placeholder="Description..."
+          formControlName="description"
+          class="new-project__input new-project__input--textarea"
+        ></textarea>
+      </mat-form-field>
 
       <ol formArrayName="requirements" class="new-project__requirements-list">
         <li
           *ngFor="let require of requirementsForms.controls; let i = index"
           [formGroupName]="i"
         >
-          <div>
-            <mat-form-field>
-              <input
-                matInput
-                placeholder="Requirement"
-                formControlName="title"
-                class="new-project__input"
-              />
-            </mat-form-field>
-          </div>
+          <mat-form-field class="new-project__form-field">
+            <input
+              matInput
+              required
+              placeholder="Requirement"
+              formControlName="title"
+              class="new-project__input"
+            />
+          </mat-form-field>
 
           <div class="new-project__requirement-controls">
             <mat-checkbox formControlName="priority">Priority</mat-checkbox>
@@ -60,25 +61,22 @@
       >
         + Add requirement
       </button>
-      <div>
-        <mat-form-field>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            formControlName="deadline"
-            placeholder="Deadline"
-            class="new-project__input"
-            [min]="minDate" />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker
-        ></mat-form-field>
-      </div>
+
+      <mat-form-field>
+        <input
+          matInput
+          required
+          [matDatepicker]="picker"
+          formControlName="deadline"
+          placeholder="Deadline"
+          class="new-project__input"
+          [min]="minDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker
+      ></mat-form-field>
+      <button mat-raised-button type="submit" color="primary" (click)="createProject()" [disabled]="newProjectForm.invalid">
+        Create project
+      </button>
     </form>
-    <button mat-raised-button color="primary" (click)="createProject()">
-      Create project
-    </button>
   </div>
 </div>

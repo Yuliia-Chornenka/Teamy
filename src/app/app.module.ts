@@ -35,6 +35,7 @@ import { AddNewMemberFormComponent } from './components/add-new-member-form/add-
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
