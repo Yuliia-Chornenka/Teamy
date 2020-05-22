@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     this.socket.on('user connected', (data) => {
       this.users = data;
-    })
+    });
 
     this.socket.on('message', (data) => {
       this.messages.push(data);
