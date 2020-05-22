@@ -25,7 +25,6 @@ const socketClients = [];
 io.sockets.on('connection', (socket) => {
   socket.on('connect room', (data) => {
     socket.join(data.room);
-    console.log(`${data.user} joined room ${data.room}`);
     const client = {
       id: socket.id,
       room: data.room,
@@ -36,7 +35,6 @@ io.sockets.on('connection', (socket) => {
   });
 
   socket.on('message', (data) => {
-    console.log(`Message '${data.text}' in room ${data.room}`);
     io.sockets.in(data.room).emit('message', {
       text: data.text,
       user: data.user,
@@ -46,11 +44,9 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     const socketIndex = socketClients.findIndex((item) => item.id === socket.id);
-    console.log('index', socketIndex);
     if (socketIndex) {
       const socketClient = socketClients[socketIndex];
       socketClients.splice(socketIndex, 1);
-      console.log(`${socketClient.user} left room ${socketClient.room}`);
       io.sockets.in(socketClient.room).emit('user disconnected', socketClients);
     }
   });
