@@ -53,13 +53,15 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage({ text }): void {
-    this.socket.emit('message', {
-      room: this.room,
-      text,
-      user: this.user,
-      date: Date.now(),
-    });
-    this.chatForm.reset();
+    if (this.chatForm.valid) {
+      this.socket.emit('message', {
+        room: this.room,
+        text,
+        user: this.user,
+        date: Date.now(),
+      });
+      this.chatForm.reset();
+    }
   }
 
   scrollChat(): void {

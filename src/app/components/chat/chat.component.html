@@ -10,14 +10,14 @@
   <div class="chat__messages messages">
     <div class="messages__main">
       <ul class="messages__list">
-        <li *ngFor="let message of messages">
-          <app-chat-message [message]="message"></app-chat-message>
+        <li *ngFor="let message of messages" [ngClass]="message.user === user ? 'my-message': 'other-message'">
+          <app-chat-message [message]="message" [user]="user"></app-chat-message>
         </li>
       </ul>
     </div>
     <div class="messages__form">
       <form [formGroup]="chatForm" (ngSubmit)="sendMessage(chatForm.value)">
-        <input formControlName="text" type="text" class="messages__input">
+        <input formControlName="text" type="text" class="messages__input" required>
       </form>
     </div>
   </div>

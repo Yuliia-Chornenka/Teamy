@@ -56,7 +56,25 @@
   }
 
   &__list {
+    display: flex;
+    flex-direction: column;
     list-style-type: none;
     padding-right: 40px;
+
+    li {
+      max-width: 70%;
+    }
   }
+}
+
+.my-message {
+  align-self: flex-end;
+
+  .message-wrapper {
+    background: lighten($purple, 80%);
+  }
+}
+
+.other-message {
+  align-self: flex-start;
 }

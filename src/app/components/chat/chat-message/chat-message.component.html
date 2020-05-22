@@ -1,4 +1,4 @@
-<div class="message-wrapper">
+<div class="message-wrapper" [ngClass]="message.user === user ? 'my-message' : ''">
   <div class="message">
     <div class="message__info">
       <div class="message__user">
