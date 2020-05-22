@@ -7,20 +7,15 @@ const mongoose = require("mongoose");
 const io = require("socket.io")(http);
 
 const authRoute = require("./backend/routes/api/auth");
-const createProjectRoute = require("./backend/routes/api/create-project");
-const getProject = require("./backend/routes/api/getProject");
+const projectRoute = require("./backend/routes/api/project");
 
 dotenv.config();
 
 app.use(express.json());
 app.use(express.static(__dirname + "/dist/Teamy"));
 
-
-
 app.use("/api/user", authRoute);
-app.use("/api", createProjectRoute);
-app.use("/api", getProject);
-
+app.use("/api/project", projectRoute);
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname + "/dist/Teamy/index.html"));

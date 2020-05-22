@@ -27,11 +27,11 @@ const routes: Routes = [
     component: ChatComponent
   },
   {
-    path: 'create-project',
+    path: 'project/create',
     component: NewProjectFormComponent
   },
   {
-    path: 'project/:id',
+    path: 'project/:project-name',
     component: ProjectComponent
   },
   {
