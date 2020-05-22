@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ProjectService } from 'src/app/Services/project.service';
 import { Router } from '@angular/router';
 
@@ -9,10 +9,10 @@ interface IRequirement {
 }
 
 interface IProject {
-  title: string,
-  deadline: number,
-  requirements: IRequirement[],
-  description: string
+  title: string;
+  deadline: number;
+  requirements: IRequirement[];
+  description: string;
 }
 
 
@@ -33,6 +33,7 @@ export class NewProjectFormComponent implements OnInit {
   newProject: IProject;
   minDate = new Date();
   formatedProjectTitle: string;
+  id: string;
 
 
 
@@ -47,7 +48,7 @@ export class NewProjectFormComponent implements OnInit {
 
     this.newProjectForm.valueChanges.subscribe(formData => {
       this.newProject = { ...formData, deadline: Date.parse(formData.deadline) };
-    })
+    });
 
 
 
@@ -77,26 +78,27 @@ export class NewProjectFormComponent implements OnInit {
       next: (response) => {
 
         const { id, title } = response;
+        this.id = id;
 
-        console.log(response)
+        console.log(response);
 
-        this.projectService.saveProjectData(id, title);
+        // this.projectService.saveProjectData(id, title);
 
         this.formatedProjectTitle = this.formatProjectTitleForUrl(title);
       },
       error: (msg) => {
 
-        console.log(msg)
+        console.log(msg);
 
       }, complete: () => {
-        this.router.navigate([`project/${this.formatedProjectTitle}`]);
+        this.router.navigate([`project/${this.formatedProjectTitle}/${this.id}`]);
       }
-    })
+    });
   }
 
 
   formatProjectTitleForUrl(projectTitle: string): string {
-    return projectTitle.toLowerCase().split(" ").join('-');
+    return projectTitle.toLowerCase().split(' ').join('-');
   }
 
 

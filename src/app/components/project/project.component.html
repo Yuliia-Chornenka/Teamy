@@ -1,13 +1,34 @@
-<p>{{project | json}}</p>
-<h3>{{title}}</h3>
-<p>{{description}}</p>
-<p>{{deadline  | date:'longDate'}}</p>
-<div *ngFor="let requirement of requirements">
-  <p>
-    <mat-checkbox [value]="requirement.priority"> </mat-checkbox>
-    {{requirement.title}}
-  </p>
+<div class="wrapper">
+
+  <p><span class="project__text--bold"> Project name: </span> {{title}}</p>
+  <p><span class="project__text--bold"> Description:  </span>{{description}}</p>
+  <p><span class="project__text--bold"> Deadline: </span>{{deadline  | date:'longDate'}}</p>
+  <div *ngIf="requirements.length">
+    <p class="project__text--bold"> Requirements:</p>
+    <p *ngFor="let requirement of requirements">
+      <mat-checkbox disabled
+                    [ngModel]="requirement.priority"
+                    matTooltip="High priority"
+                    matTooltipPosition="above"
+                    [matTooltipDisabled]="!requirement.priority">
+      </mat-checkbox>
+      {{requirement.title}}
+    </p>
+  </div>
+
+  <button mat-raised-button color="accent">
+    Copy project link
+  </button>
+
+  <button mat-raised-button color="primary"
+  (click)="becomeMember()">
+    Become a member
+  </button>
+
+  <app-create-teams
+    *ngIf="members.length"
+    [members]="members">
+  </app-create-teams>
+
 </div>
 
-<app-create-teams [members] = "members">
-</app-create-teams>
