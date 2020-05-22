@@ -15,7 +15,7 @@
 
   &__messages {
     background: lightgrey;
-    width: 70%;
+    width: 100%;
   }
 
   &__users,
@@ -25,10 +25,25 @@
   }
 }
 
+.sidenav-toggle {
+  cursor: pointer;
+  left: 0;
+  opacity: 0.5;
+  position: absolute;
+  top: 3px;
+
+  &__icon {
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+  }
+}
+
 .messages {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 
   &__field {
     width: 100%;
@@ -41,7 +56,7 @@
     font-size: 16px;
     height: 40px;
     outline: none;
-    padding: 5px 10px;
+    padding: 5px  40px 5px 10px;
     transition: 0.1s;
     width: 100%;
 
@@ -65,6 +80,32 @@
     li {
       max-width: 70%;
     }
+  }
+
+  &__form {
+    position: relative;
+  }
+}
+
+.send-icon {
+  align-items: center;
+  background: darken(#fff, 5%);
+  border-radius: 50%;
+  box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: flex;
+  height: 26px;
+  justify-content: center;
+  position: absolute;
+  right: 8px;
+  top: 7px;
+  width: 26px;
+
+  &__icon {
+    color: $purple;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
   }
 }
 

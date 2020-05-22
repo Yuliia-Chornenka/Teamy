@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import * as io from 'socket.io-client';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-chat',
@@ -8,6 +8,8 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
+  @ViewChild('formRef') formRef;
+
   chatForm;
   socket;
   messages = [];
@@ -16,6 +18,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   room = 1;
   // TODO: user should be equal to auth token?
   user = `User${Math.round(Math.random() * 99999)}`;
+  sideOpened = true;
 
   constructor(private formBuilder: FormBuilder) {
     this.socket = io.connect();
@@ -62,6 +65,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       });
       this.chatForm.reset();
     }
+  }
+
+  submitForm() {
+    this.formRef.ngSubmit.emit();
   }
 
   scrollChat(): void {
