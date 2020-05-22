@@ -30,6 +30,6 @@ Travis build *${build_status}!*
 \`Branch:      ${TRAVIS_BRANCH}\`
 *Commit Msg:*
 ${TRAVIS_COMMIT_MESSAGE}
-[Job Log here](${TRAVIS_JOB_WEB_URL})
+[Project on Travis](${TRAVIS_JOB_WEB_URL})
 --------------------------------------
 "
