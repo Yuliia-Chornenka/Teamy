@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ProjectService } from 'src/app/Services/project.service';
 import { Router } from '@angular/router';
 
@@ -9,10 +9,10 @@ interface IRequirement {
 }
 
 interface IProject {
-  title: string,
-  deadline: number,
-  requirements: IRequirement[],
-  description: string
+  title: string;
+  deadline: number;
+  requirements: IRequirement[];
+  description: string;
 }
 
 interface IResponse {
@@ -49,7 +49,7 @@ export class NewProjectFormComponent implements OnInit {
 
     this.newProjectForm.valueChanges.subscribe(formData => {
       this.newProject = { ...formData, deadline: Date.parse(formData.deadline) };
-    })
+    });
 
   }
 
@@ -82,12 +82,12 @@ export class NewProjectFormComponent implements OnInit {
       },
       error: (msg) => {
 
-        console.log(msg)
+        console.log(msg);
 
       }, complete: () => {
         this.router.navigate([`project/${this.projectId}`]);
       }
-    })
+    });
   }
 
 

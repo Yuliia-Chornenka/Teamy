@@ -1,3 +1,12 @@
+<h3>{{title}}</h3>
+<p>{{description}}</p>
+<p>{{deadline  | date:'longDate'}}</p>
+<div *ngFor="let requirement of requirements">
+  <p>
+    <mat-checkbox [value]="requirement.priority"> </mat-checkbox>
+    {{requirement.title}}
+  </p>
+</div>
 
-<app-create-teams [students] = "students">
+<app-create-teams [members] = "members">
 </app-create-teams>

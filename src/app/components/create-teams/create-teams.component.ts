@@ -12,7 +12,7 @@ import { AddNewMemberFormComponent } from '../add-new-member-form/add-new-member
 })
 export class CreateTeamsComponent implements OnInit {
 
-  @Input() students: Array<string>;
+  @Input() members: Array<string>;
 
   randomTeams = [];
   isTeamExist = false;
