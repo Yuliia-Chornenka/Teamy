@@ -20,7 +20,6 @@ send_msg () {
         -d text="$1" -d parse_mode=${PARSE_MODE}
 }
 
-# Send message to the bot with some pertinent details about the job
 # Note that for Markdown, you need to escape any backtick (inline-code)
 # characters, since they're reserved in bash
 send_msg "
@@ -30,6 +29,6 @@ Travis build *${build_status}!*
 \`Branch:      ${TRAVIS_BRANCH}\`
 *Commit Msg:*
 ${TRAVIS_COMMIT_MESSAGE}
-[Project on Travis](${TRAVIS_JOB_WEB_URL})
+[Project on Travis CI](${TRAVIS_JOB_WEB_URL})
 --------------------------------------
 "
