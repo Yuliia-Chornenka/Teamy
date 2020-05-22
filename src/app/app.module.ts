@@ -21,6 +21,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { ChatMessageComponent } from './components/chat/chat-message/chat-message.component';
+import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
+import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
@@ -35,6 +39,7 @@ import { AddNewMemberFormComponent } from './components/add-new-member-form/add-
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +52,9 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     CreateTeamsComponent,
     RegistrationComponent,
     LoginComponent,
+    ChatMessageComponent,
+    ChatUsersComponent,
+    ChatInfoComponent,
     AddNewMemberFormComponent,
     ProjectComponent,
     UserProfileComponent,
@@ -78,6 +86,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     MatDatepickerModule,
     MatNativeDateModule,
     HttpClientModule,
+    TextFieldModule,
     MatProgressSpinnerModule,
     MatTooltipModule
   ],

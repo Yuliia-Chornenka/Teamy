@@ -7,40 +7,53 @@ const mongoose = require("mongoose");
 const io = require("socket.io")(http);
 
 const authRoute = require("./backend/routes/api/auth");
-const createProjectRoute = require("./backend/routes/api/create-project");
-const getProject = require("./backend/routes/api/getProject");
+const projectRoute = require("./backend/routes/api/project");
 
 dotenv.config();
 
 app.use(express.json());
 app.use(express.static(__dirname + "/dist/Teamy"));
 
-
-
 app.use("/api/user", authRoute);
-app.use("/api", createProjectRoute);
-app.use("/api", getProject);
-
+app.use("/api/project", projectRoute);
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname + "/dist/Teamy/index.html"));
 });
 
-// Chat sockets
-io.sockets.on("connection", (socket) => {
-  socket.on("room", (data) => {
+// Chat sockets --- START
+const socketClients = [];
+io.sockets.on('connection', (socket) => {
+  socket.on('connect room', (data) => {
     socket.join(data.room);
-    console.log(`${data.user} joined room ${data.room}`);
+    const client = {
+      id: socket.id,
+      room: data.room,
+      user: data.user,
+    }
+    socketClients.push(client);
+    io.sockets.in(data.room).emit('user connected', socketClients);
   });
 
-  socket.on("message", (data) => {
-    console.log(`Message '${data.text}' in room ${data.room}`);
-    io.sockets.in(data.room).emit("message", {
+  socket.on('message', (data) => {
+    io.sockets.in(data.room).emit('message', {
       text: data.text,
       user: data.user,
+      date: data.date,
     });
   });
+
+  socket.on('disconnect', () => {
+    const socketIndex = socketClients.findIndex((item) => item.id === socket.id);
+    if (socketIndex) {
+      const socketClient = socketClients[socketIndex];
+      socketClients.splice(socketIndex, 1);
+      io.sockets.in(socketClient.room).emit('user disconnected', socketClients);
+    }
+  });
 });
+// Chat sockets --- END
+
 
 mongoose.connect(
   process.env.MONGODB_URI,

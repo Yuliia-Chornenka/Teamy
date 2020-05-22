@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { IProject } from '../../Models/project';
 import { ActivatedRoute } from '@angular/router';
 
+import { Component, OnInit } from '@angular/core';
+import { ProjectService } from 'src/app/Services/project.service';
 
 @Component({
   selector: 'app-project',
@@ -21,10 +23,16 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   constructor(private projectService: ProjectService,
               private route: ActivatedRoute) { }
+  students = ['Юля', 'Саша', 'Таня', 'Настя', 'Ігор', 'Вова', 'Ваня', 'Діма', 'Андрій', 'Катя', 'Oleh', 'Vlad', 'Nina'];
+  project;
+
 
   ngOnInit(): void {
     this.route.params.subscribe(params => this.id = params.id);
     this.getProjectData(this.id);
+
+    this.projectService.getProject(this.projectService.projectId).subscribe(data => {
+      this.project = data;
   }
 
   ngOnDestroy() {
@@ -41,6 +49,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       console.log(project.requirements);
       console.log(project.members);
     }));
+    })
   }
 
 }

@@ -5,20 +5,34 @@ import { Observable } from 'rxjs';
 
 interface IId {
   id: string;
+  title: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class ProjectService {
 
   constructor(private http: HttpClient) { }
 
+  projectId: string;
+  projecTtitle: string;
+
   createNewProject(newProject: IProject): Observable<IId> {
-    return this.http.post<IId>(`/api/create-project`, newProject);
+    return this.http.post<IId>(`/api/project/create`, newProject)
   }
 
-  getProjectData(projectId): Observable<IProject> {
-    return this.http.get<IProject>(`/api/project/${projectId}`);
+  saveProjectData(id: string, title: string) {
+    this.projectId = id;
+    this.projecTtitle = title;
   }
+
+
+  getProject(projectId: string) {
+    return this.http.get(`/api/project/${projectId}`)
+  }
+
+
 }

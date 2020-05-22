@@ -1,7 +1,24 @@
-<p>chat:</p>
-<ul style="list-style-type: none;">
-  <li *ngFor="let message of messages">{{ message.user }}: {{ message.text }}</li>
-</ul>
-<form [formGroup]="chatForm" (ngSubmit)="sendMessage(chatForm.value)">
-  <input formControlName="text" type="text">
-</form>
+<div class="chat-wrapper chat">
+  <div class="chat__sidebar">
+    <div class="chat__users">
+      <app-chat-users [users]="users"></app-chat-users>
+    </div>
+    <div class="chat__info">
+
+    </div>
+  </div>
+  <div class="chat__messages messages">
+    <div class="messages__main">
+      <ul class="messages__list">
+        <li *ngFor="let message of messages">
+          <app-chat-message [message]="message"></app-chat-message>
+        </li>
+      </ul>
+    </div>
+    <div class="messages__form">
+      <form [formGroup]="chatForm" (ngSubmit)="sendMessage(chatForm.value)">
+        <input formControlName="text" type="text" class="messages__input">
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+@import '../../../variables/colors.scss';
+
+.message-wrapper {
+  background: darken($white, 10%);
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+
+  &__text,
+  &__info {
+    width: 100%;
+  }
+
+  &__info {
+    color: lighten($black, 40%);
+    display: flex;
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  &__user {
+    margin-right: 20px;
+  }
+}
