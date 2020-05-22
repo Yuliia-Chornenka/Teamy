@@ -23,6 +23,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { ChatMessageComponent } from './components/chat/chat-message/chat-message.component';
+import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
+import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
 
 
 
@@ -38,6 +42,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core'
     WelcomeComponent,
     RegistrationComponent,
     LoginComponent,
+    ChatMessageComponent,
+    ChatUsersComponent,
+    ChatInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +65,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core'
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    HttpClientModule
+    HttpClientModule,
+    TextFieldModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]

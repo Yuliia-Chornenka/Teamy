@@ -1,0 +1,62 @@
+@import '../../variables/colors.scss';
+
+.chat-wrapper {
+  display: flex;
+  height: calc(100vh - 171px);
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.chat {
+  &__sidebar {
+    background: darken($white, 10%);
+    width: 30%;
+  }
+
+  &__messages {
+    background: lightgrey;
+    width: 70%;
+  }
+
+  &__users,
+  &__info {
+    height: 50%;
+  }
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__field {
+    width: 100%;
+  }
+
+  &__input {
+    background: darken(#fff, 10%);
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 40px;
+    outline: none;
+    padding: 5px 10px;
+    transition: 0.1s;
+    width: 100%;
+
+    &:focus {
+      border-bottom: 3px solid $purple;
+      transition: 0.1s;
+    }
+  }
+
+  &__main {
+    max-height: calc(100vh - 211px);
+    overflow-y: auto;
+  }
+
+  &__list {
+    list-style-type: none;
+    padding-right: 40px;
+  }
+}
