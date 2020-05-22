@@ -1,24 +1,30 @@
-<div class="chat-wrapper chat">
-  <div class="chat__sidebar">
+<mat-sidenav-container class="chat-wrapper chat">
+  <mat-sidenav class="chat__sidebar" #sidenav mode="side" [(opened)]="sideOpened">
     <div class="chat__users">
       <app-chat-users [users]="users"></app-chat-users>
     </div>
     <div class="chat__info">
-
+      <app-chat-info></app-chat-info>
     </div>
-  </div>
-  <div class="chat__messages messages">
+  </mat-sidenav>
+  <mat-sidenav-content class="chat__messages messages">
+    <div (click)="sidenav.toggle()" class="sidenav-toggle">
+      <mat-icon class="sidenav-toggle__icon">{{ sideOpened ? 'keyboard_arrow_left' : 'keyboard_arrow_right' }}</mat-icon>
+    </div>
     <div class="messages__main">
       <ul class="messages__list">
-        <li *ngFor="let message of messages">
-          <app-chat-message [message]="message"></app-chat-message>
+        <li *ngFor="let message of messages" [ngClass]="message.user === user ? 'my-message': 'other-message'">
+          <app-chat-message [message]="message" [user]="user"></app-chat-message>
         </li>
       </ul>
     </div>
     <div class="messages__form">
-      <form [formGroup]="chatForm" (ngSubmit)="sendMessage(chatForm.value)">
-        <input formControlName="text" type="text" class="messages__input">
+      <form [formGroup]="chatForm" #formRef="ngForm" (ngSubmit)="sendMessage(chatForm.value)">
+        <input formControlName="text" type="text" class="messages__input" required>
+        <div class="send-icon" (click)="submitForm()">
+          <mat-icon class="send-icon__icon">send</mat-icon>
+        </div>
       </form>
     </div>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

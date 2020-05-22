@@ -54,7 +54,6 @@ io.sockets.on('connection', (socket) => {
 });
 // Chat sockets --- END
 
-
 mongoose.connect(
   process.env.MONGODB_URI,
   { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false },

@@ -26,7 +26,7 @@ import { ChatMessageComponent } from './components/chat/chat-message/chat-messag
 import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
 import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
@@ -88,7 +88,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     HttpClientModule,
     TextFieldModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSidenavModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]

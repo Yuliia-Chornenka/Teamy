@@ -8,6 +8,7 @@ import { IChatMessage, ChatService } from '../../../Services/chat.service';
 })
 export class ChatMessageComponent implements OnInit {
   @Input() message: IChatMessage;
+  @Input() user;
   messageDate;
 
   constructor(private chatService: ChatService) {

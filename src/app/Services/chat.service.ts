@@ -15,13 +15,14 @@ export class ChatService {
 
   convertToDate(timestamp): string {
     const date = new Date(timestamp);
-    const months = Array.from({length: 12}, (a, b) => b + 1);
+    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
     const day = date.getDate();
     const month = months[date.getMonth()];
     const year = date.getFullYear();
     const hours = date.getHours();
     const mins = date.getMinutes();
 
-    return `${day}.${month}.${year} ${hours}:${mins}`;
+    return `${day > 9 ? day : '0' + day}.${month}.${year} ${hours > 9 ? hours : '0' + hours }:${mins > 9 ? mins : '0' + mins}`;
   }
 }
