@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IChatMessage, ChatService } from '../../../Sevices/chat.service';
+import { IChatMessage, ChatService } from '../../../Services/chat.service';
 
 @Component({
   selector: 'app-chat-message',
