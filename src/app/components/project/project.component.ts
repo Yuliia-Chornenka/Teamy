@@ -5,10 +5,12 @@ import { IProject } from '../../Models/project';
 import { ActivatedRoute } from '@angular/router';
 
 
+
+
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
-  styleUrls: [ './project.component.scss' ]
+  styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
@@ -19,21 +21,19 @@ export class ProjectComponent implements OnInit, OnDestroy {
   deadline: number;
   members = [];
   requirements = [];
+  projectUrl: string;
 
   constructor(private projectService: ProjectService,
-              private route: ActivatedRoute) {
+    private route: ActivatedRoute) {
   }
 
-  // project;
+
 
 
   ngOnInit(): void {
     this.route.params.subscribe(params => this.id = params.id);
     this.getProject(this.id);
-
-    // this.projectService.getProject(this.projectService.projectId).subscribe(data => {
-    //   this.project = data;
-    // });
+    this.projectUrl = window.location.href
 
   }
 
@@ -58,4 +58,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
       console.log(project);
     }));
   }
+
+
 }
