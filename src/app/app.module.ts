@@ -38,7 +38,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddNewMemberFormComponent } from './components/add-new-member-form/add-new-member-form.component';
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -89,7 +89,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     TextFieldModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatSidenavModule
+    MatSidenavModule,
+    ClipboardModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
