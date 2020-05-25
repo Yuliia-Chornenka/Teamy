@@ -8,6 +8,7 @@ const io = require("socket.io")(http);
 
 const authRoute = require("./backend/routes/api/auth");
 const projectRoute = require("./backend/routes/api/project");
+const teamRoute = require("./backend/routes/api/team");
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.static(__dirname + "/dist/Teamy"));
 
 app.use("/api/user", authRoute);
 app.use("/api/project", projectRoute);
+app.use("/api/team", teamRoute);
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname + "/dist/Teamy/index.html"));
