@@ -22,11 +22,11 @@
     width: 100%;
     font-size: 14px;
     background-color: $purple;
-
   }
 
   &__main {
     display: flex;
+    box-shadow: 2px 14px 15px -10px  $black;
   }
 
   &__logo {
@@ -81,18 +81,6 @@
 
   &__link.google {
     background-image: url("https://freeiconshop.com/wp-content/uploads/edd/google-plus-solid.png");
-  }
-}
-
-.nav {
-  display: flex;
-
-  &__item {
-    margin-right: 50%;
-
-    &:last-child {
-      margin-right: 0;
-    }
   }
 }
 
