@@ -3,6 +3,8 @@ const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
+const upload = require('../middleware/file-upload');
+
 router.post('/register', async (req, res) => {
 
     const emailExist = await User.findOne({email: req.body.email});
@@ -30,7 +32,7 @@ router.get('/register', (req, res) => {
 });
 
 
-//LOGIN 
+//LOGIN
 
 router.post('/login', async (req, res) => {
 
@@ -45,6 +47,8 @@ router.post('/login', async (req, res) => {
     res.header('authorization', token).send(token);
 });
 
-
+router.post('/upload', upload.array('image', 1), (req, res) => {
+  res.send({ image: req.file });
+});
 
 module.exports = router;
