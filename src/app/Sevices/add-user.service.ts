@@ -22,4 +22,11 @@ export class AddUserService {
         return user;
       }));
   }
+
+
+  loginUser(loginData) {
+    return this.http.post(`${this.baseUrl}/login`, loginData).pipe(map(token => {
+      return token;
+    }));
+  }
 }

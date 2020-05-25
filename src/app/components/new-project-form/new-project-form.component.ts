@@ -80,10 +80,6 @@ export class NewProjectFormComponent implements OnInit {
         const { id, title } = response;
         this.id = id;
 
-        console.log(response);
-
-        // this.projectService.saveProjectData(id, title);
-
         this.formatedProjectTitle = this.formatProjectTitleForUrl(title);
       },
       error: (msg) => {
