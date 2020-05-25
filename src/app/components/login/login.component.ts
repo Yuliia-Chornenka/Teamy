@@ -6,22 +6,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from "../../Models/user.model";
 import { User } from "../../Models/user";
 import { AddUserService } from "../../Sevices/add-user.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   providers: [
-    { provide: MatFormFieldControl, useExisting: MatInput},
+    { provide: MatFormFieldControl, useExisting: MatInput },
     { provide: MatButtonModule },
   ]
 })
 export class LoginComponent implements OnInit {
 
-  user: IUser = new User(  '', '', '', '');
+  user: IUser = new User('', '', '', '');
   form: FormGroup;
 
-  constructor(private addUserService: AddUserService) { }
+  constructor(private addUserService: AddUserService, private router: Router) { }
 
   ngOnInit(): void {
     this.createUser();
@@ -29,23 +30,31 @@ export class LoginComponent implements OnInit {
 
   createUser() {
     this.form = new FormGroup({
-      email: new FormControl(  '', Validators.required),
-      password: new FormControl(  '', Validators.required),
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
     });
   }
 
   login() {
     const { email, password } = this.form.value;
 
-    const  user: IUser = {
+    const user: IUser = {
       email,
       password
     };
-    console.log(user)
-    this.addUserService.addUser(user).subscribe( user => {
-      //
-      this.form.reset();
-    }, err => console.error(err));
+
+    this.addUserService.loginUser(user).subscribe({
+      next: (token: string) => {
+        localStorage.setItem('token', token)
+      },
+      error: (msg) => {
+
+        console.log("Error", msg);
+
+      }, complete: () => {
+        this.router.navigate([`/profile`]);
+      }
+    })
   }
 
 }
