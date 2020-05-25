@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatInput } from "@angular/material/input";
-import { MatFormFieldControl } from "@angular/material/form-field";
-import { MatButtonModule } from "@angular/material/button";
+import { MatInput } from '@angular/material/input';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IUser } from "../../Models/user.model";
-import { User } from "../../Models/user";
-import { AddUserService } from "../../Sevices/add-user.service";
+import { IUser } from '../../Models/user.model';
+import { User } from '../../Models/user';
+import { UserService } from '../../Services/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -22,7 +22,7 @@ export class RegistrationComponent implements OnInit {
   user: IUser = new User(  '', '', '', '');
   form: FormGroup;
 
-  constructor(private addUserService: AddUserService) { }
+  constructor(private addUserService: UserService) { }
 
   ngOnInit(): void {
     this.createUser();
@@ -39,14 +39,12 @@ export class RegistrationComponent implements OnInit {
   register() {
     const { name, email, password } = this.form.value;
 
-    const  user: IUser = {
+    const user: IUser = {
       name,
       email,
       password
     };
-    console.log(user)
-    this.addUserService.addUser(user).subscribe( user => {
-      //
+    this.addUserService.addUser(user).subscribe( () => {
       this.form.reset();
     }, err => console.error(err));
   }

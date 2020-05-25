@@ -5,7 +5,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from "../../Models/user.model";
 import { User } from "../../Models/user";
-import { AddUserService } from "../../Sevices/add-user.service";
+import { UserService } from "../../Services/user.service";
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   user: IUser = new User('', '', '', '');
   form: FormGroup;
 
-  constructor(private addUserService: AddUserService, private router: Router) { }
+  constructor(private addUserService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.createUser();
