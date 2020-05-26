@@ -33,9 +33,9 @@ router.get("/:projectId", auth, async (req, res) => {
   res.end(JSON.stringify(project));
 });
 
-router.patch("/:id", auth, async (req, res) => {
+router.patch("/:projectId", auth, async (req, res) => {
   try {
-    const memberId = "789"; //req.user.id
+    const memberId = req.user.id; //req.user.id
 
     const project = await Project.findById(req.params.id, (error) => {
       if (error) {
