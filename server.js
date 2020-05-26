@@ -5,18 +5,22 @@ const http = require("http").createServer(app);
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const io = require("socket.io")(http);
+const cors = require('cors');
 
 const authRoute = require("./backend/routes/api/auth");
 const projectRoute = require("./backend/routes/api/project");
+const profileRoute = require("./backend/routes/api/profile");
 const teamRoute = require("./backend/routes/api/team");
 
 dotenv.config();
 
 app.use(express.json());
 app.use(express.static(__dirname + "/dist/Teamy"));
+app.use(cors());
 
 app.use("/api/user", authRoute);
 app.use("/api/project", projectRoute);
+app.use("/api", profileRoute);
 app.use("/api/team", teamRoute);
 
 app.get("/*", function (req, res) {
@@ -32,7 +36,7 @@ io.sockets.on('connection', (socket) => {
       id: socket.id,
       room: data.room,
       user: data.user,
-    }
+    };
     socketClients.push(client);
     io.sockets.in(data.room).emit('user connected', socketClients);
   });
@@ -67,8 +71,8 @@ mongoose.connect(
     }
     console.log("Database connection ready");
 
-    var server = http.listen(process.env.PORT || 8080, function () {
-      var port = server.address().port;
+    const server = http.listen(process.env.PORT || 8080, function () {
+      const port = server.address().port;
       console.log("App now running on port", port);
     });
   }
