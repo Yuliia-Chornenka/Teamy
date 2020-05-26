@@ -7,7 +7,7 @@ dotenv.config();
 aws.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  region: process.env.AWS_REGION
+  region: 'eu-central-1'
 });
 
 const s3 = new aws.S3();
@@ -27,7 +27,7 @@ const upload = multer({
   storage: multerS3({
     acl: 'public-read',
     s3,
-    bucket: process.env.AWS_BUCKET_NAME,
+    bucket: 'teamy',
     key: function(req, file, cb) {
       req.file = Date.now() + file.originalname;
       cb(null, Date.now() + file.originalname);

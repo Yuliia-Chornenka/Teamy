@@ -12,10 +12,14 @@
 
       <mat-card class="user__profile">
         <mat-card-header class="user__profile--header">
-          <div mat-card-avatar class="user__avatar" *ngIf="imageUrl"
-               [ngStyle]="{ backgroundImage: 'url(' + imageUrl + ')'}"></div>
-          <div mat-card-avatar class="user__avatar" *ngIf="!imageUrl"
-               [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}"></div>
+          <div mat-card-avatar class="user__avatar"
+               *ngIf="imageUrl"
+               [ngStyle]="{ backgroundImage: 'url(' + imageUrl + ')'}">
+          </div>
+          <div mat-card-avatar class="user__avatar"
+               *ngIf="!imageUrl"
+               [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}">
+          </div>
           <span class="user__name"> Yulia Chornenka </span>
           <button mat-button matSuffix mat-icon-button
                   (click)="userAccount.close()">
@@ -42,8 +46,10 @@
       </mat-card>
     </mat-sidenav>
 
-    <button *ngIf="!isAccountOpen" type="button" mat-raised-button color="primary" (click)="userAccount.open()">
-      Open Account
+    <button mat-raised-button type="button" color="primary"
+            *ngIf="!isAccountOpen"
+            (click)="userAccount.open()">
+            Open Account
     </button>
 
   </mat-sidenav-container>
