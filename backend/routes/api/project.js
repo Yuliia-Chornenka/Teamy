@@ -35,9 +35,10 @@ router.get("/:projectId", auth, async (req, res) => {
 
 router.patch("/:projectId", auth, async (req, res) => {
   try {
-    const memberId = req.user.id; //req.user.id
+    const memberId = req.user._id;
+   
 
-    const project = await Project.findById(req.params.id, (error) => {
+    const project = await Project.findById(req.params.projectId, (error) => {
       if (error) {
         return res.status(500).json({ message: "Failed to find a project" });
       }
@@ -46,7 +47,7 @@ router.patch("/:projectId", auth, async (req, res) => {
     project.members.push(memberId);
 
     const updatedProject = await Project.findByIdAndUpdate(
-      req.params.id,
+      req.params.projectId,
       project,
       { new: true },
       (error) => {
