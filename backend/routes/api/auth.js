@@ -15,6 +15,7 @@ router.post("/register", async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
+    photo: "",
   });
   try {
     await user.save();
@@ -38,14 +39,17 @@ router.post("/login", async (req, res) => {
   if (!validPass) return res.status(400).send("Invalid password");
 
   //Token
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.header("authorization", token);
-  // res.writeHead(200, {
-  //   "Content-Type": "application/json",
-  //   "authorization": token,
-  // });
-
-  res.send({ token });
+  const token = jwt.sign(
+    {
+      _id: user._id,
+      dates: user.dates,
+      name: user.name,
+      email: user.email,
+      photo: user.photo,
+    },
+    process.env.TOKEN_SECRET
+  );
+  res.header("authorization", token).send(JSON.stringify({ token }));
 });
 
 module.exports = router;
