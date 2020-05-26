@@ -39,6 +39,7 @@ import { AddNewMemberFormComponent } from './components/add-new-member-form/add-
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { AuthGuard } from './Guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     MatSidenavModule,
     ClipboardModule
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
