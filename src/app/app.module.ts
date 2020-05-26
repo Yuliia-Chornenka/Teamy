@@ -17,7 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -38,8 +38,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddNewMemberFormComponent } from './components/add-new-member-form/add-new-member-form.component';
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import {ClipboardModule} from '@angular/cdk/clipboard';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AuthGuard } from './Guards/auth.guard';
+import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service'
 
 @NgModule({
   declarations: [
@@ -93,7 +94,7 @@ import { AuthGuard } from './Guards/auth.guard';
     MatSidenavModule,
     ClipboardModule
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
