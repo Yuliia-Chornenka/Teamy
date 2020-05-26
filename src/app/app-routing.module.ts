@@ -23,7 +23,7 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'chat',
+    path: 'team/:id',
     component: ChatComponent
   },
   {
@@ -48,4 +48,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

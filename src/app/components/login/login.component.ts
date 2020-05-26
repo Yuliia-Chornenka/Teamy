@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatInput } from '@angular/material/input';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
+import { MatInput } from "@angular/material/input";
+import { MatFormFieldControl } from "@angular/material/form-field";
+import { MatButtonModule } from "@angular/material/button";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IUser } from '../../Models/user.model';
-import { User } from '../../Models/user';
-import { AddUserService } from '../../Sevices/add-user.service';
+import { IUser } from "../../Models/user.model";
+import { User } from "../../Models/user";
+import { UserService } from "../../Services/user.service";
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   user: IUser = new User('', '', '', '');
   form: FormGroup;
 
-  constructor(private addUserService: AddUserService, private router: Router) { }
+  constructor(private addUserService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.createUser();
@@ -45,16 +45,16 @@ export class LoginComponent implements OnInit {
 
     this.addUserService.loginUser(user).subscribe({
       next: (token: string) => {
-        localStorage.setItem('token', token);
+        localStorage.setItem('token', token)
       },
       error: (msg) => {
 
-        console.log('Error', msg);
+        console.log("Error", msg);
 
       }, complete: () => {
         this.router.navigate([`/profile`]);
       }
-    });
+    })
   }
 
 }
