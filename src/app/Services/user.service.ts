@@ -13,6 +13,12 @@ export class UserService {
 
   baseUrl = '/api/user';
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: `Bearer ${window.localStorage.token}`,
+    })
+  };
+
   private handleError<T>(operation: string = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);
@@ -20,11 +26,6 @@ export class UserService {
     };
   }
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      Authorization: `Bearer ${window.localStorage.token}`,
-    })
-  };
 
   constructor(private http: HttpClient) { }
 
