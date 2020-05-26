@@ -36,7 +36,7 @@ router.get("/:projectId", auth, async (req, res) => {
 router.patch("/:projectId", auth, async (req, res) => {
   try {
     const memberId = req.user._id;
-   
+  
 
     const project = await Project.findById(req.params.projectId, (error) => {
       if (error) {
