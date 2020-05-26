@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const authRoute = require("./backend/routes/api/auth");
 const projectRoute = require("./backend/routes/api/project");
+const profileRoute = require("./backend/routes/api/profile");
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 app.use("/api/user", authRoute);
 app.use("/api/project", projectRoute);
+app.use("/api", profileRoute);
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname + "/dist/Teamy/index.html"));
