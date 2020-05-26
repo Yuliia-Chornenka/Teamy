@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../../models/User");
-const upload = require('../middleware/file-upload');
+// const upload = require('../middleware/file-upload');
 const auth = require('../middleware/verify');
 
 
@@ -16,29 +16,29 @@ router.get('/profile', auth, async (req, res) => {
 });
 
 /*  Change avatar  */
-router.patch('/profile', auth, upload.array('image', 1), (req, res) => {
-  console.log(req.user);
-  console.log(req.file);
+// router.patch('/profile', auth, upload.array('image', 1), (req, res) => {
+//   console.log(req.user);
+//   console.log(req.file);
 
-  const imgUrl = `https://teamy.s3.amazonaws.com/${req.file}`;
+//   const imgUrl = `https://teamy.s3.amazonaws.com/${req.file}`;
 
-  try {
-        User.findByIdAndUpdate(req.user._id,
-          {photo: imgUrl}, {new: true}, (error) => {
-            if (error) {
-              return res.status(500).json({message: 'Failed to update'});
-            }
-          });
+//   try {
+//         User.findByIdAndUpdate(req.user._id,
+//           {photo: imgUrl}, {new: true}, (error) => {
+//             if (error) {
+//               return res.status(500).json({message: 'Failed to update'});
+//             }
+//           });
 
-    res.send({ image: imgUrl });
-  } catch (e) {
-    res.status(500).json({
-      message: 'Something went wrong. Try again later',
-      error: e,
-    });
-  }
+//     res.send({ image: imgUrl });
+//   } catch (e) {
+//     res.status(500).json({
+//       message: 'Something went wrong. Try again later',
+//       error: e,
+//     });
+//   }
 
-});
+// });
 
 /*  Change avatar  */
 // router.patch('/avatar', auth, upload.array('image', 1), async (req, res) => {

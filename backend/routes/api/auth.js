@@ -3,7 +3,6 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-
 router.post("/register", async (req, res) => {
   const emailExist = await User.findOne({ email: req.body.email });
   if (emailExist) return res.status(400).send("Email is already exist");
@@ -16,7 +15,7 @@ router.post("/register", async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
-    photo: '',
+    photo: "",
   });
   try {
     await user.save();
@@ -48,8 +47,9 @@ router.post("/login", async (req, res) => {
       email: user.email,
       photo: user.photo,
     },
-    process.env.TOKEN_SECRET);
-  res.header("authorization", token).send(JSON.stringify(token));
+    process.env.TOKEN_SECRET
+  );
+  res.header("authorization", token).send(JSON.stringify({ token }));
 });
 
 module.exports = router;

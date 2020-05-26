@@ -40,14 +40,6 @@ export class UserService {
     );
   }
 
-  loginUser(loginData) {
-    return this.http
-                .post(`${this.baseUrl}/login`, loginData)
-                .pipe(map(token => {
-      return token;
-    }));
-  }
-
   imageUpload(imageForm: FormData): Observable<any> {
     return this.http.patch('/api/profile', imageForm, this.httpOptions);
   }

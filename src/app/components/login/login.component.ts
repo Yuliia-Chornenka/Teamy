@@ -5,8 +5,9 @@ import { MatButtonModule } from "@angular/material/button";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from "../../Models/user.model";
 import { User } from "../../Models/user";
-import { UserService } from "../../Services/user.service";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/Services/authentication.service';
+import { IToken } from '../../Models/token'
 
 @Component({
   selector: 'app-login',
@@ -17,15 +18,18 @@ import { Router } from '@angular/router';
     { provide: MatButtonModule },
   ]
 })
+
 export class LoginComponent implements OnInit {
 
   user: IUser = new User('', '', '', '');
   form: FormGroup;
+  returnUrl: string;
 
-  constructor(private addUserService: UserService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.createUser();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   createUser() {
@@ -43,16 +47,17 @@ export class LoginComponent implements OnInit {
       password
     };
 
-    this.addUserService.loginUser(user).subscribe({
-      next: (token: string) => {
-        localStorage.setItem('token', token)
+    this.authService.loginUser(user).subscribe({
+      next: (response: IToken) => {
+
+        localStorage.setItem('token', response.token)
       },
       error: (msg) => {
 
         console.log("Error", msg);
 
       }, complete: () => {
-        this.router.navigate([`/profile`]);
+        this.router.navigate([this.returnUrl]);
       }
     })
   }
