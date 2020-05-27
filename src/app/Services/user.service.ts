@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { IUser } from '../Models/user.model';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { User } from '../Models/user';
 
 
@@ -13,19 +13,13 @@ export class UserService {
 
   baseUrl = '/api/user';
 
-  // httpOptions = {
-  //   headers: new HttpHeaders({
-  //     Authorization: `Bearer ${window.localStorage.token}`,
-  //   })
-  // };
 
   private handleError<T>(operation: string = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
+      console.error(`${operation} failed: ${error.status}`);
       return of(result as T);
     };
   }
-
 
   constructor(private http: HttpClient) { }
 
@@ -35,24 +29,11 @@ export class UserService {
     );
   }
 
-  loginUser(loginData) {
-    return this.http.post(`${this.baseUrl}/login`, loginData).pipe(
-      map(token => {
-        return token;
-      }),
-      catchError(this.handleError<IUser>('loginUser'))
-    );
-  }
-
   imageUpload(imageForm: FormData): Observable<any> {
-    return this.http.patch('/api/profile', imageForm, this.httpOptions).pipe(
-      catchError(this.handleError<IUser>('imageUpload'))
-    );
+    return this.http.patch('/api/profile', imageForm);
   }
 
   getUserData(): Observable<IUser> {
-    return this.http.get('/api/profile', this.httpOptions).pipe(
-      catchError(this.handleError<IUser>('getUserData'))
-    );
+    return this.http.get('/api/profile');
   }
 }

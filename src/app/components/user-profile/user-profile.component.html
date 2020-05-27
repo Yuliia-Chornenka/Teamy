@@ -1,9 +1,14 @@
 <div class="wrapper user">
 
-  <div class="user__projects">
-    <p>You don't have any projects.</p>
+  <p *ngIf="!isServerWork" class="user__error">
+    Sorry, something went wrong and we can’t download your data now. Please try again later.
+  </p>
 
-    <button mat-raised-button type="button" color="primary"
+  <ng-container *ngIf="isServerWork">
+    <div class="user__projects">
+      <p>You don't have any projects.</p>
+
+      <button mat-raised-button type="button" color="primary"
               *ngIf="!isAccountOpen"
               (click)="userAccount.open()">
         Open Account
@@ -14,50 +19,60 @@
           Create a project
         </button>
       </a>
-  </div>
+    </div>
 
-  <mat-sidenav-container class="user__profile--container" hasBackdrop='false'>
-    <mat-sidenav #userAccount mode="push" [(opened)]="isAccountOpen">
+    <mat-sidenav-container class="user__profile--container" hasBackdrop='false'>
+      <mat-sidenav #userAccount mode="push" [(opened)]="isAccountOpen">
 
-      <mat-card class="user__profile">
-        <mat-card-header class="user__profile--header">
-          <div mat-card-avatar class="user__avatar"
-               *ngIf="imageUrl"
-               [ngStyle]="{ backgroundImage: 'url(' + imageUrl + ')'}">
-          </div>
-          <div mat-card-avatar class="user__avatar"
-               *ngIf="!imageUrl"
-               [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}">
-          </div>
-<!--          <span class="user__name"> {{ user.name }} </span>-->
-          <span class="user__name"> Юлия</span>
-          <button mat-button matSuffix mat-icon-button
-                  (click)="userAccount.close()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-card-header>
+        <mat-card class="user__profile">
+          <mat-card-header class="user__profile--header">
+            <div mat-card-avatar class="user__avatar"
+                 *ngIf="imageUrl"
+                 [ngStyle]="{ backgroundImage: 'url(' + imageUrl + ')'}">
+            </div>
+            <div mat-card-avatar class="user__avatar"
+                 *ngIf="!imageUrl"
+                 [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}">
+            </div>
+                      <span class="user__name"> {{ user.name }} </span>
+            <button mat-button matSuffix mat-icon-button
+                    (click)="userAccount.close()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-card-header>
 
-        <mat-card-content>
-          <div class="user__photo" *ngIf="imageUrl" [ngStyle]="{ backgroundImage: 'url(' + imageUrl + ')'}"></div>
-          <div class="user__photo" *ngIf="!imageUrl"
-               [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}"></div>
-          <div class="user__profile-btn-wrapper">
-            <label class="user__photo--label">
-              Сhoose a photo
-              <input (change)="onImagePicked($event)" accept=".jpg, .jpeg, .png" type="file" class="user__photo--input">
-            </label>
-            <button mat-raised-button color="accent" (click)="onImageUpload()">Submit</button>
-          </div>
+          <mat-card-content>
+            <div class="user__photo" *ngIf="imageUrl" [ngStyle]="{ backgroundImage: 'url(' + imageUrl + ')'}"></div>
+            <div class="user__photo" *ngIf="!imageUrl"
+                 [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}"></div>
+            <div class="user__profile-btn-wrapper">
+              <label class="user__photo--label">
+                Сhoose a photo
+                <input (change)="onImagePicked($event)" accept=".jpg, .jpeg, .png" type="file"
+                       class="user__photo--input">
+              </label>
+              <button mat-raised-button color="accent" (click)="onImageUpload()">Submit</button>
+            </div>
 
-          <p class="user__photo--name">{{ imageName }}</p>
+            <p class="user__photo--name">{{ imageName }}</p>
+            <mat-error *ngIf="isImgTooBig" class="user__photo--error">File should not be more than 1 mg</mat-error>
+            <mat-error *ngIf="isImgUploadError" class="user__photo--error">
+              Sorry, something went wrong and we can’t update your photo now. Please try again later.
+            </mat-error>
 
-
-          <!--          <p class="user__profile-text"><span class="user__profile-text&#45;&#45;bold">Email:</span> {{ user.email }} </p>-->
-<!--          <p class="user__profile-text"><span class="user__profile-text&#45;&#45;bold">Registration date:</span> {{ user.dates | date:'longDate' }} </p>-->
-        </mat-card-content>
-      </mat-card>
-    </mat-sidenav>
-  </mat-sidenav-container>
+            <p class="user__profile-text">
+              <span class="user__profile-text--bold">Email:</span>
+              {{ user.email }}
+            </p>
+            <p class="user__profile-text">
+              <span class="user__profile-text--bold">Registration date:</span>
+              {{ user.dates | date:'longDate' }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </mat-sidenav>
+    </mat-sidenav-container>
+  </ng-container>
 
 </div>
 
