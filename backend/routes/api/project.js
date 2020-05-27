@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Project = require("../../models/Project");
-const auth = require("../middleware/verify");
+const auth = require("../middleware/auth");
 
 router.post("/create", auth, async (req, res) => {
   const newProject = new Project({

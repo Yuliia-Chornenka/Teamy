@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const User = require("../../models/User");
 const upload = require('../middleware/file-upload');
-const auth = require('../middleware/verify');
+const auth = require('../middleware/auth');
 const multer = require('multer');
+const bcrypt = require('bcryptjs');
 
 router.get('/profile', auth, async (req, res) => {
   try {
@@ -11,7 +12,7 @@ router.get('/profile', auth, async (req, res) => {
         return res.status(500).json({ message: "Failed to find a user" });
       }
     });
-     await res.json(user);
+     await res.json(user);  
   } catch (e) {
     res.status(500).json({
       message: 'Something went wrong. Try again later.',
@@ -40,6 +41,56 @@ router.patch('/profile', auth, async (req, res) => {
       }
     });
   } catch (e) {
+    res.status(500).json({
+      message: 'Something went wrong. Try again later',
+      error: e,
+    });
+  }
+});
+router.delete("/profile", auth, async (req, res) => {
+  try{
+      let user = await User.findById(req.user._id);
+      if (!user) return res.status(404).json('USER not found');;
+      await User.findByIdAndRemove(req.user._id);
+      res.send('Profile(User) Removed successfully');
+  } catch(e){
+    res.status(500).json({
+      message: 'Something went wrong. Try again later',
+      error: e,
+    });
+  }
+});
+
+router.put("profile/change-password", auth,  async (req, res) => {
+  try{
+      const user = await User.findById(req.user._id);
+      if (!user) return res.status(404).json('USER not found');
+
+      let { password, newPassword, newPasswordConfirmation } = req.body;
+      if (password && newPassword && newPasswordConfirmation) {
+          const isMatch = await bcrypt.compare(password, user.password);
+          if (!isMatch) {
+              res.json({message: "Invalid password"})
+          }
+
+          if (newPassword !== newPasswordConfirmation) {
+              res.json({message: "Passwords does not match"});
+          }
+
+          const salt = await bcrypt.genSalt(10);
+          newPassword = await bcrypt.hash(newPassword, salt);
+
+          const updatedUser = await User.findByIdAndUpdate(req.user._id, {...req.body, password: newPassword}, {new: true});
+          res.json({user: updatedUser, logout: true});
+      } else {
+          if (password || !password.length) {
+              delete req.body.password;
+          }
+
+          const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body, {new: true});
+          res.json({user: updatedUser, logout: false});
+      }
+  }catch(e){
     res.status(500).json({
       message: 'Something went wrong. Try again later',
       error: e,
