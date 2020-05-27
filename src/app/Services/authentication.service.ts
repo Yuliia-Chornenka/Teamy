@@ -13,7 +13,6 @@ export class AuthenticationService {
 
   baseUrl = '/api/user';
 
-
   loginUser(loginData) {
     return this.http
       .post(`${this.baseUrl}/login`, loginData);
@@ -23,7 +22,6 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     this.router.navigate(['/']);
   }
-
 
   loggedIn() {
     return !!localStorage.getItem('token');

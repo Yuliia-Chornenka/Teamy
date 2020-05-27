@@ -54,12 +54,12 @@ export class LoginComponent implements OnInit {
       },
       error: (msg) => {
 
-        console.log("Error", msg);
+        console.log('Error', msg);
 
       }, complete: () => {
         this.router.navigate([this.returnUrl]);
       }
-    })
+    });
   }
 
 }

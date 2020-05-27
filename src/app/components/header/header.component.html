@@ -41,12 +41,20 @@
 
       <div class="header__sign">
         <ul class="sign">
-          <li class="sign__item">
+          <li class="sign__item" *ngIf="!isLoggedIn">
             <button mat-raised-button class="sign__btn" routerLink="/register">Sign up</button>
           </li>
 
-          <li class="sign__item">
+          <li class="sign__item" *ngIf="!isLoggedIn">
             <button mat-raised-button class="sign__btn" routerLink="/login">Sign in</button>
+          </li>
+
+          <li class="sign__item" *ngIf="isLoggedIn">
+            <button mat-raised-button class="sign__btn" routerLink="/profile">Profile</button>
+          </li>
+
+          <li class="sign__item" *ngIf="isLoggedIn" (click)="onLogoutClick()">
+            <button mat-raised-button class="sign__btn">Sign out</button>
           </li>
         </ul>
       </div>
