@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { IUser } from '../Models/user.model';
 import { catchError, map } from 'rxjs/operators';
 import { User } from '../Models/user';
-import { TokenInterceptorService } from './token-iterceptor/token-interceptor.service';
 
 
 @Injectable({
@@ -14,11 +13,11 @@ export class UserService {
 
   baseUrl = '/api/user';
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      Authorization: `Bearer ${window.localStorage.token}`,
-    })
-  };
+  // httpOptions = {
+  //   headers: new HttpHeaders({
+  //     Authorization: `Bearer ${window.localStorage.token}`,
+  //   })
+  // };
 
   private handleError<T>(operation: string = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -27,8 +26,8 @@ export class UserService {
     };
   }
 
-  constructor(private http: HttpClient, tokenInterceptorService: TokenInterceptorService) {
-  }
+
+  constructor(private http: HttpClient) { }
 
   addUser(user: User): Observable<User> {
     return this.http.post<IUser>(`${this.baseUrl}/register`, user).pipe(

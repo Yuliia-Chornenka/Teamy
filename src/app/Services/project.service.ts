@@ -9,7 +9,7 @@ interface IId {
 }
 
 interface IBecomeProjectMember {
-  members: Array<string>;
+  members: Array<string>
 }
 
 

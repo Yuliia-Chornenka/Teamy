@@ -55,7 +55,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   becomeMember(): void {
     this.subscriptions.add(this.projectService.becomeProjectMember(this.id).subscribe((project) => {
-      console.log(project);
+      this.members = project.members;
     }));
   }
 

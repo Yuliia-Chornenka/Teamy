@@ -8,6 +8,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { LoginComponent } from './components/login/login.component';
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { AuthGuard } from './Guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -24,19 +25,23 @@ const routes: Routes = [
   },
   {
     path: 'team/:id',
-    component: ChatComponent
+    component: ChatComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'project/create',
-    component: NewProjectFormComponent
+    component: NewProjectFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'project/:title/:id',
-    component: ProjectComponent
+    component: ProjectComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'profile',
-    component: UserProfileComponent
+    component: UserProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '**',
