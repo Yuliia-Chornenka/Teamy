@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from '../../Models/user.model';
 import { User } from '../../Models/user';
 import { UserService } from '../../Services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -19,10 +20,15 @@ import { UserService } from '../../Services/user.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  user: IUser = new User(  '', '', '', '');
+  user: IUser = new User('', '', '', '');
   form: FormGroup;
+  invalidRegister = false;
+  errorMessage = '';
 
-  constructor(private addUserService: UserService) { }
+  constructor(
+    private addUserService: UserService,
+    private router: Router) {
+  }
 
   ngOnInit(): void {
     this.createUser();
@@ -31,21 +37,44 @@ export class RegistrationComponent implements OnInit {
   createUser() {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(2)]),
-      email: new FormControl(  '', Validators.required),
-      password: new FormControl(  '', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(5)]),
     });
   }
 
   register() {
-    const { name, email, password } = this.form.value;
+    if (this.form.valid === false) {
+      this.invalidRegister = true;
+      this.errorMessage = 'One of the fields is incorrect!';
+    } else {
 
-    const user: IUser = {
-      name,
-      email,
-      password
-    };
-    this.addUserService.addUser(user).subscribe( () => {
-      this.form.reset();
-    }, err => console.error(err));
+      const {name, email, password} = this.form.value;
+
+      const user: IUser = {
+        name,
+        email,
+        password
+      };
+      this.addUserService.addUser(user).subscribe(
+        () => {
+          this.form.reset();
+        },
+        // implementation of error handling coming soon
+
+        error => {
+          console.log('error', error);
+          // if (error.error.email === 'duplicated') {
+          //   this.invalidRegister = true;
+          //   this.errorMessage = 'The email address you have used is already registered!';
+          // } else if (error.error.name === 'duplicated') {
+          //   this.invalidRegister = true;
+          //   this.errorMessage = 'The name is not available!';
+          // }
+        },
+        () => {
+          this.invalidRegister = false;
+          this.router.navigate(['login']);
+        });
+    }
   }
 }

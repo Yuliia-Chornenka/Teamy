@@ -1,6 +1,7 @@
 <mat-card-content>
+  <div class="wrapper">
+    <div class="form-alert" *ngIf="invalidRegister">{{ errorMessage }}</div>
     <form class="form" [formGroup]="form" (submit)="$event.preventDefault()">
-
       <mat-form-field appearance="fill" class="form__field">
         <mat-label>Your name</mat-label>
         <input matInput placeholder="Andrushka" formControlName="name" required>
@@ -23,7 +24,8 @@
 
       <button mat-raised-button color="primary" (click)="register()">Register</button>
     </form>
-  </mat-card-content>
+  </div>
+</mat-card-content>
 
 
 
