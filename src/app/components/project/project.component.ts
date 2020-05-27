@@ -24,7 +24,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   projectUrl: string;
 
   constructor(private projectService: ProjectService,
-    private route: ActivatedRoute) {
+              private route: ActivatedRoute) {
   }
 
 
