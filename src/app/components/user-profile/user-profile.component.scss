@@ -1,11 +1,13 @@
 @import "../../variables/colors";
 
 .user {
+  margin-top: 50px;
+
   &__profile {
     width: 400px;
     padding: 30px;
     box-sizing: border-box;
-    background-color: #fafafa;
+    background-color: #BBBBBB;
 
     &--container {
       min-height: 556px;
@@ -26,7 +28,7 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      margin-bottom: 25px;
+      //margin-bottom: 25px;
     }
 
     &-text {
@@ -42,6 +44,8 @@
     font-size: 20px;
     font-weight: 500;
     letter-spacing: 1px;
+    width: 70%;
+    text-align: center;
   }
 
   &__avatar {
@@ -72,6 +76,26 @@
       cursor: pointer;
     }
 
+    &--name {
+      white-space: nowrap;
+      overflow: hidden;
+      padding: 5px;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+      max-width: 80%;
+      margin: 0 auto;
+    }
   }
 
+  &__projects {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 1px;
+
+    &--create-btn {
+      margin-left: 20px;
+    }
+  }
 }
+

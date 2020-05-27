@@ -1,13 +1,22 @@
-<div class="wrapper">
-  <a routerLink="/project/create">
-    <button mat-raised-button color="accent">
-      Create a project
-    </button>
-  </a>
+<div class="wrapper user">
 
+  <div class="user__projects">
+    <p>You don't have any projects.</p>
+
+    <button mat-raised-button type="button" color="primary"
+              *ngIf="!isAccountOpen"
+              (click)="userAccount.open()">
+        Open Account
+      </button>
+
+      <a routerLink="/project/create">
+        <button mat-raised-button color="accent" class="user__projects--create-btn">
+          Create a project
+        </button>
+      </a>
+  </div>
 
   <mat-sidenav-container class="user__profile--container" hasBackdrop='false'>
-
     <mat-sidenav #userAccount mode="push" [(opened)]="isAccountOpen">
 
       <mat-card class="user__profile">
@@ -20,7 +29,8 @@
                *ngIf="!imageUrl"
                [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}">
           </div>
-          <span class="user__name"> Yulia Chornenka </span>
+<!--          <span class="user__name"> {{ user.name }} </span>-->
+          <span class="user__name"> Юлия</span>
           <button mat-button matSuffix mat-icon-button
                   (click)="userAccount.close()">
             <mat-icon>close</mat-icon>
@@ -39,19 +49,14 @@
             <button mat-raised-button color="accent" (click)="onImageUpload()">Submit</button>
           </div>
 
-          <p class="user__profile-text"><span class="user__profile-text--bold">Email:</span> blackyulia@583</p>
-          <p class="user__profile-text"><span class="user__profile-text--bold">Registration date:</span> blackyulia@583
-          </p>
+          <p class="user__photo--name">{{ imageName }}</p>
+
+
+          <!--          <p class="user__profile-text"><span class="user__profile-text&#45;&#45;bold">Email:</span> {{ user.email }} </p>-->
+<!--          <p class="user__profile-text"><span class="user__profile-text&#45;&#45;bold">Registration date:</span> {{ user.dates | date:'longDate' }} </p>-->
         </mat-card-content>
       </mat-card>
     </mat-sidenav>
-
-    <button mat-raised-button type="button" color="primary"
-            *ngIf="!isAccountOpen"
-            (click)="userAccount.open()">
-            Open Account
-    </button>
-
   </mat-sidenav-container>
 
 </div>

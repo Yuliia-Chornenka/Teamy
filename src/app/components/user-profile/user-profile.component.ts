@@ -11,7 +11,7 @@ import { IUser } from '../../Models/user.model';
 export class UserProfileComponent implements OnInit {
 
   imageObj: File;
-  // backgroundImg = 'https://teamy.s3.amazonaws.com/15904143344361.jpg';
+  imageName: string;
   imageUrl: string;
   user: IUser;
   isAccountOpen = false;
@@ -25,12 +25,14 @@ export class UserProfileComponent implements OnInit {
   getUserData() {
     this.userService.getUserData().subscribe(user => {
       this.user = user;
+      this.imageUrl = user.photo;
       console.log(user);
     });
   }
 
   onImagePicked(event: Event): void {
     this.imageObj = (event.target as HTMLInputElement).files[0];
+    this.imageName = this.imageObj.name;
   }
 
   onImageUpload() {

@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Project = require("../../models/Project");
+const auth = require("../middleware/verify");
 
-router.post("/create", async (req, res) => {
+router.post("/create", auth, async (req, res) => {
   const newProject = new Project({
     ...req.body,
     created_by: "creatorid",
@@ -17,7 +18,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.get("/:projectId", async (req, res) => {
+router.get("/:projectId", auth, async (req, res) => {
   const { projectId } = req.params;
 
   const project = await Project.findById(projectId, (err, doc) => {
@@ -32,29 +33,34 @@ router.get("/:projectId", async (req, res) => {
   res.end(JSON.stringify(project));
 });
 
-router.patch("/:id",  async (req, res) => {
+router.patch("/:projectId", auth, async (req, res) => {
   try {
-    const memberId  = '789'; //req.user.id
+    const memberId = req.user._id;
+  
 
-    const project = await Project.findById(req.params.id, (error) => {
+    const project = await Project.findById(req.params.projectId, (error) => {
       if (error) {
-        return res.status(500).json({message: 'Failed to find a project'});
+        return res.status(500).json({ message: "Failed to find a project" });
       }
     });
 
     project.members.push(memberId);
 
-    const updatedProject = await Project.findByIdAndUpdate(req.params.id,
-      project, {new: true}, (error) => {
+    const updatedProject = await Project.findByIdAndUpdate(
+      req.params.projectId,
+      project,
+      { new: true },
+      (error) => {
         if (error) {
-          return res.status(500).json({message: 'Failed to update'});
+          return res.status(500).json({ message: "Failed to update" });
         }
-      });
+      }
+    );
 
     res.json(updatedProject);
   } catch (e) {
     res.status(500).json({
-      message: 'Something went wrong. Try again later.',
+      message: "Something went wrong. Try again later.",
       error: e,
     });
   }
