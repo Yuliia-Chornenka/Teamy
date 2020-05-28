@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
   if (!user) return res.status(400).send("Email is not found");
 
   const validPass = await bcrypt.compare(req.body.password, user.password);
-  if (!validPass) return res.status(400).send("Invalid password");
+  if (!validPass) return res.status(401).send("Invalid password");
 
   //Token
   const token = jwt.sign(

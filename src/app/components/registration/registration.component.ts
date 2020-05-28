@@ -59,17 +59,10 @@ export class RegistrationComponent implements OnInit {
         () => {
           this.form.reset();
         },
-        // implementation of error handling coming soon
-
         error => {
-          console.log('error', error);
-          // if (error.error.email === 'duplicated') {
-          //   this.invalidRegister = true;
-          //   this.errorMessage = 'The email address you have used is already registered!';
-          // } else if (error.error.name === 'duplicated') {
-          //   this.invalidRegister = true;
-          //   this.errorMessage = 'The name is not available!';
-          // }
+          if (error.status === 400) {
+            this.errorMessage = 'The email address you have used is already registered!';
+          }
         },
         () => {
           this.invalidRegister = false;

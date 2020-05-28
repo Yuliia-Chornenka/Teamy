@@ -1,19 +1,47 @@
 <mat-card-content>
-  <form class="form" [formGroup]="form" (submit)="$event.preventDefault()">
+  <div class="wrapper">
+    <div class="form-alert" *ngIf="invalidLogin">{{ errorMessage }}</div>
+    <form class="form" [formGroup]="form" (submit)="$event.preventDefault()">
+      <mat-form-field appearance="fill" class="form__field">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" required>
+        <mat-icon matSuffix>local_post_office</mat-icon>
+        <mat-hint>your secret email</mat-hint>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill" class="form__field">
-      <mat-label>Email</mat-label>
-      <input matInput placeholder="Email" formControlName="email" required>
-      <mat-icon matSuffix>local_post_office</mat-icon>
-      <mat-hint>your secret email</mat-hint>
-    </mat-form-field>
+      <mat-form-field appearance="fill" class="form__field">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password" formControlName="password" required>
+        <mat-hint>password</mat-hint>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill" class="form__field">
-      <mat-label>Password</mat-label>
-      <input matInput placeholder="Password" formControlName="password" required>
-      <mat-hint>password</mat-hint>
-    </mat-form-field>
+      <button mat-raised-button color="primary" (click)="login()">Sign in</button>
 
-    <button mat-raised-button color="primary" (click)="login()">Sign in</button>
-  </form>
+      <div class="form__addition">
+        <div class="form__separator">
+          <div class="form__decoration"></div>
+          <p>or</p>
+          <div class="form__decoration"></div>
+        </div>
+        <div class="form__socials">
+          <ul class="socials">
+            <li class="socials__item">
+<!--              <button class="socials__link fb" (click)="signInWithFB()"></button>-->
+              <button class="socials__link fb"></button>
+            </li>
+            <li class="socials__item">
+<!--              <button class="socials__link google" (click)="signInWithGoogle()"></button>-->
+              <button class="socials__link google"></button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+<!--      <img src="{{ userSocial.photoUrl }}">-->
+<!--      <div>-->
+<!--        <h4>{{ userSocial.name }}</h4>-->
+<!--        <p>{{ userSocial.email }}</p>-->
+<!--      </div>-->
+    </form>
+  </div>
 </mat-card-content>

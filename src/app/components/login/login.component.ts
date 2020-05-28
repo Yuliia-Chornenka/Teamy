@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { MatInput } from "@angular/material/input";
-import { MatFormFieldControl } from "@angular/material/form-field";
-import { MatButtonModule } from "@angular/material/button";
+import { MatInput } from '@angular/material/input';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IUser } from "../../Models/user.model";
-import { User } from "../../Models/user";
+import { IUser } from '../../Models/user.model';
+import { User } from '../../Models/user';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
-import { IToken } from '../../Models/token'
+import { IToken } from '../../Models/token';
+import {AuthService, SocialUser} from 'angularx-social-login';
+import { FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -24,12 +26,25 @@ export class LoginComponent implements OnInit {
   user: IUser = new User('', '', '', '');
   form: FormGroup;
   returnUrl: string;
+  invalidLogin = false;
+  errorMessage = '';
 
-  constructor(private authService: AuthenticationService, private router: Router, private route: ActivatedRoute) { }
+  // userSocial: SocialUser;
+  // private loggedIn: boolean;
+
+  constructor(private authService: AuthenticationService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private authSocialService: AuthService) { }
 
   ngOnInit(): void {
     this.createUser();
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/profile';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/profile';
+
+    // this.authSocialService.authState.subscribe((userSocial) => {
+    //   this.userSocial = userSocial;
+    //   this.loggedIn = (userSocial != null);
+    // });
   }
 
   createUser() {
@@ -49,17 +64,34 @@ export class LoginComponent implements OnInit {
 
     this.authService.loginUser(user).subscribe({
       next: (response: IToken) => {
-
-        localStorage.setItem('token', response.token)
+        localStorage.setItem('token', response.token);
+        this.authService.setValue(this.authService.loggedIn());
       },
-      error: (msg) => {
-
-        console.log('Error', msg);
-
+      error: (error) => {
+        if (error.status === 400) {
+          this.invalidLogin = true;
+          this.errorMessage = 'The email is not found!';
+        } else if (error.status === 401) {
+          this.invalidLogin = true;
+          this.errorMessage = 'The password is not correct!';
+        }
       }, complete: () => {
         this.router.navigate([this.returnUrl]);
       }
     });
   }
 
+  // signInWithGoogle(): void {
+  //   this.authSocialService.signIn(GoogleLoginProvider.PROVIDER_ID)
+  //     .then(x => console.log(x));
+  // }
+  //
+  // signInWithFB(): void {
+  //   this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
+  //     .then(x => console.log(x));
+  // }
+  //
+  // signOut(): void {
+  //   this.authSocialService.signOut();
+  // }
 }

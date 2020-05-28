@@ -1,4 +1,6 @@
 @import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+
 
 html, body {
   height: 100%;
@@ -6,8 +8,9 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Poiret One', cursive;
   position: relative;
+  letter-spacing: 1.1px;
 }
 
 ul {

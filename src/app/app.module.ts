@@ -40,7 +40,36 @@ import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AuthGuard } from './Guards/auth.guard';
-import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service'
+import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
+
+import {SocialLoginModule, AuthServiceConfig, LoginOpt} from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+
+// const fbLoginOptions: LoginOpt = {
+//   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+//   return_scopes: true,
+//   enable_profile_selector: true
+// }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
+//
+// const googleLoginOptions: LoginOpt = {
+//   scope: 'profile email'
+// }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
+
+
+// const config = new AuthServiceConfig([
+//   {
+//     id: GoogleLoginProvider.PROVIDER_ID,
+//     provider: new GoogleLoginProvider('Google-OAuth-Client-Id')
+//   },
+//   {
+//     id: FacebookLoginProvider.PROVIDER_ID,
+//     provider: new FacebookLoginProvider('Facebook-App-Id')
+//   }
+// ]);
+
+// export function provideConfig() {
+//   return config;
+// }
 
 @NgModule({
   declarations: [
@@ -92,9 +121,17 @@ import { TokenInterceptorService } from './Services/token-iterceptor/token-inter
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatSidenavModule,
-    ClipboardModule
+    ClipboardModule,
+    // SocialLoginModule
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    // {
+    //   provide: AuthServiceConfig,
+    //   useFactory: provideConfig
+    // }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
