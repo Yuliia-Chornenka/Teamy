@@ -1,7 +1,7 @@
 <mat-sidenav-container class="chat-wrapper chat">
   <mat-sidenav class="chat__sidebar" #sidenav mode="side" [(opened)]="sideOpened">
     <div class="chat__users">
-      <app-chat-users [users]="users"></app-chat-users>
+      <app-chat-users [users]="users" [online]="onlineUsers"></app-chat-users>
     </div>
     <div class="chat__info">
       <app-chat-info></app-chat-info>
@@ -13,7 +13,7 @@
     </div>
     <div class="messages__main">
       <ul class="messages__list">
-        <li *ngFor="let message of messages" [ngClass]="message.user === user ? 'my-message': 'other-message'">
+        <li *ngFor="let message of messages" [ngClass]="message.user._id === user._id ? 'my-message': 'other-message'">
           <app-chat-message [message]="message" [user]="user"></app-chat-message>
         </li>
       </ul>

@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const Team = require('../../models/Team');
+const auth = require('../middleware/verify');
 
 // Get team object by id
-router.get('/:id', (req, res) => {
+router.get('/:id', auth, (req, res) => {
   const { id } = req.params;
 
   if (!id) {
@@ -33,7 +34,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Create team
-router.post('/', (req, res) => {
+router.post('/', auth, (req, res) => {
   const { projectId, members } = req.body;
 
   if (!projectId || !members) {
@@ -63,7 +64,7 @@ router.post('/', (req, res) => {
 });
 
 // Delete team
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
   const { id } = req.params;
   
   if (!id) {
@@ -93,7 +94,7 @@ router.delete('/:id', (req, res) => {
 });
 
 // Add member to team
-router.patch('/:id/member', async (req, res) => {
+router.patch('/:id/member', auth, async (req, res) => {
   const { id } = req.params;
   const { member } = req.body;
 
@@ -132,7 +133,7 @@ router.patch('/:id/member', async (req, res) => {
 
 
 // Delete member from team
-router.delete('/:id/member/:memberId', (req, res) => {
+router.delete('/:id/member/:memberId', auth, (req, res) => {
   const { id, memberId } = req.params;
 
   if (!id || !memberId) {
@@ -162,7 +163,7 @@ router.delete('/:id/member/:memberId', (req, res) => {
 });
 
 // Add message to chat history
-router.patch('/:id/history', (req, res) => {
+router.patch('/:id/history', auth, (req, res) => {
   const { id } = req.params;
   const { message } = req.body;
 

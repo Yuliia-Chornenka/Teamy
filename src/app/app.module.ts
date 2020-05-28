@@ -27,6 +27,7 @@ import { ChatUsersComponent } from './components/chat/chat-users/chat-users.comp
 import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
@@ -40,7 +41,8 @@ import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AuthGuard } from './Guards/auth.guard';
-import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service'
+import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
+import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component'
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { TokenInterceptorService } from './Services/token-iterceptor/token-inter
     AddNewMemberFormComponent,
     ProjectComponent,
     UserProfileComponent,
+    ChatMemberComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +95,8 @@ import { TokenInterceptorService } from './Services/token-iterceptor/token-inter
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatSidenavModule,
-    ClipboardModule
+    ClipboardModule,
+    MatSnackBarModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
   bootstrap: [AppComponent]
