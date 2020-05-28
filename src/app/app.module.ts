@@ -27,6 +27,7 @@ import { ChatUsersComponent } from './components/chat/chat-users/chat-users.comp
 import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
@@ -41,6 +42,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AuthGuard } from './Guards/auth.guard';
 import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
+
+import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
 
 import {SocialLoginModule, AuthServiceConfig, LoginOpt} from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
@@ -71,6 +74,8 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
 //   return config;
 // }
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +94,7 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
     AddNewMemberFormComponent,
     ProjectComponent,
     UserProfileComponent,
+    ChatMemberComponent,
   ],
   imports: [
     BrowserModule,
@@ -122,7 +128,8 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
     MatTooltipModule,
     MatSidenavModule,
     ClipboardModule,
-    // SocialLoginModule
+    // SocialLoginModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,

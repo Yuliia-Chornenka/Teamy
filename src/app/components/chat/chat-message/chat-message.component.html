@@ -1,8 +1,8 @@
-<div class="message-wrapper" [ngClass]="message.user === user ? 'my-message' : ''">
+<div class="message-wrapper" [ngClass]="message.user._id === user._id ? 'my-message' : ''">
   <div class="message">
     <div class="message__info">
       <div class="message__user">
-        {{ message.user }}
+        {{ message.user.name }}
       </div>
       <div class="message__time">
         {{ messageDate }}
