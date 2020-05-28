@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Team = require('../../models/Team');
-const auth = require('../middleware/verify');
+const auth = require('../middleware/auth');
 
 // Get team object by id
 router.get('/:id', auth, (req, res) => {
