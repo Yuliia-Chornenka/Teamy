@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IChatMessage, ChatService } from '../../../Services/chat.service';
+import { ChatService } from '../../../Services/chat.service';
+import { IMessage } from '../../../Models/message';
+import { IUser } from '../../../Models/user.model';
 
 @Component({
   selector: 'app-chat-message',
@@ -7,8 +9,8 @@ import { IChatMessage, ChatService } from '../../../Services/chat.service';
   styleUrls: ['./chat-message.component.scss']
 })
 export class ChatMessageComponent implements OnInit {
-  @Input() message: IChatMessage;
-  @Input() user;
+  @Input() message: IMessage;
+  @Input() user: IUser;
   messageDate;
 
   constructor(private chatService: ChatService) {

@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
-
-export interface IChatMessage {
-  text: string;
-  user: string;
-  date: number;
-}
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
+  baseUrl = 'api/team/';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   convertToDate(timestamp): string {
     const date = new Date(timestamp);
@@ -24,5 +20,19 @@ export class ChatService {
     const mins = date.getMinutes();
 
     return `${day > 9 ? day : '0' + day}.${month}.${year} ${hours > 9 ? hours : '0' + hours }:${mins > 9 ? mins : '0' + mins}`;
+  }
+
+  getTeam(id) {
+    return this.http.get(`${this.baseUrl}${id}`);
+  }
+
+  getUser() {
+    return this.http.get('api/profile');
+  }
+
+  patchMessage(id, message) {
+    return this.http.patch(`${this.baseUrl}${id}/history`, {
+      message
+    });
   }
 }

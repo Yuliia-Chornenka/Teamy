@@ -38,7 +38,9 @@ io.sockets.on('connection', (socket) => {
       user: data.user,
     };
     socketClients.push(client);
-    io.sockets.in(data.room).emit('user connected', socketClients);
+    io.sockets
+      .in(data.room)
+      .emit('user connected', socketClients.map(item => item.user));
   });
 
   socket.on('message', (data) => {
@@ -54,7 +56,9 @@ io.sockets.on('connection', (socket) => {
     if (socketIndex) {
       const socketClient = socketClients[socketIndex];
       socketClients.splice(socketIndex, 1);
-      io.sockets.in(socketClient.room).emit('user disconnected', socketClients);
+      io.sockets
+        .in(socketClient.room)
+        .emit('user disconnected', socketClients.map(item => item.user));
     }
   });
 });
