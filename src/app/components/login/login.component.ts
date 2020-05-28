@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.createUser();
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/profile';
   }
 
   createUser() {
@@ -54,12 +54,12 @@ export class LoginComponent implements OnInit {
       },
       error: (msg) => {
 
-        console.log("Error", msg);
+        console.log('Error', msg);
 
       }, complete: () => {
         this.router.navigate([this.returnUrl]);
       }
-    })
+    });
   }
 
 }

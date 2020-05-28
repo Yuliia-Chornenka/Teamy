@@ -40,7 +40,7 @@ export class CreateTeamsComponent implements OnInit {
     if (this.quantityControl.hasError('required')) {
       return 'You must enter a number';
     }
-    return this.quantityControl.hasError('min') ? 'At least 2 randomTeams' : '';
+    return this.quantityControl.hasError('min') ? 'At least 2 random teams' : '';
   }
 
   createRandomTeams(arrayOfStudents, numberOfTeams): void {

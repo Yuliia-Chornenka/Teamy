@@ -1,11 +1,19 @@
 @import "../../variables/colors";
 
 .user {
+  margin: 50px auto;
+
+  &__error {
+    text-align: center;
+    font-size: 24px;
+    color: #f44336;
+  }
+
   &__profile {
     width: 400px;
     padding: 30px;
     box-sizing: border-box;
-    background-color: #fafafa;
+    background-color: #BBBBBB;
 
     &--container {
       min-height: 556px;
@@ -26,7 +34,6 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      margin-bottom: 25px;
     }
 
     &-text {
@@ -42,6 +49,8 @@
     font-size: 20px;
     font-weight: 500;
     letter-spacing: 1px;
+    width: 70%;
+    text-align: center;
   }
 
   &__avatar {
@@ -72,6 +81,32 @@
       cursor: pointer;
     }
 
+    &--name {
+      white-space: nowrap;
+      overflow: hidden;
+      padding-top: 5px;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    &--error {
+      text-align: center;
+      display: block;
+      max-width: 340px;
+    }
   }
 
+  &__projects {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 1px;
+
+    &--create-btn {
+      margin-left: 20px;
+    }
+  }
 }
+

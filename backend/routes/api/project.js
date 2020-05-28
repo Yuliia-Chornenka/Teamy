@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Project = require("../../models/Project");
-const auth = require("../middleware/verify");
+const auth = require("../middleware/auth");
 
 router.post("/create", auth, async (req, res) => {
   const newProject = new Project({
@@ -36,7 +36,7 @@ router.get("/:projectId", auth, async (req, res) => {
 router.patch("/:projectId", auth, async (req, res) => {
   try {
     const memberId = req.user._id;
-  
+
 
     const project = await Project.findById(req.params.projectId, (error) => {
       if (error) {
@@ -57,7 +57,7 @@ router.patch("/:projectId", auth, async (req, res) => {
       }
     );
 
-    res.json(updatedProject);
+    await res.json(updatedProject);
   } catch (e) {
     res.status(500).json({
       message: "Something went wrong. Try again later.",
