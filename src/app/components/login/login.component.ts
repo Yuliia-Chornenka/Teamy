@@ -29,22 +29,23 @@ export class LoginComponent implements OnInit {
   invalidLogin = false;
   errorMessage = '';
 
-  // userSocial: SocialUser;
-  // private loggedIn: boolean;
+  userSocial: SocialUser;
+  private loggedIn: boolean;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
               private route: ActivatedRoute,
-              private authSocialService: AuthService) { }
+              private authSocialService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.createUser();
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/profile';
 
-    // this.authSocialService.authState.subscribe((userSocial) => {
-    //   this.userSocial = userSocial;
-    //   this.loggedIn = (userSocial != null);
-    // });
+    this.authSocialService.authState.subscribe((userSocial) => {
+      this.userSocial = userSocial;
+      this.loggedIn = (userSocial != null);
+    });
   }
 
   createUser() {
@@ -85,13 +86,14 @@ export class LoginComponent implements OnInit {
   //   this.authSocialService.signIn(GoogleLoginProvider.PROVIDER_ID)
   //     .then(x => console.log(x));
   // }
-  //
-  // signInWithFB(): void {
-  //   this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
-  //     .then(x => console.log(x));
-  // }
-  //
-  // signOut(): void {
-  //   this.authSocialService.signOut();
-  // }
+
+  signInWithFB(): void {
+    this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
+      .then(userData =>
+        localStorage.setItem('token', userData.authToken));
+  }
+
+  signOut(): void {
+    this.authSocialService.signOut();
+  }
 }

@@ -59,21 +59,20 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
 // }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
 
 
-// const config = new AuthServiceConfig([
-//   {
-//     id: GoogleLoginProvider.PROVIDER_ID,
-//     provider: new GoogleLoginProvider('Google-OAuth-Client-Id')
-//   },
-//   {
-//     id: FacebookLoginProvider.PROVIDER_ID,
-//     provider: new FacebookLoginProvider('Facebook-App-Id')
-//   }
-// ]);
+const config = new AuthServiceConfig([
+  // {
+  //   id: GoogleLoginProvider.PROVIDER_ID,
+  //   provider: new GoogleLoginProvider('Google-OAuth-Client-Id')
+  // },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('2635201316727876')
+  }
+]);
 
-// export function provideConfig() {
-//   return config;
-// }
-
+export function provideConfig() {
+  return config;
+}
 
 
 @NgModule({
@@ -128,17 +127,18 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
     MatTooltipModule,
     MatSidenavModule,
     ClipboardModule,
-    // SocialLoginModule,
+    SocialLoginModule,
     MatSnackBarModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
-    // {
-    //   provide: AuthServiceConfig,
-    //   useFactory: provideConfig
-    // }
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
     ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
