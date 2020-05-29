@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../Services/user.service';
 import { IUser } from '../../Models/user.model';
+import { IProject } from '../../Models/project';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class UserProfileComponent implements OnInit {
   isImgUploadError = false;
   isServerWork = true;
   isNewPhoto = false;
+  userProjects: Array<IProject> = [];
 
   constructor(private userService: UserService) {
   }
@@ -32,6 +34,7 @@ export class UserProfileComponent implements OnInit {
       next: (user: IUser) => {
             this.user = user;
             this.imageUrl = user.photo;
+            this.userProjects = [...user.projects.mentor, ...user.projects.member];
       },
       error: (err) => {
           this.isServerWork = false;

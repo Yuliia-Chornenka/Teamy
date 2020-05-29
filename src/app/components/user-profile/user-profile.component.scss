@@ -1,7 +1,7 @@
 @import "../../variables/colors";
 
 .user {
-  margin: 50px auto;
+  margin: 0 auto 65px auto;
 
   &__error {
     text-align: center;
@@ -114,6 +114,16 @@
     font-weight: 500;
     letter-spacing: 1px;
     position: relative;
+
+    &--create-btn {
+      display: inherit;
+
+      &-link {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
   }
 }
 

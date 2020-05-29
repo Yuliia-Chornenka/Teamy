@@ -6,7 +6,15 @@
 
   <ng-container *ngIf="isServerWork">
     <div class="user__projects">
-      <p>You don't have any projects.</p>
+
+      <p *ngIf="!userProjects.length">You don't have any projects.</p>
+
+
+
+      <pre *ngIf="userProjects.length">Your projects: {{user.projects | json}} </pre>
+
+
+
 
       <button mat-raised-button type="button" color="primary" class="user__account-open--btn"
               *ngIf="!isAccountOpen"
@@ -14,12 +22,13 @@
         Open Account
       </button>
 
-      <a routerLink="/project/create">
-        <button mat-raised-button color="accent">
+      <a routerLink="/project/create" class="user__projects--create-btn-link">
+        <button mat-raised-button color="accent" class="user__projects--create-btn">
           Create a project
         </button>
       </a>
     </div>
+
 
     <mat-sidenav-container class="user__profile--container" hasBackdrop='false'>
       <mat-sidenav #userAccount mode="push" [(opened)]="isAccountOpen">
