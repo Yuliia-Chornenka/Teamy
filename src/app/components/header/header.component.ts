@@ -14,11 +14,13 @@ export class HeaderComponent implements OnInit {
   constructor( private authService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.loggedIn();
-    // need to subscribe
+    this.authService.getValue().subscribe((value ) => {
+      this.isLoggedIn = value;
+    });
   }
 
   onLogoutClick(){
     this.authService.logOut();
+    this.authService.setValue(this.authService.loggedIn());
   }
 }

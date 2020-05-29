@@ -1,0 +1,23 @@
+.member {
+  align-items: center;
+  background: lightgrey;
+  border-radius: 15px;
+  display: flex;
+  margin: 5px 0;
+  padding: 10px;
+
+  &__name {
+    margin-left: 10px;
+  }
+
+  &__status {
+    background: red;
+    border-radius: 50%;
+    height: 8px;
+    width: 8px;
+  }
+
+  &__status--online {
+    background: green;
+  }
+}

@@ -18,6 +18,23 @@
 
   &__logo {
     cursor: pointer;
+    display: flex;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+    img {
+      height: 20px;
+      width: 20px;
+      margin-right: 10px;
+    }
+  }
+
+  &__title {
+    letter-spacing: 2px;
+    color: $dimgray;
   }
 }
 

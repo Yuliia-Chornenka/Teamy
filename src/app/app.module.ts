@@ -27,6 +27,7 @@ import { ChatUsersComponent } from './components/chat/chat-users/chat-users.comp
 import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
@@ -35,13 +36,44 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AddNewMemberFormComponent } from './components/add-new-member-form/add-new-member-form.component';
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AuthGuard } from './Guards/auth.guard';
 import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
+
+import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
+
+import {SocialLoginModule, AuthServiceConfig, LoginOpt} from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+
+// const fbLoginOptions: LoginOpt = {
+//   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+//   return_scopes: true,
+//   enable_profile_selector: true
+// }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
+//
+// const googleLoginOptions: LoginOpt = {
+//   scope: 'profile email'
+// }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
+
+
+const config = new AuthServiceConfig([
+  // {
+  //   id: GoogleLoginProvider.PROVIDER_ID,
+  //   provider: new GoogleLoginProvider('Google-OAuth-Client-Id')
+  // },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('2635201316727876')
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
+
 
 @NgModule({
   declarations: [
@@ -61,6 +93,7 @@ import { TokenInterceptorService } from './Services/token-iterceptor/token-inter
     AddNewMemberFormComponent,
     ProjectComponent,
     UserProfileComponent,
+    ChatMemberComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,9 +127,18 @@ import { TokenInterceptorService } from './Services/token-iterceptor/token-inter
     MatTooltipModule,
     MatSidenavModule,
     ClipboardModule,
+    SocialLoginModule,
     MatSnackBarModule
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
+    ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
