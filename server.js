@@ -53,7 +53,7 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     const socketIndex = socketClients.findIndex((item) => item.id === socket.id);
-    if (socketIndex) {
+    if (socketIndex >= 0) {
       const socketClient = socketClients[socketIndex];
       socketClients.splice(socketIndex, 1);
       io.sockets

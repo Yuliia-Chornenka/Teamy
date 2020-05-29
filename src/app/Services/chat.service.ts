@@ -23,11 +23,11 @@ export class ChatService {
   }
 
   getTeam(id) {
-    return this.http.get(`${this.baseUrl}${id}`);
+    return this.http.get(`${this.baseUrl}${id}`).toPromise();
   }
 
   getUser() {
-    return this.http.get('api/profile');
+    return this.http.get('api/profile').toPromise();
   }
 
   patchMessage(id, message) {
