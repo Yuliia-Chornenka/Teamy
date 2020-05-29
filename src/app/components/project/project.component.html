@@ -22,7 +22,7 @@
     </p>
   </div>
 
-  <button mat-raised-button color="accent" [cdkCopyToClipboard]="projectUrl">
+  <button mat-raised-button color="accent" [cdkCopyToClipboard]="projectUrl" (click)="showMessageCopiedLink()">
     Copy project link
   </button>
 
