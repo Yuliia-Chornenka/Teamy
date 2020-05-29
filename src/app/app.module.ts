@@ -35,12 +35,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AddNewMemberFormComponent } from './components/add-new-member-form/add-new-member-form.component';
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AuthGuard } from './Guards/auth.guard';
-import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service'
+import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { TokenInterceptorService } from './Services/token-iterceptor/token-inter
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatSidenavModule,
-    ClipboardModule
+    ClipboardModule,
+    MatSnackBarModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
   bootstrap: [AppComponent]

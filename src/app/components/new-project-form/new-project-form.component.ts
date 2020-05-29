@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ProjectService } from 'src/app/Services/project.service';
 import { Router } from '@angular/router';
+import { UserService } from '../../Services/user.service';
 
 interface IRequirement {
   title: string;
@@ -16,25 +17,21 @@ interface IProject {
 }
 
 
-
 @Component({
   selector: 'app-new-project-form',
   templateUrl: './new-project-form.component.html',
-  styleUrls: ['./new-project-form.component.scss']
+  styleUrls: [ './new-project-form.component.scss' ]
 })
-
-
-
 export class NewProjectFormComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private projectService: ProjectService, private router: Router) { }
+  constructor(private fb: FormBuilder, private projectService: ProjectService,
+              private userService: UserService, private router: Router) { }
 
   newProjectForm: FormGroup;
   newProject: IProject;
   minDate = new Date();
   formatedProjectTitle: string;
   id: string;
-
 
 
   ngOnInit(): void {
@@ -47,9 +44,8 @@ export class NewProjectFormComponent implements OnInit {
 
 
     this.newProjectForm.valueChanges.subscribe(formData => {
-      this.newProject = { ...formData, deadline: Date.parse(formData.deadline) };
+      this.newProject = {...formData, deadline: Date.parse(formData.deadline)};
     });
-
 
 
   }
@@ -76,18 +72,18 @@ export class NewProjectFormComponent implements OnInit {
   createProject() {
     this.projectService.createNewProject(this.newProject).subscribe({
       next: (response) => {
-
-        const { id, title } = response;
+        const {id, title} = response;
         this.id = id;
-
         this.formatedProjectTitle = this.formatProjectTitleForUrl(title);
+
+        this.userService.addUsersProject(response).subscribe();
       },
       error: (msg) => {
 
         console.log(msg);
 
       }, complete: () => {
-        this.router.navigate([`project/${this.formatedProjectTitle}/${this.id}`]);
+        this.router.navigate([ `project/${this.formatedProjectTitle}/${this.id}` ]);
       }
     });
   }
@@ -96,6 +92,4 @@ export class NewProjectFormComponent implements OnInit {
   formatProjectTitleForUrl(projectTitle: string): string {
     return projectTitle.toLowerCase().split(' ').join('-');
   }
-
-
 }

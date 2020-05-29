@@ -9,14 +9,21 @@
     color: #f44336;
   }
 
+  &__account-open--btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   &__profile {
     width: 400px;
+    height: 100%;
     padding: 30px;
     box-sizing: border-box;
     background-color: #BBBBBB;
 
     &--container {
-      min-height: 556px;
+      min-height: 635px;
       background-color: transparent;
     }
 
@@ -33,7 +40,7 @@
     &-btn-wrapper {
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
     }
 
     &-text {
@@ -42,6 +49,11 @@
       &--bold {
         font-weight: 500;
       }
+    }
+
+    &--btn-wrapper {
+      display: flex;
+      justify-content: space-between;
     }
   }
 
@@ -84,15 +96,13 @@
     &--name {
       white-space: nowrap;
       overflow: hidden;
-      padding-top: 5px;
+      padding: 5px 0;
       text-overflow: ellipsis;
       box-sizing: border-box;
-      max-width: 80%;
-      margin: 0 auto;
+      margin: 0;
     }
 
     &--error {
-      text-align: center;
       display: block;
       max-width: 340px;
     }
@@ -103,10 +113,7 @@
     font-size: 30px;
     font-weight: 500;
     letter-spacing: 1px;
-
-    &--create-btn {
-      margin-left: 20px;
-    }
+    position: relative;
   }
 }
 

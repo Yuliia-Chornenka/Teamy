@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
   photo: {
     type: String,
   },
+  projects: {
+    mentor: Array,
+    member: Array,
+  },
   dates: {
     type: Date,
     default: Date.now()

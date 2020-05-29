@@ -8,14 +8,14 @@
     <div class="user__projects">
       <p>You don't have any projects.</p>
 
-      <button mat-raised-button type="button" color="primary"
+      <button mat-raised-button type="button" color="primary" class="user__account-open--btn"
               *ngIf="!isAccountOpen"
               (click)="userAccount.open()">
         Open Account
       </button>
 
       <a routerLink="/project/create">
-        <button mat-raised-button color="accent" class="user__projects--create-btn">
+        <button mat-raised-button color="accent">
           Create a project
         </button>
       </a>
@@ -51,10 +51,10 @@
                 <input (change)="onImagePicked($event)" accept=".jpg, .jpeg, .png" type="file"
                        class="user__photo--input">
               </label>
-              <button mat-raised-button color="accent" (click)="onImageUpload()">Submit</button>
+              <button mat-raised-button color="accent" (click)="onImageUpload()" [disabled]="!isNewPhoto">Submit</button>
             </div>
 
-            <p class="user__photo--name">{{ imageName }}</p>
+            <p class="user__photo--name" *ngIf="imageName">{{ imageName }}</p>
             <mat-error *ngIf="isImgTooBig" class="user__photo--error">File should not be more than 1 mg</mat-error>
             <mat-error *ngIf="isImgUploadError" class="user__photo--error">
               Sorry, something went wrong and we can’t update your photo now. Please try again later.
@@ -69,6 +69,10 @@
               {{ user.dates | date:'longDate' }}
             </p>
           </mat-card-content>
+          <mat-card-actions class="user__profile--btn-wrapper">
+            <button mat-raised-button color="accent">Change password</button>
+            <button mat-raised-button color="warn">Delete account</button>
+          </mat-card-actions>
         </mat-card>
       </mat-sidenav>
     </mat-sidenav-container>

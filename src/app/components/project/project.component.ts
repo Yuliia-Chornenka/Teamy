@@ -3,6 +3,8 @@ import { ProjectService } from 'src/app/Services/project.service';
 import { Subscription } from 'rxjs';
 import { IProject } from '../../Models/project';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../Services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -23,22 +25,25 @@ export class ProjectComponent implements OnInit, OnDestroy {
   requirements = [];
   projectUrl: string;
 
-  constructor(private projectService: ProjectService,
-              private route: ActivatedRoute) {
+  constructor(private projectService: ProjectService, private userService: UserService,
+              private route: ActivatedRoute, private snackBar: MatSnackBar) {
   }
-
-
 
 
   ngOnInit(): void {
     this.route.params.subscribe(params => this.id = params.id);
     this.getProject(this.id);
-    this.projectUrl = window.location.href
-
+    this.projectUrl = window.location.href;
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 4000
+    });
   }
 
   getProject(projectId): void {
@@ -54,10 +59,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   becomeMember(): void {
-    this.subscriptions.add(this.projectService.becomeProjectMember(this.id).subscribe((project) => {
+    this.subscriptions.add(this.projectService.becomeProjectMember(this.id).subscribe((project: IProject) => {
       this.members = project.members;
+
+      this.userService.addUserMemberProject(project).subscribe( (response: IProject) => {
+        if (response) {
+          this.openSnackBar('You have successfully confirmed your participation in the project', '✔');
+        }
+      });
     }));
   }
-
-
 }

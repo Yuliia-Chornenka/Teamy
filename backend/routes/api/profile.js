@@ -12,7 +12,7 @@ router.get('/profile', auth, async (req, res) => {
         return res.status(500).json({ message: "Failed to find a user" });
       }
     });
-     await res.json(user);  
+     await res.json(user);
   } catch (e) {
     res.status(500).json({
       message: 'Something went wrong. Try again later.',
@@ -47,10 +47,71 @@ router.patch('/profile', auth, async (req, res) => {
     });
   }
 });
+
+router.put('/profile/project-mentor', auth, async (req, res) => {
+  try {
+    const project = req.body;
+    const user = await User.findById(req.user._id, (error) => {
+      if (error) {
+        return res.status(500).json({ message: "Failed to find a user" });
+      }
+    });
+
+    user.projects.mentor.push(project);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      user,
+      { new: true },
+      (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to update" });
+        }
+      }
+    );
+    await res.json(updatedUser);
+  } catch (e) {
+    res.status(500).json({
+      message: "Something went wrong. Try again later.",
+      error: e,
+    });
+  }
+});
+
+router.put('/profile/project-member', auth, async (req, res) => {
+  try {
+    const project = req.body;
+    const user = await User.findById(req.user._id, (error) => {
+      if (error) {
+        return res.status(500).json({ message: "Failed to find a user" });
+      }
+    });
+
+    user.projects.member.push(project);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      user,
+      { new: true },
+      (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to update" });
+        }
+      }
+    );
+    await res.json(updatedUser);
+  } catch (e) {
+    res.status(500).json({
+      message: "Something went wrong. Try again later.",
+      error: e,
+    });
+  }
+});
+
 router.delete("/profile", auth, async (req, res) => {
   try{
       let user = await User.findById(req.user._id);
-      if (!user) return res.status(404).json('USER not found');;
+      if (!user) return res.status(404).json('USER not found');
       await User.findByIdAndRemove(req.user._id);
       res.send('Profile(User) Removed successfully');
   } catch(e){

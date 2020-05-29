@@ -18,6 +18,7 @@ export class UserProfileComponent implements OnInit {
   isImgTooBig = false;
   isImgUploadError = false;
   isServerWork = true;
+  isNewPhoto = false;
 
   constructor(private userService: UserService) {
   }
@@ -41,6 +42,7 @@ export class UserProfileComponent implements OnInit {
   onImagePicked(event: Event): void {
     this.imageObj = (event.target as HTMLInputElement).files[0];
     this.imageName = this.imageObj.name;
+    this.isNewPhoto = true;
   }
 
 
@@ -52,6 +54,8 @@ export class UserProfileComponent implements OnInit {
         this.imageUrl = res.image;
         this.isImgTooBig = false;
         this.isImgUploadError = false;
+        this.isNewPhoto = false;
+        this.imageName = '';
       },
       error: (err) => {
         if (err.status === 413) {
