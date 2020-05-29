@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../Services/user.service';
 import { IUser } from '../../Models/user.model';
+import { IProject } from '../../Models/project';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class UserProfileComponent implements OnInit {
   isImgTooBig = false;
   isImgUploadError = false;
   isServerWork = true;
+  isNewPhoto = false;
+  userProjects: Array<IProject> = [];
 
   constructor(private userService: UserService) {
   }
@@ -31,6 +34,7 @@ export class UserProfileComponent implements OnInit {
       next: (user: IUser) => {
             this.user = user;
             this.imageUrl = user.photo;
+            this.userProjects = [...user.projects.mentor, ...user.projects.member];
       },
       error: (err) => {
           this.isServerWork = false;
@@ -41,6 +45,7 @@ export class UserProfileComponent implements OnInit {
   onImagePicked(event: Event): void {
     this.imageObj = (event.target as HTMLInputElement).files[0];
     this.imageName = this.imageObj.name;
+    this.isNewPhoto = true;
   }
 
 
@@ -52,6 +57,8 @@ export class UserProfileComponent implements OnInit {
         this.imageUrl = res.image;
         this.isImgTooBig = false;
         this.isImgUploadError = false;
+        this.isNewPhoto = false;
+        this.imageName = '';
       },
       error: (err) => {
         if (err.status === 413) {
