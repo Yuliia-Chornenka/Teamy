@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
 
-  user: IUser = new User('', '', '', '');
+  user: IUser = new User('', '', '', '', '');
   form: FormGroup;
   invalidRegister = false;
   errorMessage = '';
