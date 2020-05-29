@@ -26,6 +26,10 @@ export class UserService {
     return this.http.post<IUser>(`${this.baseUrl}/register`, user);
   }
 
+  addSocUser(user: User): Observable<User> {
+    return this.http.post<IUser>(`${this.baseUrl}/soclogin`, user);
+  }
+
   imageUpload(imageForm: FormData): Observable<any> {
     return this.http.patch('/api/profile', imageForm);
   }

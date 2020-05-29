@@ -1,3 +1,5 @@
+@import "../../variables/colors";
+
 .form {
   min-width: 150px;
   max-width: 300px;
@@ -14,4 +16,25 @@
       margin-bottom: 0;
     }
   }
+
+  &__addition {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+  }
+
+  &__separator {
+    display: flex;
+    align-items: center;
+  }
+
+  &__decoration {
+    height: 1px;
+    width: 60px;
+    background-color: $dimgray;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
 }

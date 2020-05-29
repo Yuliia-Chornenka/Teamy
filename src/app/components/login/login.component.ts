@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { IToken } from '../../Models/token';
 import {AuthService, SocialUser} from 'angularx-social-login';
 import { FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
+import {UserService} from '../../Services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ import { FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-logi
 
 export class LoginComponent implements OnInit {
 
-  user: IUser = new User('', '', '', '');
+  user: IUser = new User('', '', '', '', '');
   form: FormGroup;
   returnUrl: string;
   invalidLogin = false;
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthenticationService,
               private router: Router,
               private route: ActivatedRoute,
-              private authSocialService: AuthService
+              private authSocialService: AuthService,
+              private addUserService: UserService,
   ) { }
 
   ngOnInit(): void {
@@ -89,11 +91,20 @@ export class LoginComponent implements OnInit {
 
   signInWithFB(): void {
     this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
-      .then(userData =>
-        localStorage.setItem('token', userData.authToken));
+      .then((user) => {
+        localStorage.setItem('token', user.authToken),
+        this.authService.setValue(this.authService.loggedIn());
+
+        this.addUserService.addSocUser({name: user.name,
+                                              email: user.email,
+                                              photo: user.photoUrl}),
+        this.router.navigate(['/profile']),
+        console.log('user', user);
+      });
   }
 
   signOut(): void {
     this.authSocialService.signOut();
   }
 }
+
