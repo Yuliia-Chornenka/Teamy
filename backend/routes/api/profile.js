@@ -51,6 +51,8 @@ router.patch('/profile', auth, async (req, res) => {
 router.put('/profile/project-mentor', auth, async (req, res) => {
   try {
     const project = req.body;
+    project.role = 'mentor';
+
     const user = await User.findById(req.user._id, (error) => {
       if (error) {
         return res.status(500).json({ message: "Failed to find a user" });
@@ -81,6 +83,7 @@ router.put('/profile/project-mentor', auth, async (req, res) => {
 router.put('/profile/project-member', auth, async (req, res) => {
   try {
     const project = req.body;
+    project.role = 'member';
     const user = await User.findById(req.user._id, (error) => {
       if (error) {
         return res.status(500).json({ message: "Failed to find a user" });

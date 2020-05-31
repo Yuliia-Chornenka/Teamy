@@ -28,6 +28,8 @@ import { ChatInfoComponent } from './components/chat/chat-info/chat-info.compone
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FilterPipe } from './Pipes/filter.pipe';
+import { SearchPipe } from './Pipes/search.pipe';
 
 
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
@@ -47,6 +49,10 @@ import { ChatMemberComponent } from './components/chat/chat-member/chat-member.c
 
 import {SocialLoginModule, AuthServiceConfig, LoginOpt} from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { UserProjectsListComponent } from './components/user-projects-list/user-projects-list.component';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 
 // const fbLoginOptions: LoginOpt = {
 //   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
@@ -94,6 +100,9 @@ export function provideConfig() {
     ProjectComponent,
     UserProfileComponent,
     ChatMemberComponent,
+    UserProjectsListComponent,
+    FilterPipe,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
@@ -128,7 +137,10 @@ export function provideConfig() {
     MatSidenavModule,
     ClipboardModule,
     SocialLoginModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSortModule,
+    MatSelectModule,
+    MatChipsModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,

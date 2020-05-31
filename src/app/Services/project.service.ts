@@ -4,7 +4,7 @@ import { IProject } from '../Models/project';
 import { Observable } from 'rxjs';
 
 interface IId {
-  id: string;
+  _id: string;
   title: string;
   deadline: number;
 }

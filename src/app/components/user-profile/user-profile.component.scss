@@ -2,6 +2,7 @@
 
 .user {
   margin: 0 auto 65px auto;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 
   &__error {
     text-align: center;
@@ -23,7 +24,7 @@
     background-color: #BBBBBB;
 
     &--container {
-      min-height: 635px;
+      min-height: 650px;
       background-color: transparent;
     }
 
@@ -110,10 +111,15 @@
 
   &__projects {
     text-align: center;
-    font-size: 30px;
-    font-weight: 500;
-    letter-spacing: 1px;
     position: relative;
+
+    &--title {
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-bottom: 50px;
+      margin-top: 0;
+    }
 
     &--create-btn {
       display: inherit;

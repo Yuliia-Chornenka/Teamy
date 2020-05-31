@@ -5,34 +5,8 @@
   </p>
 
   <ng-container *ngIf="isServerWork">
-    <div class="user__projects">
-
-      <p *ngIf="!userProjects.length">You don't have any projects.</p>
-
-
-
-      <pre *ngIf="userProjects.length">Your projects: {{user.projects | json}} </pre>
-
-
-
-
-      <button mat-raised-button type="button" color="primary" class="user__account-open--btn"
-              *ngIf="!isAccountOpen"
-              (click)="userAccount.open()">
-        Open Account
-      </button>
-
-      <a routerLink="/project/create" class="user__projects--create-btn-link">
-        <button mat-raised-button color="accent" class="user__projects--create-btn">
-          Create a project
-        </button>
-      </a>
-    </div>
-
-
-    <mat-sidenav-container class="user__profile--container" hasBackdrop='false'>
-      <mat-sidenav #userAccount mode="push" [(opened)]="isAccountOpen">
-
+    <mat-sidenav-container class="user__profile--container" hasBackdrop='true'>
+      <mat-sidenav #userAccount mode="over" [(opened)]="isAccountOpen">
         <mat-card class="user__profile">
           <mat-card-header class="user__profile--header">
             <div mat-card-avatar class="user__avatar"
@@ -43,7 +17,7 @@
                  *ngIf="!imageUrl"
                  [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}">
             </div>
-                      <span class="user__name"> {{ user.name }} </span>
+            <span class="user__name"> {{ user.name }} </span>
             <button mat-button matSuffix mat-icon-button
                     (click)="userAccount.close()">
               <mat-icon>close</mat-icon>
@@ -60,7 +34,10 @@
                 <input (change)="onImagePicked($event)" accept=".jpg, .jpeg, .png" type="file"
                        class="user__photo--input">
               </label>
-              <button mat-raised-button color="accent" (click)="onImageUpload()" [disabled]="!isNewPhoto">Submit</button>
+              <button mat-raised-button color="accent"
+                      (click)="onImageUpload()" [disabled]="!isNewPhoto">
+                Submit
+              </button>
             </div>
 
             <p class="user__photo--name" *ngIf="imageName">{{ imageName }}</p>
@@ -84,6 +61,29 @@
           </mat-card-actions>
         </mat-card>
       </mat-sidenav>
+
+      <mat-sidenav-content class="user__projects">
+        <p *ngIf="!userProjects.length" class="user__projects--title">You don't have any projects.</p>
+
+        <div *ngIf="userProjects.length">
+          <p class="user__projects--title">Your projects:</p>
+          <app-user-projects-list
+            [projectsList]="userProjects">
+          </app-user-projects-list>
+        </div>
+
+        <button mat-raised-button type="button" color="primary" class="user__account-open--btn"
+                *ngIf="!isAccountOpen"
+                (click)="userAccount.open()">
+          Open Account
+        </button>
+
+        <a routerLink="/project/create" class="user__projects--create-btn-link">
+          <button mat-raised-button color="accent" class="user__projects--create-btn">
+            Create a project
+          </button>
+        </a>
+      </mat-sidenav-content>
     </mat-sidenav-container>
   </ng-container>
 

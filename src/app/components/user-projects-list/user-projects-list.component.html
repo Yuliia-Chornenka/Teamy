@@ -1,0 +1,91 @@
+<mat-spinner *ngIf="isDataLoading" class="table__spinner"></mat-spinner>
+
+<ng-container *ngIf="!isDataLoading">
+  <div class="filter__wrapper filter__wrapper--first-line">
+
+    <mat-form-field class="search__input">
+      <mat-label>Search in title</mat-label>
+      <input matInput type="text" [(ngModel)]="searchValue">
+      <button mat-button *ngIf="searchValue" matSuffix mat-icon-button (click)="resetSearchInput()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Filter by role:</mat-label>
+      <mat-select [(value)]="selectedRole">
+        <mat-option *ngFor="let role of roles" [value]="role">
+          {{ role | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Filter by status:</mat-label>
+      <mat-select [(value)]="selectedStatus">
+        <mat-option *ngFor="let status of statuses" [value]="status">
+          {{ status | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Filter by deadline:</mat-label>
+      <mat-select [(value)]="selectedDeadline">
+        <mat-option *ngFor="let deadline of deadlines" [value]="deadline">
+          {{ deadline | date:'longDate' }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-flat-button color="warn" (click)="resetAllFilters()"> Reset all filters</button>
+  </div>
+
+  <div class="filter__wrapper filter__wrapper--second-line">
+
+    <mat-chip-list class="filter__chip-list">
+      <mat-chip *ngIf="selectedRole" color="primary" selected> {{ selectedRole | titlecase}}
+        <mat-icon matChipRemove (click)="resetSelectedRole()">cancel</mat-icon>
+      </mat-chip>
+
+      <mat-chip *ngIf="selectedStatus" color="primary" selected> {{ selectedStatus | titlecase }}
+        <mat-icon matChipRemove (click)="resetSelectedStatus()">cancel</mat-icon>
+      </mat-chip>
+
+      <mat-chip *ngIf="selectedDeadline" color="primary" selected> {{ selectedDeadline | date:'longDate' }}
+        <mat-icon matChipRemove (click)="resetSelectedDeadline()">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <table matSort class="mat-elevation-z8 table" (matSortChange)="sortData($event)">
+    <tr>
+      <th *ngFor="let column of columns" class="table__header"
+          [mat-sort-header]="column">
+        {{ column }}
+      </th>
+    </tr>
+    <tr *ngFor="let project of sortedData
+      | search:searchValue:'title'
+      | filter:selectedRole:'role'
+      | filter:selectedDeadline:'deadline'
+      | filter:selectedStatus:'status'"
+        [class.mat-list-single-selected-option]="getDaysToDeadline(today, project.deadline) < 0">
+
+      <td> {{ project.role | titlecase }} </td>
+      <td>
+        <a class="table__link" target="_blank"
+           routerLink="/project/{{ project.title.toLowerCase().split(' ').join('-')}}/{{project._id}}">
+          {{ project.title | titlecase }}
+          <mat-icon>launch</mat-icon>
+        </a>
+      </td>
+      <td [class.table__deadline--red]="getDaysToDeadline(today, project.deadline) < 1
+        && isProjectFinished(today, project.deadline) === 'In progress'">
+        {{ project.deadline | date:'longDate' }}
+      </td>
+      <td> {{ isProjectFinished(today, project.deadline) }} </td>
+    </tr>
+  </table>
+</ng-container>
+
