@@ -73,7 +73,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
       this.userService.addUserMemberProject(project).subscribe((response: IProject) => {
         if (response) {
-          this.openSnackBar('You have successfully confirmed your participation in the project', '✔');
+          this.openSnackBar('You have successfully confirmed your participation', '✔');
         }
       });
     }));

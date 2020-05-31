@@ -148,7 +148,7 @@ export function provideConfig() {
     MatSnackBarModule,
     MatSortModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
     MatSnackBarModule,
     MatProgressBarModule,
     EffectsModule.forRoot([AppEffects]),
