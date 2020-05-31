@@ -12,7 +12,7 @@ router.post("/create", auth, async (req, res) => {
     await newProject.save();
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify({
-      id: newProject._id,
+      _id: newProject._id,
       title: newProject.title,
       deadline: newProject.deadline,
     }

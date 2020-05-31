@@ -11,4 +11,7 @@ export interface IProject {
     members?: Array<string>;
     teams?: [object];
     mentors?: Array<string>;
+    role?: string;
+    _id?: string;
+    status?: string;
 }

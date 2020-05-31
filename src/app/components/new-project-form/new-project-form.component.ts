@@ -81,8 +81,8 @@ export class NewProjectFormComponent implements OnInit {
 
     this.projectService.createNewProject(this.newProject).subscribe({
       next: (response) => {
-        const { id, title } = response;
-        this.id = id;
+        const {_id, title} = response;
+        this.id = _id;
         this.formatedProjectTitle = this.formatProjectTitleForUrl(title);
 
         this.userService.addUsersProject(response).subscribe();

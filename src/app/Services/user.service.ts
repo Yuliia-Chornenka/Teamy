@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IUser } from '../Models/user.model';
 import { User } from '../Models/user';
 import { IProject } from '../Models/project';
 
 
 interface IId {
-  id: string;
+  _id: string;
   title: string;
   deadline: number;
 }

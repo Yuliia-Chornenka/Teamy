@@ -1,5 +1,6 @@
 @import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+@import "app/variables/colors";
 
 
 html, body {
@@ -36,4 +37,8 @@ button {
 
 section {
   min-height: 600px;
+}
+
+::selection {
+  background-color: $yellow;
 }
