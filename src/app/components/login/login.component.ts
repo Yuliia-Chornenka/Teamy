@@ -8,9 +8,12 @@ import { User } from '../../Models/user';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { IToken } from '../../Models/token';
-import {AuthService, SocialUser} from 'angularx-social-login';
+import { AuthService, SocialUser } from 'angularx-social-login';
 import { FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
-import {UserService} from '../../Services/user.service';
+import { UserService } from '../../Services/user.service';
+import { Store } from '@ngrx/store';
+import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
+import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 
 @Component({
   selector: 'app-login',
@@ -33,11 +36,13 @@ export class LoginComponent implements OnInit {
   userSocial: SocialUser;
   private loggedIn: boolean;
 
-  constructor(private authService: AuthenticationService,
-              private router: Router,
-              private route: ActivatedRoute,
-              private authSocialService: AuthService,
-              private addUserService: UserService,
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authSocialService: AuthService,
+    private addUserService: UserService,
+    private store$: Store<LoadingState>,
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +63,8 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.store$.dispatch(new LoadingStartAction());
+
     const { email, password } = this.form.value;
 
     const user: IUser = {
@@ -79,6 +86,7 @@ export class LoginComponent implements OnInit {
           this.errorMessage = 'The password is not correct!';
         }
       }, complete: () => {
+        this.store$.dispatch(new LoadingFinishAction());
         this.router.navigate([this.returnUrl]);
       }
     });
@@ -93,13 +101,15 @@ export class LoginComponent implements OnInit {
     this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
       .then((user) => {
         localStorage.setItem('token', user.authToken),
-        this.authService.setValue(this.authService.loggedIn());
+          this.authService.setValue(this.authService.loggedIn());
 
-        this.addUserService.addSocUser({name: user.name,
-                                              email: user.email,
-                                              photo: user.photoUrl}),
-        this.router.navigate(['/profile']),
-        console.log('user', user);
+        this.addUserService.addSocUser({
+          name: user.name,
+          email: user.email,
+          photo: user.photoUrl
+        }),
+          this.router.navigate(['/profile']),
+          console.log('user', user);
       });
   }
 
