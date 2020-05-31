@@ -27,62 +27,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private chatService: ChatService,
-              private errorMessage: MatSnackBar) {
-    this.route.params.subscribe(params => {
-      this.room = params.id;
-    });
-
-    this.chatService.getUser().subscribe(res => {
-      this.user = res;
-    });
-
-    this.chatService.getTeam(this.room).subscribe({
-      next: async res => {
-        this.users = await res['team'].members.map(item => {
-          return {
-            _id: item.user_id,
-            name: item.user_name,
-          };
-        });
-
-        this.messages = await res['team'].history.map(item => {
-          return {
-            text: item.text,
-            user: this.users.find(userItem => userItem._id === item.user_id),
-            date: item.date,
-          };
-        });
-      },
-    });
-  }
+              private errorMessage: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.socket = io.connect();
-
-    this.socket.on('connect', () => {
-      this.socket.emit('connect room', {
-        room: this.room,
-        user: this.user,
-      });
-    });
-
-    this.socket.on('user disconnected', (data: IUser[]) => {
-      this.onlineUsers = data;
-    });
-
-    this.socket.on('user connected', (data: IUser[]) => {
-      this.onlineUsers = data;
-    });
-
-    this.socket.on('message', (data: IMessage) => {
-      this.messages.push(data);
-    });
-
-    this.chatForm = this.formBuilder.group({
-      text: '',
-    });
-
-    this.scrollChat();
+    this.initChat();
   }
 
   ngAfterViewChecked(): void {
@@ -126,5 +74,63 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   scrollChat(): void {
     const mainDiv = (document.querySelector('.messages__main') as HTMLElement);
     mainDiv.scrollTop = mainDiv.scrollHeight;
+  }
+
+  initChat() {
+    this.route.params.subscribe(params => {
+      this.room = params.id;
+    });
+
+    this.chatService.getUser()
+      .then(res => this.user = res)
+      .then(user => this.initSocket());
+
+    this.chatService.getTeam(this.room)
+      .then(res => {
+        this.users = res['team'].members.map(item => {
+          return {
+            _id: item.user_id,
+            name: item.user_name,
+          };
+        });
+        return res;
+      })
+      .then(res => {
+        this.messages = res['team'].history.map(item => {
+          return {
+            text: item.text,
+            user: this.users.find(userItem => userItem._id === item.user_id),
+            date: item.date,
+          };
+        });
+      });
+  }
+
+  initSocket() {
+    this.socket = io.connect();
+    this.socket.on('connect', () => {
+      this.socket.emit('connect room', {
+        room: this.room,
+        user: this.user,
+      });
+    });
+
+    this.socket.on('user disconnected', (data: IUser[]) => {
+      this.onlineUsers = data;
+    });
+
+    this.socket.on('user connected', (data: IUser[]) => {
+      this.onlineUsers = data;
+    });
+
+    this.socket.on('message', (data: IMessage) => {
+      this.messages.push(data);
+    });
+
+    this.chatForm = this.formBuilder.group({
+      text: '',
+    });
+
+    this.scrollChat();
   }
 }

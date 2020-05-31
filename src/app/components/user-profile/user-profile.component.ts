@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../Services/user.service';
 import { IUser } from '../../Models/user.model';
 import { IProject } from '../../Models/project';
+import { Store } from '@ngrx/store';
+import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
+import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: [ './user-profile.component.scss' ]
+  styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
 
@@ -22,7 +25,7 @@ export class UserProfileComponent implements OnInit {
   isNewPhoto = false;
   userProjects: Array<IProject> = [];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private store$: Store<LoadingState>) {
   }
 
   ngOnInit(): void {
@@ -30,14 +33,19 @@ export class UserProfileComponent implements OnInit {
   }
 
   getUserData() {
+    this.store$.dispatch(new LoadingStartAction());
+
     this.userService.getUserData().subscribe({
       next: (user: IUser) => {
-            this.user = user;
-            this.imageUrl = user.photo;
-            this.userProjects = [...user.projects.mentor, ...user.projects.member];
+        this.user = user;
+        this.imageUrl = user.photo;
+        this.userProjects = [...user.projects.mentor, ...user.projects.member];
       },
       error: (err) => {
-          this.isServerWork = false;
+        this.isServerWork = false;
+      },
+      complete: () => {
+        this.store$.dispatch(new LoadingFinishAction());
       }
     });
   }

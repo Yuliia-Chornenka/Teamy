@@ -5,6 +5,9 @@ import { IProject } from '../../Models/project';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../Services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
+import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 
 
 
@@ -25,8 +28,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
   requirements = [];
   projectUrl: string;
 
-  constructor(private projectService: ProjectService, private userService: UserService,
-              private route: ActivatedRoute, private snackBar: MatSnackBar) {
+  constructor(
+    private projectService: ProjectService,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private store$: Store<LoadingState>) {
   }
 
 
@@ -47,6 +54,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   getProject(projectId): void {
+    this.store$.dispatch(new LoadingStartAction());
+
     this.subscriptions.add(this.projectService.getProject(projectId).subscribe((project: IProject) => {
 
       this.project = project;
@@ -55,18 +64,23 @@ export class ProjectComponent implements OnInit, OnDestroy {
       this.deadline = project.deadline;
       this.requirements = project.requirements;
       this.members = project.members;
-    }));
+    }, err => { console.log(err); }, () => { this.store$.dispatch(new LoadingFinishAction()); }));
   }
 
   becomeMember(): void {
     this.subscriptions.add(this.projectService.becomeProjectMember(this.id).subscribe((project: IProject) => {
       this.members = project.members;
 
-      this.userService.addUserMemberProject(project).subscribe( (response: IProject) => {
+      this.userService.addUserMemberProject(project).subscribe((response: IProject) => {
         if (response) {
           this.openSnackBar('You have successfully confirmed your participation in the project', '✔');
         }
       });
     }));
+  }
+
+
+  showMessageCopiedLink() {
+    this.openSnackBar('Link copied', '✔');
   }
 }

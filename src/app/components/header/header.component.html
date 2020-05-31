@@ -4,7 +4,9 @@
       <div class="header__info">
         <ul class="info">
           <li class="info__item">
-            <a class="info__link" href="mailto: info@teamy.com">info@teamy.com</a>
+            <a class="info__link" href="mailto: info@teamy.com"
+              >info@teamy.com</a
+            >
           </li>
           <li class="info__item">
             <a class="info__link" href="tel:+380664049376">+380664049376</a>
@@ -13,21 +15,21 @@
       </div>
 
       <div class="header__socials">
-      <ul class="socials">
-        <li class="socials__item">
-          <a class="socials__link fb" href="https://www.facebook.com"></a>
-        </li>
-        <li class="socials__item">
-          <a class="socials__link twitter" href="https://twitter.com"></a>
-        </li>
-        <li class="socials__item">
-          <a class="socials__link insta" href="https://www.instagram.com"></a>
-        </li>
-        <li class="socials__item">
-          <a class="socials__link google" href="https://www.google.com"></a>
-        </li>
-      </ul>
-    </div>
+        <ul class="socials">
+          <li class="socials__item">
+            <a class="socials__link fb" href="https://www.facebook.com"></a>
+          </li>
+          <li class="socials__item">
+            <a class="socials__link twitter" href="https://twitter.com"></a>
+          </li>
+          <li class="socials__item">
+            <a class="socials__link insta" href="https://www.instagram.com"></a>
+          </li>
+          <li class="socials__item">
+            <a class="socials__link google" href="https://www.google.com"></a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -35,8 +37,7 @@
     <div class="container">
       <div class="header__logo">
         <a routerLink="/">
-
-          <img src="./assets/logo.png">
+          <img src="./assets/logo.png" />
           <h2 class="header__title">Teamy</h2>
         </a>
       </div>
@@ -44,15 +45,21 @@
       <div class="header__sign">
         <ul class="sign">
           <li class="sign__item" *ngIf="!isLoggedIn">
-            <button mat-raised-button class="sign__btn" routerLink="/register">Sign up</button>
+            <button mat-raised-button class="sign__btn" routerLink="/register">
+              Sign up
+            </button>
           </li>
 
           <li class="sign__item" *ngIf="!isLoggedIn">
-            <button mat-raised-button class="sign__btn" routerLink="/login">Sign in</button>
+            <button mat-raised-button class="sign__btn" routerLink="/login">
+              Sign in
+            </button>
           </li>
 
           <li class="sign__item" *ngIf="isLoggedIn">
-            <button mat-raised-button class="sign__btn" routerLink="/profile">Profile</button>
+            <button mat-raised-button class="sign__btn" routerLink="/profile">
+              Profile
+            </button>
           </li>
 
           <li class="sign__item" *ngIf="isLoggedIn" (click)="onLogoutClick()">
@@ -62,4 +69,12 @@
       </div>
     </div>
   </div>
+  <mat-progress-bar
+    *ngIf="loading$ | async"
+    mode="indeterminate"
+    color="primary"
+    mode="indeterminate"
+    value="50"
+    bufferValue="75"
+  ></mat-progress-bar>
 </header>
