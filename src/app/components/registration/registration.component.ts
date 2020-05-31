@@ -7,6 +7,9 @@ import { IUser } from '../../Models/user.model';
 import { User } from '../../Models/user';
 import { UserService } from '../../Services/user.service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
+import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 
 @Component({
   selector: 'app-registration',
@@ -14,9 +17,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
-    { provide: MatFormFieldControl, useExisting: MatInput},
+    { provide: MatFormFieldControl, useExisting: MatInput },
     { provide: MatButtonModule },
-    ]
+  ]
 })
 export class RegistrationComponent implements OnInit {
 
@@ -27,7 +30,8 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private addUserService: UserService,
-    private router: Router) {
+    private router: Router,
+    private store$: Store<LoadingState>) {
   }
 
   ngOnInit(): void {
@@ -47,8 +51,9 @@ export class RegistrationComponent implements OnInit {
       this.invalidRegister = true;
       this.errorMessage = 'One of the fields is incorrect!';
     } else {
+      this.store$.dispatch(new LoadingStartAction());
 
-      const {name, email, password} = this.form.value;
+      const { name, email, password } = this.form.value;
 
       const user: IUser = {
         name,
@@ -66,6 +71,7 @@ export class RegistrationComponent implements OnInit {
         },
         () => {
           this.invalidRegister = false;
+          this.store$.dispatch(new LoadingFinishAction());
           this.router.navigate(['login']);
         });
     }

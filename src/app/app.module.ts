@@ -28,7 +28,7 @@ import { ChatInfoComponent } from './components/chat/chat-info/chat-info.compone
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
 import { MatInputModule } from '@angular/material/input';
@@ -45,8 +45,15 @@ import { TokenInterceptorService } from './Services/token-iterceptor/token-inter
 
 import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
 
-import {SocialLoginModule, AuthServiceConfig, LoginOpt} from 'angularx-social-login';
+import { SocialLoginModule, AuthServiceConfig, LoginOpt } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers, metaReducers } from './reducers';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { AppEffects } from './app.effects';
 
 // const fbLoginOptions: LoginOpt = {
 //   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
@@ -128,7 +135,18 @@ export function provideConfig() {
     MatSidenavModule,
     ClipboardModule,
     SocialLoginModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressBarModule,
+    EffectsModule.forRoot([AppEffects]),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    StoreRouterConnectingModule.forRoot()
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,
@@ -137,7 +155,7 @@ export function provideConfig() {
       provide: AuthServiceConfig,
       useFactory: provideConfig
     }
-    ],
+  ],
   bootstrap: [AppComponent]
 })
 

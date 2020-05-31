@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ProjectService } from 'src/app/Services/project.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../Services/user.service';
+import { Store } from '@ngrx/store';
+import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
+import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 
 interface IRequirement {
   title: string;
@@ -20,12 +23,16 @@ interface IProject {
 @Component({
   selector: 'app-new-project-form',
   templateUrl: './new-project-form.component.html',
-  styleUrls: [ './new-project-form.component.scss' ]
+  styleUrls: ['./new-project-form.component.scss']
 })
 export class NewProjectFormComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private projectService: ProjectService,
-              private userService: UserService, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private projectService: ProjectService,
+    private userService: UserService,
+    private router: Router,
+    private store$: Store<LoadingState>) { }
 
   newProjectForm: FormGroup;
   newProject: IProject;
@@ -44,7 +51,7 @@ export class NewProjectFormComponent implements OnInit {
 
 
     this.newProjectForm.valueChanges.subscribe(formData => {
-      this.newProject = {...formData, deadline: Date.parse(formData.deadline)};
+      this.newProject = { ...formData, deadline: Date.parse(formData.deadline) };
     });
 
 
@@ -70,9 +77,11 @@ export class NewProjectFormComponent implements OnInit {
   }
 
   createProject() {
+    this.store$.dispatch(new LoadingStartAction());
+
     this.projectService.createNewProject(this.newProject).subscribe({
       next: (response) => {
-        const {id, title} = response;
+        const { id, title } = response;
         this.id = id;
         this.formatedProjectTitle = this.formatProjectTitleForUrl(title);
 
@@ -83,7 +92,8 @@ export class NewProjectFormComponent implements OnInit {
         console.log(msg);
 
       }, complete: () => {
-        this.router.navigate([ `project/${this.formatedProjectTitle}/${this.id}` ]);
+        this.store$.dispatch(new LoadingFinishAction());
+        this.router.navigate([`project/${this.formatedProjectTitle}/${this.id}`]);
       }
     });
   }
