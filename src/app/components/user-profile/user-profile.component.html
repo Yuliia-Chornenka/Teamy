@@ -17,9 +17,9 @@
                  *ngIf="!imageUrl"
                  [ngStyle]="{ backgroundImage: 'url(/assets/default-user-image.png)'}">
             </div>
-            <span class="user__name"> {{ user.name }} </span>
+            <span class="user__name"> {{ user?.name }} </span>
             <button mat-button matSuffix mat-icon-button
-                    (click)="userAccount.close()">
+                    (click)="userAccount.close(); isSuccessDeleted = true">
               <mat-icon>close</mat-icon>
             </button>
           </mat-card-header>
@@ -48,17 +48,18 @@
 
             <p class="user__profile-text">
               <span class="user__profile-text--bold">Email:</span>
-              {{ user.email }}
+              {{ user?.email }}
             </p>
             <p class="user__profile-text">
               <span class="user__profile-text--bold">Registration date:</span>
-              {{ user.dates | date:'longDate' }}
+              {{ user?.dates | date:'longDate' }}
             </p>
           </mat-card-content>
           <mat-card-actions class="user__profile--btn-wrapper">
             <button mat-raised-button color="accent">Change password</button>
-            <button mat-raised-button color="warn">Delete account</button>
+            <button mat-raised-button color="warn" (click)="deleteAccount()">Delete account</button>
           </mat-card-actions>
+          <mat-error *ngIf="!isSuccessDeleted"> We can't delete your account now, please try again later </mat-error>
         </mat-card>
       </mat-sidenav>
 

@@ -45,4 +45,8 @@ export class UserService {
   getUserData(): Observable<IUser> {
     return this.http.get('/api/profile');
   }
+
+  deleteUserAccount(): Observable<object> {
+    return this.http.delete('/api/profile');
+  }
 }

@@ -28,6 +28,19 @@ export class ProjectComponent implements OnInit, OnDestroy {
   requirements = [];
   projectUrl: string;
 
+
+  // {
+  // created_by: "5ed3f50b31026a07f42c58e3"
+  // deadline: 1592946000000
+  // description: "test 2"
+  // members: []
+  // mentors: []
+  // requirements: []
+  // teams: []
+  // title: "test 2"
+  // _id: "5ed4081334af460017bac211"
+  // }
+
   constructor(
     private projectService: ProjectService,
     private userService: UserService,
@@ -57,14 +70,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new LoadingStartAction());
 
     this.subscriptions.add(this.projectService.getProject(projectId).subscribe((project: IProject) => {
-
+      console.log(project);
       this.project = project;
       this.title = project.title;
       this.description = project.description;
       this.deadline = project.deadline;
       this.requirements = project.requirements;
       this.members = project.members;
-    }, err => { console.log(err); }, () => { this.store$.dispatch(new LoadingFinishAction()); }));
+    }, err => { this.openSnackBar(err.error.message, 'Error'); }, () => { this.store$.dispatch(new LoadingFinishAction()); }));
   }
 
   becomeMember(): void {
@@ -76,9 +89,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
           this.openSnackBar('You have successfully confirmed your participation', '✔');
         }
       });
+    }, err => {
+      this.openSnackBar(err.error.message, 'Error');
     }));
   }
-
 
   showMessageCopiedLink() {
     this.openSnackBar('Link copied', '✔');

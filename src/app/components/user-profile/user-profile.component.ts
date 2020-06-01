@@ -5,12 +5,15 @@ import { IProject } from '../../Models/project';
 import { Store } from '@ngrx/store';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteProfilePopupComponent } from '../delete-profile-popup/delete-profile-popup.component';
+import { AuthenticationService } from '../../Services/authentication.service';
 
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: [ './user-profile.component.scss' ]
 })
 export class UserProfileComponent implements OnInit {
 
@@ -24,8 +27,10 @@ export class UserProfileComponent implements OnInit {
   isServerWork = true;
   isNewPhoto = false;
   userProjects: Array<IProject> = [];
+  isSuccessDeleted = true;
 
-  constructor(private userService: UserService, private store$: Store<LoadingState>) {
+  constructor(private userService: UserService, private store$: Store<LoadingState>,
+              public dialog: MatDialog, private authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
@@ -39,7 +44,7 @@ export class UserProfileComponent implements OnInit {
       next: (user: IUser) => {
         this.user = user;
         this.imageUrl = user.photo;
-        this.userProjects = [...user.projects.mentor, ...user.projects.member];
+        this.userProjects = [ ...user.projects.mentor, ...user.projects.member ];
       },
       error: (err) => {
         this.isServerWork = false;
@@ -55,7 +60,6 @@ export class UserProfileComponent implements OnInit {
     this.imageName = this.imageObj.name;
     this.isNewPhoto = true;
   }
-
 
   onImageUpload() {
     const imageForm = new FormData();
@@ -74,6 +78,30 @@ export class UserProfileComponent implements OnInit {
         } else {
           this.isImgUploadError = true;
         }
+      }
+    });
+  }
+
+  deleteAccount() {
+    this.isSuccessDeleted = true;
+    const dialogRef = this.dialog.open(DeleteProfilePopupComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.store$.dispatch(new LoadingStartAction());
+
+        this.userService.deleteUserAccount().subscribe({
+          next: (response: object) => {
+            this.authService.logOut();
+            this.authService.setValue(this.authService.loggedIn());
+          },
+          error: (err) => {
+            this.isSuccessDeleted = false;
+            this.store$.dispatch(new LoadingFinishAction());
+          },
+          complete: () => {
+            this.store$.dispatch(new LoadingFinishAction());
+          }
+        });
       }
     });
   }
