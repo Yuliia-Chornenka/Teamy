@@ -61,6 +61,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, metaReducers } from './reducers';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AppEffects } from './app.effects';
+import { DeleteProfilePopupComponent } from './components/delete-profile-popup/delete-profile-popup.component';
 
 // const fbLoginOptions: LoginOpt = {
 //   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
@@ -110,7 +111,8 @@ export function provideConfig() {
     ChatMemberComponent,
     UserProjectsListComponent,
     FilterPipe,
-    SearchPipe
+    SearchPipe,
+    DeleteProfilePopupComponent
   ],
   imports: [
     BrowserModule,
