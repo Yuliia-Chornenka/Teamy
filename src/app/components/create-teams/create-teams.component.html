@@ -3,7 +3,7 @@
   <ng-container *ngIf="!isTeamExist">
     <p class="list__title">All members:</p>
     <div class="list">
-      <p class="list__item" *ngFor="let member of members">{{member}}</p>
+      <p class="list__item" *ngFor="let member of members">{{member.name}}</p>
       <button mat-fab color="accent" class="list__add-btn"
               (click)="openDialogNewMember()">
         <mat-icon>add</mat-icon>
