@@ -21,13 +21,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   project: IProject;
   id: string;
-  title = '';
-  description = '';
-  deadline: number;
-  members = [];
-  requirements = [];
   projectUrl: string;
-
 
   // {
   // created_by: "5ed3f50b31026a07f42c58e3"
@@ -72,17 +66,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.projectService.getProject(projectId).subscribe((project: IProject) => {
       console.log(project);
       this.project = project;
-      this.title = project.title;
-      this.description = project.description;
-      this.deadline = project.deadline;
-      this.requirements = project.requirements;
-      this.members = project.members;
     }, err => { this.openSnackBar(err.error.message, 'Error'); }, () => { this.store$.dispatch(new LoadingFinishAction()); }));
   }
 
   becomeMember(): void {
     this.subscriptions.add(this.projectService.becomeProjectMember(this.id).subscribe((project: IProject) => {
-      this.members = project.members;
+      this.project.members = project.members;
 
       this.userService.addUserMemberProject(project).subscribe((response: IProject) => {
         if (response) {
