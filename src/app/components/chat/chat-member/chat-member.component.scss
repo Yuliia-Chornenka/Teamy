@@ -8,13 +8,16 @@
 
   &__name {
     margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
   &__status {
     background: red;
     border-radius: 50%;
-    height: 8px;
-    width: 8px;
+    min-height: 8px;
+    min-width: 8px;
   }
 
   &__status--online {

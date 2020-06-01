@@ -91,6 +91,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           return {
             _id: item.user_id,
             name: item.user_name,
+            photo: item.user_photo,
           };
         });
         return res;

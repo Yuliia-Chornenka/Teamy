@@ -3,7 +3,7 @@
   <div class="chat-users__wrapper">
     <ul class="chat-users__list">
       <li *ngFor="let user of users">
-        <app-chat-member [isOnline]="checkOnline(user)" [userName]="user.name"></app-chat-member>
+        <app-chat-member [isOnline]="checkOnline(user)" [user]="user"></app-chat-member>
       </li>
     </ul>
   </div>
