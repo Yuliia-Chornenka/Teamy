@@ -11,12 +11,13 @@ router.post("/create", auth, async (req, res) => {
   try {
     await newProject.save();
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({
-      _id: newProject._id,
-      title: newProject.title,
-      deadline: newProject.deadline,
-    }
-    ));
+    res.end(
+      JSON.stringify({
+        _id: newProject._id,
+        title: newProject.title,
+        deadline: newProject.deadline,
+      })
+    );
   } catch (err) {
     res.writeHead(400, { "Content-Type": "application/json" });
     res.end(JSON.stringify(err));
@@ -42,14 +43,23 @@ router.patch("/:projectId", auth, async (req, res) => {
   try {
     const memberId = req.user._id;
 
-
     const project = await Project.findById(req.params.projectId, (error) => {
       if (error) {
         return res.status(500).json({ message: "Failed to find a project" });
       }
     });
 
-    project.members.push(memberId);
+    const isMemberExist = project.members.some(
+      (member) => member.id === req.user._id
+    );
+
+    if (isMemberExist) {
+      return res
+        .status(500)
+        .json({ message: "You are is member of this project" });
+    }
+
+    project.members.push({ id: memberId, name: req.user.name });
 
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.projectId,
