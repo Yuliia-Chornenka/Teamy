@@ -113,11 +113,8 @@ export function provideConfig() {
     UserProjectsListComponent,
     FilterPipe,
     SearchPipe,
-<<<<<<< HEAD
-    ChatProfilePicComponent
-=======
+    ChatProfilePicComponent,
     DeleteProfilePopupComponent
->>>>>>> master
   ],
   imports: [
     BrowserModule,
