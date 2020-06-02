@@ -32,7 +32,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FilterPipe } from './Pipes/filter.pipe';
 import { SearchPipe } from './Pipes/search.pipe';
 
-
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -48,8 +47,15 @@ import { TokenInterceptorService } from './Services/token-iterceptor/token-inter
 
 import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
 
-import { SocialLoginModule, AuthServiceConfig, LoginOpt } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  LoginOpt,
+} from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from 'angularx-social-login';
 import { UserProjectsListComponent } from './components/user-projects-list/user-projects-list.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
@@ -63,6 +69,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AppEffects } from './app.effects';
 import { ChatProfilePicComponent } from './components/chat/chat-profile-pic/chat-profile-pic.component';
 import { DeleteProfilePopupComponent } from './components/delete-profile-popup/delete-profile-popup.component';
+import { CountdownModule } from 'ng2-date-countdown';
 
 // const fbLoginOptions: LoginOpt = {
 //   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
@@ -74,7 +81,6 @@ import { DeleteProfilePopupComponent } from './components/delete-profile-popup/d
 //   scope: 'profile email'
 // }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
 
-
 const config = new AuthServiceConfig([
   // {
   //   id: GoogleLoginProvider.PROVIDER_ID,
@@ -82,14 +88,13 @@ const config = new AuthServiceConfig([
   // },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('2635201316727876')
-  }
+    provider: new FacebookLoginProvider('2635201316727876'),
+  },
 ]);
 
 export function provideConfig() {
   return config;
 }
-
 
 @NgModule({
   declarations: [
@@ -114,7 +119,7 @@ export function provideConfig() {
     FilterPipe,
     SearchPipe,
     ChatProfilePicComponent,
-    DeleteProfilePopupComponent
+    DeleteProfilePopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -160,21 +165,26 @@ export function provideConfig() {
       metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
-        strictActionImmutability: true
-      }
+        strictActionImmutability: true,
+      },
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    CountdownModule,
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true,
+    },
     {
       provide: AuthServiceConfig,
-      useFactory: provideConfig
-    }
+      useFactory: provideConfig,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-
-export class AppModule { }
+export class AppModule {}
