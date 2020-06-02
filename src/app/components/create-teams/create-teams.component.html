@@ -11,7 +11,6 @@
     </div>
   </ng-container>
 
-
   <div class="form__wrapper" *ngIf="!isTeamExist">
     <form [formGroup]="formCreateTeams" class="form">
       <mat-form-field class="form__input">
@@ -50,9 +49,9 @@
             [cdkDropListData]="team"
             (cdkDropListDropped)="drop($event)">
             <div class="teams__item-participant" *ngFor="let student of team" cdkDrag>
-              <span class="teams__item-student"> {{ student }} </span>
+              <span class="teams__item-student"> {{ student.name }} </span>
               <button mat-button matSuffix mat-icon-button>
-                <mat-icon>close</mat-icon>
+                <mat-icon>delete</mat-icon>
               </button>
             </div>
           </div>

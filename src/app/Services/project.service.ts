@@ -28,4 +28,8 @@ export class ProjectService {
   becomeProjectMember(projectId: string): Observable<IProject> {
     return this.http.patch<IProject>(`/api/project/${projectId}`, {});
   }
+
+  sendEmailToMembers(): Observable<any> {
+    return this.http.post(`/api/project/send-email`, {});
+  }
 }
