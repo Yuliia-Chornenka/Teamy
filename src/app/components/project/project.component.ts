@@ -20,9 +20,10 @@ import {
 export class ProjectComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   project: IProject;
-  // = {
-  //   created_by: 'someid',
-  //   deadline: 1592946000000,
+  //  = {
+  //   created_by: '5ed66bf1f9409f0017c8fb28',
+  //   deadline: 1492946000000,
+  //   // deadline: 0,
   //   description: 'You should resolve issue for remoute work',
   //   members: [{ id: 'someid', name: 'Ivan' }],
   //   mentors: [],
@@ -43,6 +44,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     Minutes: 'Minutes:',
     Seconds: 'Seconds:',
   };
+  isProjectOver = false;
 
   constructor(
     private projectService: ProjectService,
@@ -116,6 +118,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   projectIsOverMessage(e) {
-    this.openSnackBar('Project is over', '✔');
+    this.isProjectOver = true;
   }
 }
