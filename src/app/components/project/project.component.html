@@ -32,20 +32,7 @@
         {{ requirement.title }}
       </p>
     </div>
-  </div>
-
-  <button
-    mat-raised-button
-    color="accent"
-    [cdkCopyToClipboard]="projectUrl"
-    (click)="showMessageCopiedLink()"
-  >
-    Copy project link
-  </button>
-
-  <button mat-raised-button color="primary" (click)="becomeMember()">
-    Become a member
-  </button> -->
+  </div> -->
 
   <div class="project">
     <div class="project__title-container">
@@ -61,7 +48,7 @@
       </div>
       <div class="project__countdown">
         <h2>Time left:</h2>
-        <countdown
+        <countdown *ngIf="project?.deadline"
           (reached)="projectIsOverMessage($event)"
           units="Days | Hours | Minutes | Seconds"
           [end]="project?.deadline"
@@ -106,6 +93,19 @@
       </div>
     </div>
   </div>
+
+  <button
+    mat-raised-button
+    color="accent"
+    [cdkCopyToClipboard]="projectUrl"
+    (click)="showMessageCopiedLink()"
+  >
+    Copy project link
+  </button>
+
+  <button mat-raised-button color="primary" (click)="becomeMember()">
+    Become a member
+  </button>
 
   <app-create-teams
     *ngIf="project?.members.length"
