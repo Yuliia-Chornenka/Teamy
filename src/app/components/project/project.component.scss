@@ -95,6 +95,12 @@
       font-weight: 700;
     }
   }
+
+  &__over {
+    font-size: 32px;
+    font-weight: 700;
+    color: $purple;
+  }
 }
 
 :host ::ng-deep .countdown {

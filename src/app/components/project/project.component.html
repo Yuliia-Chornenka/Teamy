@@ -1,39 +1,4 @@
 <div class="wrapper">
-  <!-- <div class="project">
-    <p>
-      <span class="project__text--bold"> Project name: </span>
-      {{ project?.title }}
-    </p>
-    <p>
-      <span class="project__text--bold"> Description: </span
-      >{{ project?.description }}
-    </p>
-    <p>
-      <span class="project__text--bold"> Deadline: </span
-      >{{ project?.deadline | date: "longDate" }}
-    </p>
-    <countdown
-      (reached)="projectIsOverMessage($event)"
-      units="Days | Hours | Minutes | Seconds"
-      [end]="project?.deadline"
-      [text]="countDownText"
-    ></countdown>
-    <div *ngIf="project?.requirements.length">
-      <p class="project__text--bold">Requirements:</p>
-      <p *ngFor="let requirement of project?.requirements">
-        <mat-checkbox
-          disabled
-          [ngModel]="requirement.priority"
-          matTooltip="High priority"
-          matTooltipPosition="above"
-          [matTooltipDisabled]="!requirement.priority"
-        >
-        </mat-checkbox>
-        {{ requirement.title }}
-      </p>
-    </div>
-  </div> -->
-
   <div class="project">
     <div class="project__title-container">
       <h1 class="project__title">{{ project?.title }}</h1>
@@ -44,16 +9,19 @@
     <div class="project__options">
       <div class="project__author">
         <h2>Author:</h2>
-        <p>{{ project?.created_by }}</p>
+        <app-author *ngIf="project?.created_by" [authorId]="project?.created_by"></app-author>
       </div>
       <div class="project__countdown">
         <h2>Time left:</h2>
-        <countdown *ngIf="project?.deadline"
-          (reached)="projectIsOverMessage($event)"
-          units="Days | Hours | Minutes | Seconds"
-          [end]="project?.deadline"
-          [text]="countDownText"
-        ></countdown>
+        <div *ngIf="!isProjectOver; else projectIsOver">
+          <countdown
+            *ngIf="project?.deadline"
+            (reached)="projectIsOverMessage($event)"
+            units="Days | Hours | Minutes | Seconds"
+            [end]="project?.deadline"
+            [text]="countDownText"
+          ></countdown>
+        </div>
       </div>
       <div class="project__mentor">
         <h2>Mentors:</h2>
@@ -71,7 +39,7 @@
           <h2>Requirements:</h2>
           <div class="instructions">
             <div class="instructions__circle"></div>
-            <p>- Required</p>
+            <p>- High priority</p>
           </div>
         </div>
 
@@ -113,3 +81,7 @@
   >
   </app-create-teams>
 </div>
+
+<ng-template #projectIsOver
+  ><div><p class="project__over">Project is over</p></div></ng-template
+>

@@ -70,6 +70,7 @@ import { AppEffects } from './app.effects';
 import { ChatProfilePicComponent } from './components/chat/chat-profile-pic/chat-profile-pic.component';
 import { DeleteProfilePopupComponent } from './components/delete-profile-popup/delete-profile-popup.component';
 import { CountdownModule } from 'ng2-date-countdown';
+import { AuthorComponent } from './components/project/author/author.component';
 
 // const fbLoginOptions: LoginOpt = {
 //   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
@@ -120,6 +121,7 @@ export function provideConfig() {
     SearchPipe,
     ChatProfilePicComponent,
     DeleteProfilePopupComponent,
+    AuthorComponent,
   ],
   imports: [
     BrowserModule,
