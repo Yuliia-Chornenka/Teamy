@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {AuthenticationService} from './Services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,16 @@ import { Component, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Teamy';
+
+  constructor(
+    private authService: AuthenticationService,
+  ) {}
+
+  ngOnInit() {
+    if ( localStorage.getItem('token') ) {
+      this.authService.setValue(this.authService.loggedIn());
+    }
+  }
 }
