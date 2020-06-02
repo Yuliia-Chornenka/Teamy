@@ -91,7 +91,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     this.chatService.getTeam(this.room)
       .then(res => {
-        this.users = res['team'].members.map(item => {
+        this.messages = res['team'].history.map(item => {
           return {
             _id: item.user_id,
             name: item.user_name,
