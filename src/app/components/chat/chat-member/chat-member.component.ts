@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { IUser } from 'src/app/Models/user.model';
 
 @Component({
   selector: 'app-chat-member',
@@ -6,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./chat-member.component.scss']
 })
 export class ChatMemberComponent implements OnInit {
-  @Input() userName: string;
+  @Input() user: IUser;
   @Input() isOnline: boolean;
 
   constructor() { }

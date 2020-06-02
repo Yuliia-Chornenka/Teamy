@@ -1,4 +1,5 @@
 <div class="member">
   <div class="member__status" [ngClass]="isOnline ? 'member__status--online' : ''"></div>
-  <div class="member__name">{{ userName }}</div>
+  <app-chat-profile-pic [user]="user" [offset]="false"></app-chat-profile-pic>
+  <div class="member__name">{{ user.name }}</div>
 </div>

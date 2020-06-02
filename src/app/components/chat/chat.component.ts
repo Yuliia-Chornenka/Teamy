@@ -30,6 +30,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
               private errorMessage: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.chatForm = this.formBuilder.group({
+      text: '',
+    });
+
     this.initChat();
   }
 
@@ -91,6 +95,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           return {
             _id: item.user_id,
             name: item.user_name,
+            photo: item.user_photo,
           };
         });
         return res;
@@ -125,10 +130,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     this.socket.on('message', (data: IMessage) => {
       this.messages.push(data);
-    });
-
-    this.chatForm = this.formBuilder.group({
-      text: '',
     });
 
     this.scrollChat();

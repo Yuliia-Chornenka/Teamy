@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Team = require('../../models/Team');
+const User = require('../../models/User');
 const auth = require('../middleware/auth');
 
 // Get team object by id
@@ -12,7 +13,7 @@ router.get('/:id', auth, (req, res) => {
     })
   }
 
-  Team.findById(id, (err, team) => {
+  Team.findById(id, async (err, team) => {
     if (err) {
       return res.status(500).json({
         status: 'Mongo Error',
@@ -26,9 +27,26 @@ router.get('/:id', auth, (req, res) => {
       })
     }
 
+    // why do i have to use '_doc' to get the object i want? 
+    // i dont know what im doing anymore, mongoose is weird
+    const modTeam = { ...team }._doc;
+    const members = [];
+
+    await Promise.all(modTeam.members.map(async item => {
+      const user = await User.findById(item.user_id);
+
+      members.push({
+        user_id: item.user_id,
+        user_name: item.user_name,
+        user_photo: user ? user.photo : '',
+      });
+    }));
+
+    modTeam.members = members;
+    
     res.status(200).json({
       status: 'Success',
-      team,
+      team: modTeam,
     });
   });
 });

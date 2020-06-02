@@ -1,0 +1,33 @@
+@import '../../../variables/colors.scss';
+
+.user-pic {
+  border-radius: 50%;
+  height: 32px;
+  overflow: hidden;
+  width: 32px;
+
+  &__image {
+    width: 100%;
+  }
+
+  &__generated {
+    align-items: center;
+    background: $purple;
+    color: $white;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    text-transform: uppercase;
+    width: 100%;
+  }
+}
+
+.pic-offset {
+  position: relative;
+  top: 10px;
+  right: 10px;
+}
+
+.pic-margin {
+  margin-left: 10px;
+}

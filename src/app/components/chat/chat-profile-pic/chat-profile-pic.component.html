@@ -1,0 +1,4 @@
+<div class="user-pic" [ngClass]="offset ? 'pic-offset' : 'pic-margin'">
+  <img *ngIf="user.photo" [src]="user.photo" alt="" class="user-pic__image">
+  <div class="user-pic__generated" *ngIf="!user.photo">{{ user.name.split('')[0] }}</div>
+</div>
