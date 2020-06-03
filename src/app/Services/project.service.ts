@@ -35,4 +35,8 @@ export class ProjectService {
       id: mentorId,
     });
   }
+
+  sendEmailToMembers(): Observable<any> {
+    return this.http.post(`/api/project/send-email`, {});
+  }
 }

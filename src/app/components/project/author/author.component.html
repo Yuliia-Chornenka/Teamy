@@ -1,6 +1,6 @@
 <div class="author" *ngIf="author">
   <div class="author__image-container">
-    <img [src]="author?.photo" alt="avatar" class="author__image" />
+    <img [src]="author?.photo ? author?.photo : '/assets/default-user-image.png'" alt="avatar" class="author__image" />
   </div>
 
   <p class="author__info">{{ author?.name }}</p>

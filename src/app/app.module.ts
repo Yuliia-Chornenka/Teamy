@@ -70,6 +70,7 @@ import { AppEffects } from './app.effects';
 import { ChatProfilePicComponent } from './components/chat/chat-profile-pic/chat-profile-pic.component';
 import { DeleteProfilePopupComponent } from './components/delete-profile-popup/delete-profile-popup.component';
 import { CountdownModule } from 'ng2-date-countdown';
+import { ChangePasswordPopupComponent } from './components/change-password-popup/change-password-popup.component';
 import { AuthorComponent } from './components/project/author/author.component';
 import { AddMentorFormComponent } from './components/project/add-mentor-form/add-mentor-form.component';
 
@@ -122,6 +123,7 @@ export function provideConfig() {
     SearchPipe,
     ChatProfilePicComponent,
     DeleteProfilePopupComponent,
+    ChangePasswordPopupComponent,
     AuthorComponent,
     AddMentorFormComponent,
   ],
