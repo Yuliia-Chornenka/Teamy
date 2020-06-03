@@ -1,34 +1,115 @@
-<div class="wrapper project">
-  <p><span class="project__text--bold"> Project name: </span> {{ title }}</p>
-  <p>
-    <span class="project__text--bold"> Description: </span>{{ description }}
-  </p>
-  <p>
-    <span class="project__text--bold"> Deadline: </span
-    >{{ deadline | date: "longDate" }}
-  </p>
-  <div *ngIf="requirements.length">
-    <p class="project__text--bold">Requirements:</p>
-    <p *ngFor="let requirement of requirements">
-      <mat-checkbox
-        disabled
-        [ngModel]="requirement.priority"
-        matTooltip="High priority"
-        matTooltipPosition="above"
-        [matTooltipDisabled]="!requirement.priority"
-      >
-      </mat-checkbox>
-      {{ requirement.title }}
+<div class="wrapper">
+  <!-- <div class="project">
+    <p>
+      <span class="project__text--bold"> Project name: </span>
+      {{ project?.title }}
     </p>
+    <p>
+      <span class="project__text--bold"> Description: </span
+      >{{ project?.description }}
+    </p>
+    <p>
+      <span class="project__text--bold"> Deadline: </span
+      >{{ project?.deadline | date: "longDate" }}
+    </p>
+    <countdown
+      (reached)="projectIsOverMessage($event)"
+      units="Days | Hours | Minutes | Seconds"
+      [end]="project?.deadline"
+      [text]="countDownText"
+    ></countdown>
+    <div *ngIf="project?.requirements.length">
+      <p class="project__text--bold">Requirements:</p>
+      <p *ngFor="let requirement of project?.requirements">
+        <mat-checkbox
+          disabled
+          [ngModel]="requirement.priority"
+          matTooltip="High priority"
+          matTooltipPosition="above"
+          [matTooltipDisabled]="!requirement.priority"
+        >
+        </mat-checkbox>
+        {{ requirement.title }}
+      </p>
+    </div>
+  </div> -->
+
+  <div class="project">
+    <div class="project__title-container">
+      <h1 class="project__title">{{ project?.title }}</h1>
+      <p class="project__deadline">
+        <small>Deadline: {{ project?.deadline | date }}</small>
+      </p>
+    </div>
+    <div class="project__options">
+      <div class="project__author">
+        <h2>Author:</h2>
+        <p>{{ project?.created_by }}</p>
+      </div>
+      <div class="project__countdown">
+        <h2>Time left:</h2>
+        <countdown *ngIf="project?.deadline"
+          (reached)="projectIsOverMessage($event)"
+          units="Days | Hours | Minutes | Seconds"
+          [end]="project?.deadline"
+          [text]="countDownText"
+        ></countdown>
+      </div>
+      <div class="project__mentor">
+        <h2>Mentors:</h2>
+        <p>Add mentor</p>
+      </div>
+    </div>
+    <div class="project__line"></div>
+    <div class="project__info">
+      <div class="project__description">
+        <h2>Descriprion:</h2>
+        <p>{{ project?.description }}</p>
+      </div>
+      <div class="project__requirements" *ngIf="project?.requirements.length">
+        <div class="project__requirements-title-container">
+          <h2>Requirements:</h2>
+          <div class="instructions">
+            <div class="instructions__circle"></div>
+            <p>- Required</p>
+          </div>
+        </div>
+
+        <ul class="project__requirements-list">
+          <li
+            class="project__requirement"
+            *ngFor="let requirement of project?.requirements"
+          >
+            <p
+              class="project__requirement-title"
+              [ngClass]="{
+                'project__requirement-title--required': requirement.priority
+              }"
+            >
+              {{ requirement.title }}
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <button mat-raised-button color="accent" [cdkCopyToClipboard]="projectUrl" (click)="showMessageCopiedLink()">
+  <button
+    mat-raised-button
+    color="accent"
+    [cdkCopyToClipboard]="projectUrl"
+    (click)="showMessageCopiedLink()"
+  >
     Copy project link
   </button>
 
   <button mat-raised-button color="primary" (click)="becomeMember()">
     Become a member
   </button>
-  <app-create-teams *ngIf="members.length" [members]="members">
+
+  <app-create-teams
+    *ngIf="project?.members.length"
+    [members]="project?.members"
+  >
   </app-create-teams>
 </div>

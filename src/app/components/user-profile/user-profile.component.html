@@ -56,7 +56,7 @@
             </p>
           </mat-card-content>
           <mat-card-actions class="user__profile--btn-wrapper">
-            <button mat-raised-button color="accent">Change password</button>
+            <button mat-raised-button color="accent" (click)="changePassword()">Change password</button>
             <button mat-raised-button color="warn" (click)="deleteAccount()">Delete account</button>
           </mat-card-actions>
           <mat-error *ngIf="!isSuccessDeleted"> We can't delete your account now, please try again later </mat-error>

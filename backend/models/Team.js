@@ -14,7 +14,7 @@ const teamSchema = new mongoose.Schema({
       user_name: {
         type: String,
         required: true,
-      }
+      },
     },
   ],
   history: [
