@@ -4,6 +4,7 @@ import { FormBuilder, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from '../../Models/user.model';
 import { IMessage } from '../../Models/message';
+import { ITeamRes } from '../../Models/team-res';
 import { ChatService } from '../../Services/chat.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -86,12 +87,12 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     });
 
     this.chatService.getUser()
-      .then(res => this.user = res)
+      .then((res: IUser) => this.user = res)
       .then(user => this.initSocket());
 
     this.chatService.getTeam(this.room)
-      .then(res => {
-        this.users = res['team'].members.map(item => {
+      .then((res: ITeamRes) => {
+        this.users = res.team.members.map(item => {
           return {
             _id: item.user_id,
             name: item.user_name,
@@ -100,8 +101,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         });
         return res;
       })
-      .then(res => {
-        this.messages = res['team'].history.map(item => {
+      .then((res: ITeamRes) => {
+        this.messages = res.team.history.map(item => {
           return {
             text: item.text,
             user: this.users.find(userItem => userItem._id === item.user_id),
