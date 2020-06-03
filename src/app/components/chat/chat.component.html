@@ -1,11 +1,16 @@
 <mat-sidenav-container class="chat-wrapper chat">
   <mat-sidenav class="chat__sidebar" #sidenav mode="side" [(opened)]="sideOpened">
-    <div class="chat__users">
-      <app-chat-users [users]="users" [online]="onlineUsers"></app-chat-users>
-    </div>
-    <div class="chat__info">
-      <app-chat-info></app-chat-info>
-    </div>
+    <app-chat-info-header [project]="project"></app-chat-info-header>
+    <mat-tab-group>
+      <mat-tab label="Info">
+        <app-chat-info [project]="project"></app-chat-info>
+      </mat-tab>
+      <mat-tab label="Team">
+        <app-chat-users [users]="users" [online]="onlineUsers"></app-chat-users>
+      </mat-tab>
+      <mat-tab label="Files"><app-chat-files></app-chat-files></mat-tab>
+      <mat-tab label="Images"><app-chat-images></app-chat-images></mat-tab>
+    </mat-tab-group>
   </mat-sidenav>
   <mat-sidenav-content class="chat__messages messages">
     <div (click)="sidenav.toggle()" class="sidenav-toggle">
@@ -13,7 +18,7 @@
     </div>
     <div class="messages__main">
       <ul class="messages__list">
-        <li *ngFor="let message of messages" [ngClass]="message.user._id === user._id ? 'my-message': 'other-message'">
+        <li *ngFor="let message of groupedMessages" [ngClass]="message.user._id === user._id ? 'my-message': 'other-message'">
           <app-chat-profile-pic *ngIf="message.user._id !== user._id" [user]="message.user" [offset]="true"></app-chat-profile-pic>
           <app-chat-message [message]="message" [user]="user"></app-chat-message>
         </li>

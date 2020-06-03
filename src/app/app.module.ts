@@ -32,7 +32,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FilterPipe } from './Pipes/filter.pipe';
 import { SearchPipe } from './Pipes/search.pipe';
 
-
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -45,11 +44,20 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AuthGuard } from './Guards/auth.guard';
 import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
-
 import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
-
-import { SocialLoginModule, AuthServiceConfig, LoginOpt } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatListModule } from '@angular/material/list';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  LoginOpt,
+} from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from 'angularx-social-login';
 import { UserProjectsListComponent } from './components/user-projects-list/user-projects-list.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
@@ -63,6 +71,13 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AppEffects } from './app.effects';
 import { ChatProfilePicComponent } from './components/chat/chat-profile-pic/chat-profile-pic.component';
 import { DeleteProfilePopupComponent } from './components/delete-profile-popup/delete-profile-popup.component';
+import { CountdownModule } from 'ng2-date-countdown';
+import { ChangePasswordPopupComponent } from './components/change-password-popup/change-password-popup.component';
+import { AuthorComponent } from './components/project/author/author.component';
+import { AddMentorFormComponent } from './components/project/add-mentor-form/add-mentor-form.component';
+import { ChatInfoHeaderComponent } from './components/chat/chat-info-header/chat-info-header.component';
+import { ChatImagesComponent } from './components/chat/chat-images/chat-images.component';
+import { ChatFilesComponent } from './components/chat/chat-files/chat-files.component';
 
 
 const config = new AuthServiceConfig([
@@ -72,18 +87,13 @@ const config = new AuthServiceConfig([
   // },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('2635201316727876')
-  }
+    provider: new FacebookLoginProvider('2635201316727876'),
+  },
 ]);
 
 export function provideConfig() {
   return config;
 }
-
-export function tokenGetter() {
-  return localStorage.getItem('token');
-}
-
 
 @NgModule({
   declarations: [
@@ -108,7 +118,13 @@ export function tokenGetter() {
     FilterPipe,
     SearchPipe,
     ChatProfilePicComponent,
-    DeleteProfilePopupComponent
+    DeleteProfilePopupComponent,
+    ChangePasswordPopupComponent,
+    AuthorComponent,
+    AddMentorFormComponent,
+    ChatInfoHeaderComponent,
+    ChatImagesComponent,
+    ChatFilesComponent,
   ],
   imports: [
     BrowserModule,
@@ -154,21 +170,30 @@ export function tokenGetter() {
       metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
-        strictActionImmutability: true
-      }
+        strictActionImmutability: true,
+      },
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     StoreRouterConnectingModule.forRoot(),
+    CountdownModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatListModule,
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true,
+    },
     {
       provide: AuthServiceConfig,
-      useFactory: provideConfig
-    }
+      useFactory: provideConfig,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-
-export class AppModule { }
+export class AppModule {}

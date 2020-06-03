@@ -5,7 +5,6 @@ import { IUser } from '../Models/user.model';
 import { User } from '../Models/user';
 import { IProject } from '../Models/project';
 
-
 interface IId {
   _id: string;
   title: string;
@@ -13,11 +12,9 @@ interface IId {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UserService {
-
   baseUrl = '/api/user';
 
   constructor(private http: HttpClient) {}
@@ -48,5 +45,9 @@ export class UserService {
 
   deleteUserAccount(): Observable<object> {
     return this.http.delete('/api/profile');
+  }
+
+  getUser(userId): Observable<IUser> {
+    return this.http.get(`/api/users/${userId}`);
   }
 }
