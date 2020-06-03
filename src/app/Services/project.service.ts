@@ -9,13 +9,11 @@ interface IId {
   deadline: number;
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   createNewProject(newProject: IProject): Observable<IId> {
     return this.http.post<IId>(`/api/project/create`, newProject);
@@ -26,6 +24,15 @@ export class ProjectService {
   }
 
   becomeProjectMember(projectId: string): Observable<IProject> {
-    return this.http.patch<IProject>(`/api/project/${projectId}`, {});
+    return this.http.patch<IProject>(`/api/project/members/${projectId}`, {});
+  }
+
+  becomeProjectMentor(data): Observable<IProject> {
+    const { projectId, mentorName, mentorId } = data;
+
+    return this.http.patch<IProject>(`/api/project/mentors/${projectId}`, {
+      name: mentorName,
+      id: mentorId,
+    });
   }
 }

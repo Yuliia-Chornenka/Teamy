@@ -39,7 +39,7 @@ router.get("/:projectId", auth, async (req, res) => {
   res.end(JSON.stringify(project));
 });
 
-router.patch("/:projectId", auth, async (req, res) => {
+router.patch("/members/:projectId", auth, async (req, res) => {
   try {
     const memberId = req.user._id;
 
@@ -49,6 +49,14 @@ router.patch("/:projectId", auth, async (req, res) => {
       }
     });
 
+    const isCreator = project.created_by === req.user._id;
+
+    if (isCreator) {
+      return res
+        .status(500)
+        .json({ message: "You are creator of this project" });
+    }
+
     const isMemberExist = project.members.some(
       (member) => member.id === req.user._id
     );
@@ -56,10 +64,58 @@ router.patch("/:projectId", auth, async (req, res) => {
     if (isMemberExist) {
       return res
         .status(500)
-        .json({ message: "You are is member of this project" });
+        .json({ message: "You are member of this project" });
     }
 
     project.members.push({ id: memberId, name: req.user.name });
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      req.params.projectId,
+      project,
+      { new: true },
+      (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to update" });
+        }
+      }
+    );
+
+    await res.json(updatedProject);
+  } catch (e) {
+    res.status(500).json({
+      message: "Something went wrong. Try again later.",
+      error: e,
+    });
+  }
+});
+
+router.patch("/mentors/:projectId", auth, async (req, res) => {
+  const { id, name } = req.body;
+
+  try {
+    const project = await Project.findById(req.params.projectId, (error) => {
+      if (error) {
+        return res.status(500).json({ message: "Failed to find a project" });
+      }
+    });
+
+    const isCreator = project.created_by === id;
+
+    if (isCreator) {
+      return res
+        .status(500)
+        .json({ message: "User is a creator of this project" });
+    }
+
+    const isMentorExist = project.mentors.some((mentor) => mentor.id === id);
+
+    if (isMentorExist) {
+      return res
+        .status(500)
+        .json({ message: "User is mentor of this project" });
+    }
+
+    project.mentors.push({ id, name });
 
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.projectId,
