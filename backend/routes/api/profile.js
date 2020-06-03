@@ -139,11 +139,11 @@ router.put("profile/change-password", auth, async (req, res) => {
     if (password && newPassword && newPasswordConfirmation) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        res.json({ message: "Invalid password" })
+        await res.json({ message: "Invalid password" })
       }
 
       if (newPassword !== newPasswordConfirmation) {
-        res.json({ message: "Passwords does not match" });
+        await res.json({ message: "Passwords does not match" });
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -153,14 +153,14 @@ router.put("profile/change-password", auth, async (req, res) => {
         ...req.body,
         password: newPassword
       }, { new: true });
-      res.json({ user: updatedUser, logout: true });
+      await res.json({ user: updatedUser, logout: true });
     } else {
       if (password || !password.length) {
         delete req.body.password;
       }
 
       const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body, { new: true });
-      res.json({ user: updatedUser, logout: false });
+      await res.json({ user: updatedUser, logout: false });
     }
   } catch (e) {
     res.status(500).json({
