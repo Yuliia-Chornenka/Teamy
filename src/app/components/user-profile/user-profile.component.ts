@@ -7,6 +7,7 @@ import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteProfilePopupComponent } from '../delete-profile-popup/delete-profile-popup.component';
+import { ChangePasswordPopupComponent } from '../change-password-popup/change-password-popup.component';
 import { AuthenticationService } from '../../Services/authentication.service';
 
 
@@ -103,6 +104,13 @@ export class UserProfileComponent implements OnInit {
           }
         });
       }
+    });
+  }
+
+  changePassword(): void {
+    const dialogRef = this.dialog.open(ChangePasswordPopupComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
     });
   }
 }

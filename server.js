@@ -5,12 +5,13 @@ const http = require("http").createServer(app);
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const io = require("socket.io")(http);
-const cors = require('cors');
+const cors = require("cors");
 
 const authRoute = require("./backend/routes/api/auth");
 const projectRoute = require("./backend/routes/api/project");
 const profileRoute = require("./backend/routes/api/profile");
 const teamRoute = require("./backend/routes/api/team");
+const usersRoute = require("./backend/routes/api/users");
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use("/api/user", authRoute);
 app.use("/api/project", projectRoute);
 app.use("/api", profileRoute);
 app.use("/api/team", teamRoute);
+app.use("/api", usersRoute);
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname + "/dist/Teamy/index.html"));
@@ -29,8 +31,8 @@ app.get("/*", function (req, res) {
 
 // Chat sockets --- START
 const socketClients = [];
-io.sockets.on('connection', (socket) => {
-  socket.on('connect room', (data) => {
+io.sockets.on("connection", (socket) => {
+  socket.on("connect room", (data) => {
     socket.join(data.room);
     const client = {
       id: socket.id,
@@ -38,27 +40,31 @@ io.sockets.on('connection', (socket) => {
       user: data.user,
     };
     socketClients.push(client);
-    io.sockets
-      .in(data.room)
-      .emit('user connected', socketClients.map(item => item.user));
+    io.sockets.in(data.room).emit(
+      "user connected",
+      socketClients.map((item) => item.user)
+    );
   });
 
-  socket.on('message', (data) => {
-    io.sockets.in(data.room).emit('message', {
+  socket.on("message", (data) => {
+    io.sockets.in(data.room).emit("message", {
       text: data.text,
       user: data.user,
       date: data.date,
     });
   });
 
-  socket.on('disconnect', () => {
-    const socketIndex = socketClients.findIndex((item) => item.id === socket.id);
+  socket.on("disconnect", () => {
+    const socketIndex = socketClients.findIndex(
+      (item) => item.id === socket.id
+    );
     if (socketIndex >= 0) {
       const socketClient = socketClients[socketIndex];
       socketClients.splice(socketIndex, 1);
-      io.sockets
-        .in(socketClient.room)
-        .emit('user disconnected', socketClients.map(item => item.user));
+      io.sockets.in(socketClient.room).emit(
+        "user disconnected",
+        socketClients.map((item) => item.user)
+      );
     }
   });
 });

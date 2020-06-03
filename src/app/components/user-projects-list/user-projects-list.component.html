@@ -74,7 +74,7 @@
 
       <td> {{ project.role | titlecase }} </td>
       <td>
-        <a class="table__link" target="_blank"
+        <a class="table__link"
            routerLink="/project/{{ project.title.toLowerCase().split(' ').join('-')}}/{{project._id}}">
           {{ project.title | titlecase }}
           <mat-icon>launch</mat-icon>

@@ -1,5 +1,125 @@
+@import "../../variables/colors";
+
 .project {
- &__text--bold {
-   font-weight: 500;
- }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__title-container {
+    text-align: center;
+  }
+
+  &__title {
+    margin-bottom: 0;
+    border-bottom: 2px solid $purple;
+  }
+
+  &__deadline {
+    margin-top: 0;
+    font-weight: 700;
+  }
+
+  &__options {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  &__author,
+  &__mentor {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__countdown {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__line {
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, $purple, $yellow);
+    margin: 10px 0;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  &__description {
+    width: 45%;
+  }
+
+  &__requirements {
+    width: 45%;
+  }
+
+  &__requirements-list {
+    list-style: circle;
+  }
+
+  &__requirements-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+
+    .instructions {
+      display: flex;
+      align-items: center;
+
+      &__circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: $purple;
+        margin: 10px;
+      }
+    }
+  }
+
+  &__requirement-title {
+    font-weight: 700;
+
+    &--required {
+      color: $purple;
+      font-weight: 700;
+    }
+  }
+
+  &__over {
+    font-size: 32px;
+    font-weight: 700;
+    color: $purple;
+  }
+}
+
+:host ::ng-deep .countdown {
+  width: 100%;
+  border: 2px solid $purple;
+
+  .measurements {
+    display: flex;
+    flex-direction: row-reverse;
+    color: $purple;
+    margin-right: 5px;
+    padding: 10px;
+
+    &-number {
+      margin-left: 5px;
+    }
+  }
+
+  .divider {
+    font-size: 30px;
+  }
 }
