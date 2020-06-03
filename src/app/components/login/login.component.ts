@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
 
     this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
       .then((user) => {
-        localStorage.setItem('token', user.authToken),
+        // localStorage.setItem('token', user.authToken),
         this.authService.setValue(this.authService.loggedIn());
 
         const userSoc: IUser = {
@@ -108,8 +108,9 @@ export class LoginComponent implements OnInit {
         };
 
         this.addUserService.addSocUser(userSoc).subscribe(
-          () => {
-
+           (res) => {
+            const t = res['token'];
+            localStorage.setItem('token', JSON.stringify(t));
           },
           error => {
             if (error.status === 400) {

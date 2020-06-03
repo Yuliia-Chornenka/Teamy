@@ -72,13 +72,15 @@ router.post("/login/fb", async (req, res) => {
     },
     process.env.TOKEN_SECRET
   );
+  res.header("authorization", token).send(JSON.stringify({ token }));
   try {
     await user.save();
-    res.send({ user: user._id });
+    // res.send({ user: user._id });
+    // res.header("authorization", token).send(JSON.stringify({ token }));
   } catch (err) {
     res.status(400).send(err);
   }
-  res.header("authorization", token).send(JSON.stringify({ token }));
+
 });
 
 module.exports = router;
