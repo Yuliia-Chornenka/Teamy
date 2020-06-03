@@ -1,5 +1,38 @@
 <section class="chat-info">
   <div class="chat-info__wrapper">
-    Project info goes here
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            General
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        Project link and deadline
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Team
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        Can change team name here
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Mentors
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        Mentors list here
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Links
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        Can add links here
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 </section>

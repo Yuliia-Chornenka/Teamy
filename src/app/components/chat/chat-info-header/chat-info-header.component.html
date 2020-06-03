@@ -1,0 +1,4 @@
+<div class="info-header">
+  <div class="info-header__title">{{ project ? project.title : '' }}</div>
+  <div class="info-header__deadline">{{ project ? this.chatService.convertToDate(project.deadline).split(' ')[0] : '' }}</div>
+</div>

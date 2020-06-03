@@ -46,6 +46,9 @@ import { AuthGuard } from './Guards/auth.guard';
 import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
 import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatListModule } from '@angular/material/list';
 
 import {
   SocialLoginModule,
@@ -73,6 +76,9 @@ import { CountdownModule } from 'ng2-date-countdown';
 import { ChangePasswordPopupComponent } from './components/change-password-popup/change-password-popup.component';
 import { AuthorComponent } from './components/project/author/author.component';
 import { AddMentorFormComponent } from './components/project/add-mentor-form/add-mentor-form.component';
+import { ChatInfoHeaderComponent } from './components/chat/chat-info-header/chat-info-header.component';
+import { ChatImagesComponent } from './components/chat/chat-images/chat-images.component';
+import { ChatFilesComponent } from './components/chat/chat-files/chat-files.component';
 
 // const fbLoginOptions: LoginOpt = {
 //   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
@@ -126,6 +132,9 @@ export function provideConfig() {
     ChangePasswordPopupComponent,
     AuthorComponent,
     AddMentorFormComponent,
+    ChatInfoHeaderComponent,
+    ChatImagesComponent,
+    ChatFilesComponent,
   ],
   imports: [
     BrowserModule,
@@ -178,6 +187,9 @@ export function provideConfig() {
     StoreRouterConnectingModule.forRoot(),
     CountdownModule,
     MatTabsModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatListModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

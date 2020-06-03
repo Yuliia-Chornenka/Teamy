@@ -1,0 +1,24 @@
+@import '../../../variables/colors.scss';
+
+.info-header {
+  background: $purple;
+  color: $white;
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+
+  &__title {
+    align-items: center;
+    display: flex;
+    font-size: 18px;
+    padding-left: 20px;
+    width: 70%;
+  }
+
+  &__deadline {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 30%;
+  }
+}

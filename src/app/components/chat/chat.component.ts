@@ -5,7 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { IUser } from '../../Models/user.model';
 import { IMessage } from '../../Models/message';
 import { ITeamRes } from '../../Models/team-res';
+import { IProject } from '../../Models/project';
 import { ChatService } from '../../Services/chat.service';
+import { ProjectService } from '../../Services/project.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -23,13 +25,15 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   users: IUser[] = [];
   room: string;
   user: IUser;
+  project: IProject;
   onlineUsers: IUser[] = [];
   sideOpened = true;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private chatService: ChatService,
-              private errorMessage: MatSnackBar) { }
+              private errorMessage: MatSnackBar,
+              private projectService: ProjectService) { }
 
   ngOnInit(): void {
     this.chatForm = this.formBuilder.group({
@@ -111,6 +115,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           };
         });
         this.groupMessages();
+        return res;
+      })
+      .then((res: ITeamRes) => {
+        this.getProject(res.team.project_id);
       });
   }
 
@@ -162,5 +170,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   addToMessage(text: string) {
     const index = this.groupedMessages.length;
     this.groupedMessages[index - 1].text += `\r\n${text}`;
+  }
+
+  getProject(id) {
+    this.projectService.getProject(id).subscribe((res: IProject) => {
+      this.project = res;
+    });
   }
 }
