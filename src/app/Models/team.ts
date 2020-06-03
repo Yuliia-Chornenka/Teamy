@@ -1,5 +1,6 @@
 export interface ITeam {
   project_id: string;
+  project_name: string;
   members: [
     {
       _id: string;
@@ -16,4 +17,6 @@ export interface ITeam {
       text: string;
     }
   ];
+  files?: Array<object>;
+  images?: Array<object>;
 }
