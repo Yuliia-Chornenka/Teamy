@@ -4,6 +4,7 @@ import { FormBuilder, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from '../../Models/user.model';
 import { IMessage } from '../../Models/message';
+import { ITeamRes } from '../../Models/team-res';
 import { ChatService } from '../../Services/chat.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -18,6 +19,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   chatForm;
   socket;
   messages: IMessage[] = [];
+  groupedMessages: IMessage[] = [];
   users: IUser[] = [];
   room: string;
   user: IUser;
@@ -86,12 +88,12 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     });
 
     this.chatService.getUser()
-      .then(res => this.user = res)
+      .then((res: IUser) => this.user = res)
       .then(user => this.initSocket());
 
     this.chatService.getTeam(this.room)
-      .then(res => {
-        this.messages = res['team'].history.map(item => {
+      .then((res: ITeamRes) => {
+        this.users = res.team.members.map(item => {
           return {
             _id: item.user_id,
             name: item.user_name,
@@ -100,14 +102,15 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         });
         return res;
       })
-      .then(res => {
-        this.messages = res['team'].history.map(item => {
+      .then((res: ITeamRes) => {
+        this.messages = res.team.history.map(item => {
           return {
             text: item.text,
             user: this.users.find(userItem => userItem._id === item.user_id),
             date: item.date,
           };
         });
+        this.groupMessages();
       });
   }
 
@@ -130,8 +133,34 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     this.socket.on('message', (data: IMessage) => {
       this.messages.push(data);
+      this.groupMessages();
     });
 
     this.scrollChat();
+  }
+
+  groupMessages() {
+    this.groupedMessages.length = 0;
+    this.messages.map((message: IMessage, index: number, array: IMessage[]) => {
+      if (index > 0) {
+        const lastMessage = array[index - 1];
+        if (lastMessage.user._id === message.user._id && (message.date - lastMessage.date) < 60 * 1000) {
+          this.addToMessage(message.text);
+        } else {
+          this.pushMessage(Object.assign({}, message));
+        }
+      } else {
+        this.pushMessage(Object.assign({}, message));
+      }
+    });
+  }
+
+  pushMessage(message: IMessage) {
+    this.groupedMessages.push(message);
+  }
+
+  addToMessage(text: string) {
+    const index = this.groupedMessages.length;
+    this.groupedMessages[index - 1].text += `\r\n${text}`;
   }
 }

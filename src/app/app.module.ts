@@ -44,8 +44,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AuthGuard } from './Guards/auth.guard';
 import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
-
 import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import {
   SocialLoginModule,
@@ -177,6 +177,7 @@ export function provideConfig() {
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     StoreRouterConnectingModule.forRoot(),
     CountdownModule,
+    MatTabsModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

@@ -21,21 +21,22 @@ import { AddMentorFormComponent } from './add-mentor-form/add-mentor-form.compon
 })
 export class ProjectComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
-  project: IProject = {
-    created_by: '5ed66bf1f9409f0017c8fb28',
-    deadline: 1492946000000,
-    description: 'You should resolve issue for remoute work',
-    members: [{ id: 'someid', name: 'Ivan' }],
-    mentors: [],
-    requirements: [
-      { title: 'Use Angular Framework', priority: true },
-      { title: 'Social Login', priority: true },
-      { title: 'AWS', priority: false },
-    ],
-    teams: [{}],
-    title: 'Angular Final Task',
-    _id: '5ed4081334af460017bac211',
-  };
+  project: IProject;
+  //  = {
+  //   created_by: '5ed66bf1f9409f0017c8fb28',
+  //   deadline: 1492946000000,
+  //   description: 'You should resolve issue for remoute work',
+  //   members: [{ id: 'someid', name: 'Ivan' }],
+  //   mentors: [],
+  //   requirements: [
+  //     { title: 'Use Angular Framework', priority: true },
+  //     { title: 'Social Login', priority: true },
+  //     { title: 'AWS', priority: false },
+  //   ],
+  //   teams: [{}],
+  //   title: 'Angular Final Task',
+  //   _id: '5ed4081334af460017bac211',
+  // };
   id: string;
   projectUrl: string;
   countDownText = {
