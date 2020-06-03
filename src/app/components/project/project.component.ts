@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProjectService } from 'src/app/Services/project.service';
 import { Subscription } from 'rxjs';
 import { IProject } from '../../Models/project';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../Services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
@@ -55,7 +55,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => (this.id = params.id));
+    this.route.params.subscribe((params: Params) => (this.id = params.id));
     this.getProject(this.id);
     this.projectUrl = window.location.href;
   }

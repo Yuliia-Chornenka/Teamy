@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Project = require("../../models/Project");
 const auth = require("../middleware/auth");
+const sendEmail = require('../../nodemailer/send-email');
 
 router.post("/create", auth, async (req, res) => {
   const newProject = new Project({
@@ -56,7 +57,7 @@ router.patch("/:projectId", auth, async (req, res) => {
     if (isMemberExist) {
       return res
         .status(500)
-        .json({ message: "You are is member of this project" });
+        .json({ message: "You are already a member of this project" });
     }
 
     project.members.push({ id: memberId, name: req.user.name });
@@ -80,5 +81,22 @@ router.patch("/:projectId", auth, async (req, res) => {
     });
   }
 });
+
+router.post('/send-email', auth, async (req, res) => {
+    try {
+      const email = req.user.email;
+      const mailResult = sendEmail(email);
+
+       await mailResult.then((result) => {
+         if (result === 'Success') {
+           return res.status(200).json({status: 'The email has been sent.'});
+         } else {
+           return res.status(500).json({status: 'Something went wrong. Try again'});
+         }
+       });
+    } catch (e) {
+      res.status(500).json({status: 'Something went wrong. Try again'});
+    }
+  });
 
 module.exports = router;
