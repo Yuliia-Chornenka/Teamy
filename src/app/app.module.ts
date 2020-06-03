@@ -72,6 +72,7 @@ import { DeleteProfilePopupComponent } from './components/delete-profile-popup/d
 import { CountdownModule } from 'ng2-date-countdown';
 import { ChangePasswordPopupComponent } from './components/change-password-popup/change-password-popup.component';
 import { AuthorComponent } from './components/project/author/author.component';
+import { AddMentorFormComponent } from './components/project/add-mentor-form/add-mentor-form.component';
 
 // const fbLoginOptions: LoginOpt = {
 //   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
@@ -124,6 +125,7 @@ export function provideConfig() {
     DeleteProfilePopupComponent,
     ChangePasswordPopupComponent,
     AuthorComponent,
+    AddMentorFormComponent,
   ],
   imports: [
     BrowserModule,

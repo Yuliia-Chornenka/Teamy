@@ -11,6 +11,8 @@ import {
   LoadingStartAction,
   LoadingFinishAction,
 } from 'src/app/reducers/loading/loading.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { AddMentorFormComponent } from './add-mentor-form/add-mentor-form.component';
 
 @Component({
   selector: 'app-project',
@@ -19,23 +21,21 @@ import {
 })
 export class ProjectComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
-  project: IProject;
-  //  = {
-  //   created_by: '5ed66bf1f9409f0017c8fb28',
-  //   deadline: 1492946000000,
-  //   // deadline: 0,
-  //   description: 'You should resolve issue for remoute work',
-  //   members: [{ id: 'someid', name: 'Ivan' }],
-  //   mentors: [],
-  //   requirements: [
-  //     { title: 'Use Angular Framework', priority: true },
-  //     { title: 'Social Login', priority: true },
-  //     { title: 'AWS', priority: false },
-  //   ],
-  //   teams: [{}],
-  //   title: 'Angular Final Task',
-  //   _id: '5ed4081334af460017bac211',
-  // };
+  project: IProject = {
+    created_by: '5ed66bf1f9409f0017c8fb28',
+    deadline: 1492946000000,
+    description: 'You should resolve issue for remoute work',
+    members: [{ id: 'someid', name: 'Ivan' }],
+    mentors: [],
+    requirements: [
+      { title: 'Use Angular Framework', priority: true },
+      { title: 'Social Login', priority: true },
+      { title: 'AWS', priority: false },
+    ],
+    teams: [{}],
+    title: 'Angular Final Task',
+    _id: '5ed4081334af460017bac211',
+  };
   id: string;
   projectUrl: string;
   countDownText = {
@@ -51,7 +51,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private store$: Store<LoadingState>
+    private store$: Store<LoadingState>,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +82,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
         },
         (err) => {
           this.openSnackBar(err.error.message, 'Error');
+          this.store$.dispatch(new LoadingFinishAction());
         },
         () => {
           this.store$.dispatch(new LoadingFinishAction());
@@ -119,5 +121,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   projectIsOverMessage(e) {
     this.isProjectOver = true;
+  }
+
+  openModalAddMentor() {
+    this.dialog.open(AddMentorFormComponent);
   }
 }
