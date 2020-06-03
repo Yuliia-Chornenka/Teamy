@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   chatForm;
   socket;
   messages: IMessage[] = [];
+  groupedMessages: IMessage[] = [];
   users: IUser[] = [];
   room: string;
   user: IUser;
@@ -109,6 +110,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             date: item.date,
           };
         });
+        this.groupMessages();
       });
   }
 
@@ -131,8 +133,34 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     this.socket.on('message', (data: IMessage) => {
       this.messages.push(data);
+      this.groupMessages();
     });
 
     this.scrollChat();
+  }
+
+  groupMessages() {
+    this.groupedMessages.length = 0;
+    this.messages.map((message: IMessage, index: number, array: IMessage[]) => {
+      if (index > 0) {
+        const lastMessage = array[index - 1];
+        if (lastMessage.user._id === message.user._id && (message.date - lastMessage.date) < 60 * 1000) {
+          this.addToMessage(message.text);
+        } else {
+          this.pushMessage(Object.assign({}, message));
+        }
+      } else {
+        this.pushMessage(Object.assign({}, message));
+      }
+    });
+  }
+
+  pushMessage(message: IMessage) {
+    this.groupedMessages.push(message);
+  }
+
+  addToMessage(text: string) {
+    const index = this.groupedMessages.length;
+    this.groupedMessages[index - 1].text += `\r\n${text}`;
   }
 }
