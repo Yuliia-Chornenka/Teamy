@@ -5,6 +5,10 @@ const teamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  project_name: {
+    type: String,
+    required: true,
+  },
   members: [
     {
       user_id: {
@@ -32,7 +36,9 @@ const teamSchema = new mongoose.Schema({
         required: true,
       }
     }
-  ]
+  ],
+  files: Array,
+  images: Array,
 });
 
 module.exports = mongoose.model("teams", teamSchema);
