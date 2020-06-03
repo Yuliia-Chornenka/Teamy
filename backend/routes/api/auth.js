@@ -3,6 +3,7 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
 router.post("/register", async (req, res) => {
   const emailExist = await User.findOne({ email: req.body.email });
   if (emailExist) return res.status(400).send("Email is already exist");
@@ -52,29 +53,32 @@ router.post("/login", async (req, res) => {
   res.header("authorization", token).send(JSON.stringify({ token }));
 });
 
-router.post("/soclogin", async (req, res) => {
+router.post("/login/fb", async (req, res) => {
 
   const user = new User({
     name: req.body.name,
     email: req.body.email,
-    photo: '',
+    photo: req.body.photo,
   });
+
+  // Token
+  const token = jwt.sign(
+    {
+      _id: user._id,
+      dates: user.dates,
+      name: user.name,
+      email: user.email,
+      photo: user.photo,
+    },
+    process.env.TOKEN_SECRET
+  );
   try {
     await user.save();
-    //Token
-    const token = jwt.sign(
-      {
-        name: user.name,
-        email: user.email,
-        photo: user.photo,
-      },
-      process.env.TOKEN_SECRET
-    );
-    res.header("authorization", token).send(JSON.stringify({ token }));
-
+    res.send({ user: user._id });
   } catch (err) {
     res.status(400).send(err);
   }
+  res.header("authorization", token).send(JSON.stringify({ token }));
 });
 
 module.exports = router;

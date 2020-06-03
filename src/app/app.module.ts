@@ -64,16 +64,6 @@ import { AppEffects } from './app.effects';
 import { ChatProfilePicComponent } from './components/chat/chat-profile-pic/chat-profile-pic.component';
 import { DeleteProfilePopupComponent } from './components/delete-profile-popup/delete-profile-popup.component';
 
-// const fbLoginOptions: LoginOpt = {
-//   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
-//   return_scopes: true,
-//   enable_profile_selector: true
-// }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
-//
-// const googleLoginOptions: LoginOpt = {
-//   scope: 'profile email'
-// }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
-
 
 const config = new AuthServiceConfig([
   // {
@@ -88,6 +78,10 @@ const config = new AuthServiceConfig([
 
 export function provideConfig() {
   return config;
+}
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
 }
 
 
@@ -164,7 +158,7 @@ export function provideConfig() {
       }
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, AuthGuard,

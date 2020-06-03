@@ -20,14 +20,14 @@ export class UserService {
 
   baseUrl = '/api/user';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   addUser(user: User): Observable<User> {
     return this.http.post<IUser>(`${this.baseUrl}/register`, user);
   }
 
   addSocUser(user: User): Observable<User> {
-    return this.http.post<IUser>(`${this.baseUrl}/soclogin`, user);
+    return this.http.post<IUser>(`${this.baseUrl}/login/fb`, user);
   }
 
   imageUpload(imageForm: FormData): Observable<any> {

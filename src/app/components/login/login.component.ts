@@ -53,7 +53,9 @@ export class LoginComponent implements OnInit {
       this.userSocial = userSocial;
       this.loggedIn = (userSocial != null);
     });
+
   }
+
 
   createUser() {
     this.form = new FormGroup({
@@ -92,29 +94,39 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  signInWithFB(): void {
+
+    this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
+      .then((user) => {
+        localStorage.setItem('token', user.authToken),
+        this.authService.setValue(this.authService.loggedIn());
+
+        const userSoc: IUser = {
+          name: user.name,
+          email: user.email,
+          photo: user.photoUrl,
+        };
+
+        this.addUserService.addSocUser(userSoc).subscribe(
+          () => {
+
+          },
+          error => {
+            if (error.status === 400) {
+              this.errorMessage = 'The error has been occurred during social login';
+            }
+          },
+          () => {
+            this.store$.dispatch(new LoadingFinishAction());
+            this.router.navigate(['/profile']);
+            console.log('user', userSoc);
+          });
+      });
+  }
+
   // signInWithGoogle(): void {
   //   this.authSocialService.signIn(GoogleLoginProvider.PROVIDER_ID)
   //     .then(x => console.log(x));
   // }
-
-  signInWithFB(): void {
-    this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
-      .then((user) => {
-        localStorage.setItem('token', user.authToken),
-          this.authService.setValue(this.authService.loggedIn());
-
-        this.addUserService.addSocUser({
-          name: user.name,
-          email: user.email,
-          photo: user.photoUrl
-        }),
-          this.router.navigate(['/profile']),
-          console.log('user', user);
-      });
-  }
-
-  signOut(): void {
-    this.authSocialService.signOut();
-  }
 }
 
