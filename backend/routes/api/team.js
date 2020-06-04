@@ -228,6 +228,8 @@ router.patch('/:id/images', auth, async (req, res) => {
     await upload(req, res, function (err) {
       const imgUrl = `https://teamy.s3.amazonaws.com/${req.file}`;
 
+      console.log(req);
+
       if (err instanceof multer.MulterError) {
         res.status(413).json('File size must not exceed 1 megabyte');
       } else {
