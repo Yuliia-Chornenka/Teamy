@@ -228,8 +228,6 @@ router.patch('/:id/images', auth, async (req, res) => {
     await upload(req, res, function (err) {
       const imgUrl = `https://teamy.s3.amazonaws.com/${req.file}`;
 
-      console.log(req);
-
       if (err instanceof multer.MulterError) {
         res.status(413).json('File size must not exceed 1 megabyte');
       } else {
@@ -241,6 +239,41 @@ router.patch('/:id/images', auth, async (req, res) => {
             }
           });
         res.send({ image: imgUrl });
+      }
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: 'Something went wrong. Try again later',
+      error: e,
+    });
+  }
+});
+
+/*  Upload files */
+router.patch('/:id/files', auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const team = await Team.findByIdAndUpdate(id, (error) => {
+      if (error) {
+        return res.status(500).json({message: 'Failed to find a team'});
+      }
+    });
+
+    await upload(req, res, function (err) {
+      const fileUrl = `https://teamy.s3.amazonaws.com/${req.file}`;
+
+      if (err instanceof multer.MulterError) {
+        res.status(413).json('File size must not exceed 1 megabyte');
+      } else {
+        team.files.push(fileUrl);
+        Team.findByIdAndUpdate(id,
+          { files: team.files }, { new: true }, (error) => {
+            if (error) {
+              return res.status(500).json({ message: 'Failed to update' });
+            }
+          });
+        res.send({ file: fileUrl });
       }
     });
   } catch (e) {

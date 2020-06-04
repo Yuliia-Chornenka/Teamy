@@ -36,7 +36,7 @@
       padding: 5px;
       text-align: center;
       box-sizing: border-box;
-      height: 34px;
+      height: 33px;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -52,6 +52,7 @@
     &--error {
       display: block;
       text-align: center;
+      margin-top: 5px;
     }
   }
 }

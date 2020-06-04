@@ -1,30 +1,27 @@
-<mat-list class="files-wrapper">
-  <mat-list-item>
+<mat-list class="files__wrapper">
+  <mat-list-item  *ngFor="let file of chatTeamFiles">
     <mat-icon mat-list-icon>description</mat-icon>
-    <div mat-line class="images__item" *ngFor="let image of chatTeamImages">{{ image }}</div>
-    <div mat-line>03.06.2020</div>
+    <a mat-line [href]=file download class="files__item">
+      {{ file.substring(44) }}
+    </a>
+    <div mat-line> {{ file.substring(31, 44) | date:'longDate' }} </div>
   </mat-list-item>
 </mat-list>
 
-
-<!--<div class="images__wrapper">-->
-<!--  <img class="images__item" *ngFor="let image of chatTeamImages" [src]=image alt="">-->
-<!--</div>-->
-
-<div class="images__btn-wrapper">
-  <label class="images__item--label">
-    Add image
-    <input (change)="onImagePicked($event)" accept=".jpg, .jpeg, .png" type="file"
-           class="images__item--input">
+<div class="files__btn-wrapper">
+  <label class="files__item--label">
+    Add file
+    <input (change)="onFilePicked($event)" class="files__item--input" type="file"
+           accept=".doc, .docx, .txt, .pdf, .xls, .xlsx, .zip, .rar, .ppt, .pptx">
   </label>
   <button mat-raised-button color="accent"
-          (click)="onImageUpload()" [disabled]="!isNewPhoto">
+          (click)="onFileUpload()" [disabled]="!isNewFile">
     Submit
   </button>
 </div>
 
-<p class="images__item--name" *ngIf="imageName">{{ imageName }}</p>
-<mat-error *ngIf="isImgTooBig" class="images__item--error">File should not be more than 1 mg</mat-error>
-<mat-error *ngIf="isImgUploadError" class="images__item--error">
-  Sorry, something went wrong and we can’t upload your image now. Please try again later.
+<p class="files__item--name" *ngIf="fileName"> {{ fileName }} </p>
+<mat-error *ngIf="isFileTooBig" class="files__item--error">File should not be more than 1 mg</mat-error>
+<mat-error *ngIf="isFileUploadError" class="files__item--error">
+  Sorry, something went wrong and we can’t upload your file now. Please try again later.
 </mat-error>

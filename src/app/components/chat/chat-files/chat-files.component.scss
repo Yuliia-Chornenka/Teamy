@@ -1,3 +1,54 @@
-.files-wrapper {
-  padding: 10px;
+@import '../../../variables/colors.scss';
+
+.files {
+
+  &__wrapper {
+    padding: 10px;
+  }
+
+  &__btn-wrapper {
+    width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px auto 0 auto;
+  }
+
+  &__item {
+
+    &:hover {
+      color: $lightpurple;
+    }
+
+    &--input {
+      visibility: hidden;
+    }
+
+    &--label {
+      background-color: $lightpurple;
+      width: 120px;
+      font-size: 16px;
+      color: white;
+      padding: 5px;
+      text-align: center;
+      box-sizing: border-box;
+      height: 33px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    &--name {
+      margin: 0 auto;
+      width: 250px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &--error {
+      display: block;
+      text-align: center;
+      margin: 5px;
+    }
+  }
 }

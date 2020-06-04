@@ -40,4 +40,8 @@ export class ChatService {
   imageUpload(id: string, imageForm: FormData): Observable<any> {
     return this.http.patch(`${this.baseUrl}${id}/images`, imageForm);
   }
+
+  fileUpload(id: string, imageForm: FormData): Observable<any> {
+    return this.http.patch(`${this.baseUrl}${id}/files`, imageForm);
+  }
 }
