@@ -2,8 +2,15 @@ import { Action } from '@ngrx/store';
 import { IUser } from 'src/app/components/project/add-mentor-form/add-mentor-form.component';
 
 export enum mentorsActionsType {
+  save = '[MENTORS] save',
   add = '[MENTORS] add',
   remove = '[MENTORS] remove',
+}
+
+export class SaveMentorsAction implements Action {
+  readonly type = mentorsActionsType.save;
+
+  constructor(public payload: IUser[]) {}
 }
 
 export class AddMentorAction implements Action {
@@ -18,4 +25,7 @@ export class RemoveMentorAction implements Action {
   constructor(public payload: { id: string }) {}
 }
 
-export type MentorsActions = AddMentorAction | RemoveMentorAction;
+export type MentorsActions =
+  | AddMentorAction
+  | RemoveMentorAction
+  | SaveMentorsAction;
