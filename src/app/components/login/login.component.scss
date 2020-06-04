@@ -24,6 +24,10 @@
     padding-top: 10px;
   }
 
+  &__socials-login {
+    width: 100%;
+  }
+
   &__separator {
     display: flex;
     align-items: center;
@@ -35,6 +39,45 @@
     background-color: $dimgray;
     margin-right: 10px;
     margin-left: 10px;
+  }
+
+}
+
+.socials-login {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid $purple;
+    border-radius: 4px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+
+    p {
+      margin: 3% auto;
+    }
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 10px;
+  }
+
+  &__icon.fb {
+    background-image: url("https://freeiconshop.com/wp-content/uploads/edd/like-outline.png");
   }
 
 }

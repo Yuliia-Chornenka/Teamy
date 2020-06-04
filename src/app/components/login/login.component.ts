@@ -101,7 +101,6 @@ export class LoginComponent implements OnInit {
     this.authSocialService
       .signIn(FacebookLoginProvider.PROVIDER_ID)
       .then((user) => {
-        this.authService.setValue(this.authService.loggedIn());
 
         const userSoc: IUser = {
           name: user.name,
@@ -112,11 +111,11 @@ export class LoginComponent implements OnInit {
         this.addUserService.addSocUser(userSoc).subscribe(
           (resp) => {
             localStorage.setItem('token', resp.token);
+            this.authService.setValue(this.authService.loggedIn());
           },
           (error) => {
             if (error.status === 400) {
-              this.errorMessage =
-                'The error has been occurred during social login';
+              console.log(error);
             }
           },
           () => {

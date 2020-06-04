@@ -54,6 +54,36 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/login/fb", async (req, res) => {
+
+  const userExist = await User.findOne({ email: req.body.email });
+
+  if( userExist ) {
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      photo: req.body.photo,
+    });
+
+    // Token
+    const obj = {
+      _id: user._id,
+      dates: user.dates,
+      name: user.name,
+      email: user.email,
+      photo: user.photo,
+    };
+
+    const token = jwt.sign(obj, process.env.TOKEN_SECRET);
+
+    try {
+      await res.header("authorization", token).send(JSON.stringify({ token }));
+      return;
+    } catch (err) {
+      res.status(400).send(err);
+      return;
+    }
+  }
+
   const user = new User({
     name: req.body.name,
     email: req.body.email,
