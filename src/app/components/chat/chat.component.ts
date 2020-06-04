@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import * as io from 'socket.io-client';
 import { FormBuilder, NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { IUser } from '../../Models/user.model';
 import { IMessage } from '../../Models/message';
 import { ITeamRes } from '../../Models/team-res';
 import { IProject } from '../../Models/project';
+import { ITeam } from '../../Models/team';
 import { ChatService } from '../../Services/chat.service';
 import { ProjectService } from '../../Services/project.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: [ './chat.component.scss' ]
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('formRef') formRef;
@@ -29,13 +30,24 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   onlineUsers: IUser[] = [];
   sideOpened = true;
 
+  imageObj: File;
+  imageName: string;
+  isImgTooBig = false;
+  isImgUploadError = false;
+  isNewPhoto = false;
+  chatTeamImages: Array<string>;
+  teamId: string;
+
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private chatService: ChatService,
               private errorMessage: MatSnackBar,
-              private projectService: ProjectService) { }
+              private projectService: ProjectService) {
+  }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => (this.teamId = params.id));
+    this.getTeamData();
     this.chatForm = this.formBuilder.group({
       text: '',
     });
@@ -47,7 +59,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.scrollChat();
   }
 
-  sendMessage({ text }): void {
+  sendMessage({text}): void {
     if (this.chatForm.valid) {
       const date = Date.now();
 
@@ -175,6 +187,40 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   getProject(id) {
     this.projectService.getProject(id).subscribe((res: IProject) => {
       this.project = res;
+    });
+  }
+
+
+  getTeamData(): void {
+    this.chatService.getTeam(this.teamId).then((res: ITeamRes) => {
+      this.chatTeamImages = res.team.images;
+    });
+  }
+
+  onImagePicked(event: Event): void {
+    this.imageObj = (event.target as HTMLInputElement).files[0];
+    this.imageName = this.imageObj.name;
+    this.isNewPhoto = true;
+  }
+
+  onImageUpload() {
+    const imageForm = new FormData();
+    imageForm.append('image', this.imageObj);
+    this.chatService.imageUpload(this.room, imageForm).subscribe({
+      next: (res) => {
+        this.chatTeamImages.push(res.image);
+        this.isImgTooBig = false;
+        this.isImgUploadError = false;
+        this.isNewPhoto = false;
+        this.imageName = '';
+      },
+      error: (err) => {
+        if (err.status === 413) {
+          this.isImgTooBig = true;
+        } else {
+          this.isImgUploadError = true;
+        }
+      }
     });
   }
 }

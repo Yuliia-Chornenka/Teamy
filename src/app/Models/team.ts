@@ -17,6 +17,6 @@ export interface ITeam {
       text: string;
     }
   ];
-  files?: Array<object>;
-  images?: Array<object>;
+  files?: Array<string>;
+  images?: Array<string>;
 }

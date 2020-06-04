@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { MustMatch } from './must-match.validator';
 
 @Component({
   selector: 'app-change-password-popup',
@@ -11,22 +12,56 @@ export class ChangePasswordPopupComponent implements OnInit {
   formChangePassword: FormGroup;
   successSubmitted = true;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.formChangePassword = new FormGroup({
-      oldPassword: new FormControl('', [ Validators.required ]),
-      newPassword: new FormControl('', [ Validators.required ]),
-      newPasswordAgain: new FormControl('', [ Validators.required ]),
+    this.formChangePassword = this.formBuilder.group({
+      password: ['', [ Validators.required ]],
+      newPassword: ['', [ Validators.required, Validators.minLength(6) ]],
+      newPasswordConfirmation: ['', [ Validators.required]],
+    }, {
+      validator: MustMatch('newPassword', 'newPasswordConfirmation')
     });
   }
 
-  onSubmit(): void {
-    let {oldPassword, newPassword, newPasswordAgain} = this.formChangePassword.controls;
-    oldPassword = oldPassword.value;
-    newPassword = newPassword.value;
-    newPasswordAgain = newPasswordAgain.value;
+  get passwordControl(): AbstractControl {
+    return this.formChangePassword.get('password');
+  }
 
-    console.log(oldPassword, newPassword, newPasswordAgain);
+  get newPasswordControl(): AbstractControl {
+    return this.formChangePassword.get('newPassword');
+  }
+
+  get newPasswordConfirmationControl(): AbstractControl {
+    return this.formChangePassword.get('newPasswordConfirmation');
+  }
+
+  getErrorMessagePassword(): string {
+    if (this.passwordControl.hasError('required')) {
+      return 'You must enter a password';
+    }
+  }
+
+  getErrorMessageNewPassword(): string {
+    if (this.newPasswordControl.hasError('required')) {
+      return 'You must enter new password';
+    }
+    return this.newPasswordControl.hasError('minlength') ? 'Password must be at least 6 characters' : '';
+  }
+
+  getErrorMessageNewPasswordConfirmation(): string {
+    if (this.newPasswordConfirmationControl.hasError('required')) {
+      return 'You must enter new password again';
+    }
+    return this.newPasswordConfirmationControl.hasError('mustMatch') ? 'Passwords do not match' : '';
+  }
+
+  onSubmit(): void {
+    let {password, newPassword, newPasswordConfirmation} = this.formChangePassword.controls;
+    password = password.value;
+    newPassword = newPassword.value;
+    newPasswordConfirmation = newPasswordConfirmation.value;
+
+    console.log(password, newPassword, newPasswordConfirmation);
   }
 }
