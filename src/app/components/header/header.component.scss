@@ -9,6 +9,7 @@
     width: 100%;
     font-size: 14px;
     background-color: $purple;
+    padding: 12px 0;
   }
 
   &__main {
@@ -19,6 +20,7 @@
   &__logo {
     cursor: pointer;
     display: flex;
+    font-family: 'Poiret One', cursive;
 
     a {
       display: flex;

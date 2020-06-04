@@ -1,18 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProjectService } from 'src/app/Services/project.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { IProject } from '../../Models/project';
 import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../Services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import {
   LoadingStartAction,
   LoadingFinishAction,
 } from 'src/app/reducers/loading/loading.actions';
 import { MatDialog } from '@angular/material/dialog';
-import { AddMentorFormComponent } from './add-mentor-form/add-mentor-form.component';
+import { AddMentorFormComponent, IUser } from './add-mentor-form/add-mentor-form.component';
+import { selectMentors } from 'src/app/reducers/mentors/mentors.selector';
 
 @Component({
   selector: 'app-project',
@@ -45,13 +46,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
     Seconds: 'Seconds:',
   };
   isProjectOver = false;
+  public mentors$: Observable<IUser[]> = this.store$.pipe(select(selectMentors));
 
   constructor(
     private projectService: ProjectService,
     private userService: UserService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private store$: Store<LoadingState>,
+    private store$: Store,
     public dialog: MatDialog
   ) {}
 

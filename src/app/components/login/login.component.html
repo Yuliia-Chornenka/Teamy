@@ -23,14 +23,17 @@
           <p>or</p>
           <div class="form__decoration"></div>
         </div>
-        <div class="form__socials">
-          <ul class="socials">
-            <li class="socials__item">
-              <button class="socials__link fb" (click)="signInWithFB()"></button>
+        <div class="form__socials-login">
+          <ul class="socials-login">
+            <li class="socials-login__item">
+              <a class="socials-login__link" (click)="signInWithFB()">
+                <div class="socials-login__icon fb"></div>
+                <p>Use Facebook Account</p>
+              </a>
             </li>
-            <li class="socials__item">
+<!--            <li class="socials-login__item">-->
 <!--              <button class="socials__link google" (click)="signInWithGoogle()"></button>-->
-            </li>
+<!--            </li>-->
           </ul>
         </div>
       </div>

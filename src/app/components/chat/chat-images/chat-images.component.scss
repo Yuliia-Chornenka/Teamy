@@ -22,7 +22,6 @@
     height: 130px;
     width: 24%;
     margin: 0 1% 5px 0;
-    object-fit: cover;
 
     &--input {
       visibility: hidden;
@@ -54,5 +53,11 @@
       text-align: center;
       margin-top: 5px;
     }
+  }
+
+  &__picture {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
   }
 }
