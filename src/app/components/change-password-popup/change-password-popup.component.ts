@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MustMatch } from './must-match.validator';
+import { UserService } from '../../Services/user.service';
+import { IUser } from '../../Models/user.model';
+import { LoadingFinishAction } from '../../reducers/loading/loading.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-change-password-popup',
@@ -11,8 +16,10 @@ export class ChangePasswordPopupComponent implements OnInit {
 
   formChangePassword: FormGroup;
   successSubmitted = true;
+  invalidPassword = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService,
+              private snackBar: MatSnackBar, public dialogChangePassword: MatDialogRef<ChangePasswordPopupComponent>) { }
 
   ngOnInit(): void {
     this.formChangePassword = this.formBuilder.group({
@@ -56,12 +63,43 @@ export class ChangePasswordPopupComponent implements OnInit {
     return this.newPasswordConfirmationControl.hasError('mustMatch') ? 'Passwords do not match' : '';
   }
 
+  openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
+  }
+
   onSubmit(): void {
+    this.successSubmitted = true;
+    this.invalidPassword = false;
+    this.formChangePassword.disable();
+
     let {password, newPassword, newPasswordConfirmation} = this.formChangePassword.controls;
     password = password.value;
     newPassword = newPassword.value;
     newPasswordConfirmation = newPasswordConfirmation.value;
 
-    console.log(password, newPassword, newPasswordConfirmation);
+    const passwords = {
+      password,
+      newPassword,
+      newPasswordConfirmation
+    };
+
+    this.userService.changeAccountPassword(passwords).subscribe({
+      next: (user: IUser) => {
+        this.successSubmitted = true;
+        this.invalidPassword = false;
+        this.dialogChangePassword.close();
+        this.openSnackBar('Your password has been successfully changed', '✔');
+      },
+      error: (err) => {
+        if (err.status === 401) {
+          this.invalidPassword = true;
+        } else {
+          this.successSubmitted = false;
+        }
+        this.formChangePassword.enable();
+      }
+    });
   }
 }
