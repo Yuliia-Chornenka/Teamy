@@ -6,6 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { MentorsState } from 'src/app/reducers/mentors/mentors.reducer';
 import { AddMentorAction } from 'src/app/reducers/mentors/mentors.actions';
+import { ProjectService } from 'src/app/Services/project.service';
 
 export interface IUser {
   _id: string;
@@ -23,7 +24,8 @@ export class AddMentorFormComponent implements OnInit {
   constructor(
     private store$: Store<MentorsState>,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<AddMentorFormComponent>
+    public dialogRef: MatDialogRef<AddMentorFormComponent>,
+    private projectService: ProjectService
   ) {}
 
   addMentorForm: FormGroup;
@@ -129,7 +131,20 @@ export class AddMentorFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.store$.dispatch(new AddMentorAction(this.choosenMentor));
-    this.dialogRef.close();
+    this.projectService
+      .becomeProjectMentor({
+        projectId: '5ed66dc4f9409f0017c8fb29',
+        mentor: this.choosenMentor,
+      })
+      .subscribe({
+        next: () => {},
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          this.store$.dispatch(new AddMentorAction(this.choosenMentor));
+          this.dialogRef.close();
+        },
+      });
   }
 }

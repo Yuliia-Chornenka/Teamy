@@ -6,14 +6,17 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../Services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store, select } from '@ngrx/store';
-import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import {
   LoadingStartAction,
   LoadingFinishAction,
 } from 'src/app/reducers/loading/loading.actions';
 import { MatDialog } from '@angular/material/dialog';
-import { AddMentorFormComponent, IUser } from './add-mentor-form/add-mentor-form.component';
+import {
+  AddMentorFormComponent,
+  IUser,
+} from './add-mentor-form/add-mentor-form.component';
 import { selectMentors } from 'src/app/reducers/mentors/mentors.selector';
+import { SaveMentorsAction } from 'src/app/reducers/mentors/mentors.actions';
 
 @Component({
   selector: 'app-project',
@@ -27,7 +30,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
     deadline: 1492946000000,
     description: 'You should resolve issue for remoute work',
     members: [{ id: 'someid', name: 'Ivan' }],
-    mentors: [],
+    mentors: [
+      {
+        _id: 'string',
+        name: 'string',
+        email: 'string',
+        photo: 'string',
+      },
+    ],
     requirements: [
       { title: 'Use Angular Framework', priority: true },
       { title: 'Social Login', priority: true },
@@ -46,7 +56,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
     Seconds: 'Seconds:',
   };
   isProjectOver = false;
-  public mentors$: Observable<IUser[]> = this.store$.pipe(select(selectMentors));
+  public mentors$: Observable<IUser[]> = this.store$.pipe(
+    select(selectMentors)
+  );
 
   constructor(
     private projectService: ProjectService,
@@ -87,6 +99,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
           this.store$.dispatch(new LoadingFinishAction());
         },
         () => {
+          this.store$.dispatch(new SaveMentorsAction(this.project.mentors));
           this.store$.dispatch(new LoadingFinishAction());
         }
       )

@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Project = require("../../models/Project");
 const auth = require("../middleware/auth");
-const sendEmail = require('../../nodemailer/send-email');
+const sendEmail = require("../../nodemailer/send-email");
 
 router.post("/create", auth, async (req, res) => {
   const newProject = new Project({
@@ -91,7 +91,7 @@ router.patch("/members/:projectId", auth, async (req, res) => {
 });
 
 router.patch("/mentors/:projectId", auth, async (req, res) => {
-  const { id, name } = req.body;
+  const { _id, name, photo, email } = req.body;
 
   try {
     const project = await Project.findById(req.params.projectId, (error) => {
@@ -100,7 +100,7 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
       }
     });
 
-    const isCreator = project.created_by === id;
+    const isCreator = project.created_by === _id;
 
     if (isCreator) {
       return res
@@ -108,7 +108,7 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
         .json({ message: "User is a creator of this project" });
     }
 
-    const isMentorExist = project.mentors.some((mentor) => mentor.id === id);
+    const isMentorExist = project.mentors.some((mentor) => mentor._id === _id);
 
     if (isMentorExist) {
       return res
@@ -116,7 +116,7 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
         .json({ message: "User is mentor of this project" });
     }
 
-    project.mentors.push({ id, name });
+    project.mentors.push({ _id, name, photo, email });
 
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.projectId,
@@ -130,6 +130,7 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
     );
 
     await res.json(updatedProject);
+    return;
   } catch (e) {
     res.status(500).json({
       message: "Something went wrong. Try again later.",
@@ -138,21 +139,23 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
   }
 });
 
-router.post('/send-email', auth, async (req, res) => {
-    try {
-      const email = req.user.email;
-      const mailResult = sendEmail(email);
+router.post("/send-email", auth, async (req, res) => {
+  try {
+    const email = req.user.email;
+    const mailResult = sendEmail(email);
 
-       await mailResult.then((result) => {
-         if (result === 'Success') {
-           return res.status(200).json({status: 'The email has been sent.'});
-         } else {
-           return res.status(500).json({status: 'Something went wrong. Try again'});
-         }
-       });
-    } catch (e) {
-      res.status(500).json({status: 'Something went wrong. Try again'});
-    }
-  });
+    await mailResult.then((result) => {
+      if (result === "Success") {
+        return res.status(200).json({ status: "The email has been sent." });
+      } else {
+        return res
+          .status(500)
+          .json({ status: "Something went wrong. Try again" });
+      }
+    });
+  } catch (e) {
+    res.status(500).json({ status: "Something went wrong. Try again" });
+  }
+});
 
 module.exports = router;
