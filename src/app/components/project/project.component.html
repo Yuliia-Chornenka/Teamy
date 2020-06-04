@@ -9,7 +9,10 @@
     <div class="project__options">
       <div class="project__author">
         <h2>Author:</h2>
-        <app-author *ngIf="project?.created_by" [authorId]="project?.created_by"></app-author>
+        <app-author
+          *ngIf="project?.created_by"
+          [authorId]="project?.created_by"
+        ></app-author>
       </div>
       <div class="project__countdown">
         <h2>Time left:</h2>
@@ -25,13 +28,10 @@
       </div>
       <div class="project__mentor">
         <h2>Mentors:</h2>
-        <button
-        mat-raised-button
-        color="accent"
-        (click)="openModalAddMentor()"
-      >
-        Add mentor
-      </button>
+        <p>{{ mentors$ | async | json }}</p>
+        <button mat-raised-button color="accent" (click)="openModalAddMentor()">
+          Add mentor
+        </button>
       </div>
     </div>
     <div class="project__line"></div>

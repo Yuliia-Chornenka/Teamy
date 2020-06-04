@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { MentorsState } from 'src/app/reducers/mentors/mentors.reducer';
+import { AddMentorAction } from 'src/app/reducers/mentors/mentors.actions';
 
 export interface IUser {
   _id: string;
@@ -18,6 +21,7 @@ export interface IUser {
 })
 export class AddMentorFormComponent implements OnInit {
   constructor(
+    private store$: Store<MentorsState>,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AddMentorFormComponent>
   ) {}
@@ -125,8 +129,7 @@ export class AddMentorFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Submit');
-    console.log(this.choosenMentor);
+    this.store$.dispatch(new AddMentorAction(this.choosenMentor));
     this.dialogRef.close();
   }
 }
