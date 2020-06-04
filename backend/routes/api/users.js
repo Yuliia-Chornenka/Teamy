@@ -10,10 +10,6 @@ router.get("/users", auth, async (req, res) => {
       }
     });
 
-    // _id: ed66bf1f9409f0017c8fb28
-    // name:"Ivan"
-    // email:"davane4ek@gmail.com"
-    // photo:"https://teamy.s3.amazonaws.com/15911189851838069da92-96a5-4ad6-bb93-6b..."
     const formatedUsersData = users.map((user) => {
       return {
         _id: user._id,
