@@ -1,1 +1,14 @@
-<p>add-mentor-form works!</p>
+<form  [formGroup]="addMentorForm" (ngSubmit)="onSubmit()">
+  <h2>Add mentor</h2>
+  <mat-form-field>
+    <input type="text" matInput formControlName="mentorName" [matAutocomplete]="auto">
+  </mat-form-field>
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option (click)="OnUserSelected(user)" *ngFor="let user of filteredUsers | async" [value]="user.name">
+      {{ user.name }}
+    </mat-option>
+  </mat-autocomplete>
+  <button mat-raised-button type="submit" color="primary">
+    Add mentor
+  </button>
+</form>

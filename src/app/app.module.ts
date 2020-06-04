@@ -78,7 +78,7 @@ import { AddMentorFormComponent } from './components/project/add-mentor-form/add
 import { ChatInfoHeaderComponent } from './components/chat/chat-info-header/chat-info-header.component';
 import { ChatImagesComponent } from './components/chat/chat-images/chat-images.component';
 import { ChatFilesComponent } from './components/chat/chat-files/chat-files.component';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const config = new AuthServiceConfig([
   // {
@@ -180,6 +180,7 @@ export function provideConfig() {
     MatExpansionModule,
     MatGridListModule,
     MatListModule,
+    MatAutocompleteModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
