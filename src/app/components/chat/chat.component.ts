@@ -1,17 +1,18 @@
 import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import * as io from 'socket.io-client';
 import { FormBuilder, NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { IUser } from '../../Models/user.model';
 import { IMessage } from '../../Models/message';
 import { ITeamRes } from '../../Models/team-res';
+import { ITeam } from '../../Models/team';
 import { ChatService } from '../../Services/chat.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: [ './chat.component.scss' ]
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('formRef') formRef;
@@ -26,12 +27,23 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   onlineUsers: IUser[] = [];
   sideOpened = true;
 
+  imageObj: File;
+  imageName: string;
+  isImgTooBig = false;
+  isImgUploadError = false;
+  isNewPhoto = false;
+  chatTeamImages: Array<string>;
+  teamId: string;
+
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private chatService: ChatService,
-              private errorMessage: MatSnackBar) { }
+              private errorMessage: MatSnackBar) {
+  }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => (this.teamId = params.id));
+    this.getTeamData();
     this.chatForm = this.formBuilder.group({
       text: '',
     });
@@ -43,7 +55,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.scrollChat();
   }
 
-  sendMessage({ text }): void {
+  sendMessage({text}): void {
     if (this.chatForm.valid) {
       const date = Date.now();
 
@@ -87,31 +99,27 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.room = params.id;
     });
 
-    this.chatService.getUser()
-      .then((res: IUser) => this.user = res)
-      .then(user => this.initSocket());
+    this.chatService.getUser().then((res: IUser) => this.user = res).then(user => this.initSocket());
 
-    this.chatService.getTeam(this.room)
-      .then((res: ITeamRes) => {
-        this.users = res.team.members.map(item => {
-          return {
-            _id: item.user_id,
-            name: item.user_name,
-            photo: item.user_photo,
-          };
-        });
-        return res;
-      })
-      .then((res: ITeamRes) => {
-        this.messages = res.team.history.map(item => {
-          return {
-            text: item.text,
-            user: this.users.find(userItem => userItem._id === item.user_id),
-            date: item.date,
-          };
-        });
-        this.groupMessages();
+    this.chatService.getTeam(this.room).then((res: ITeamRes) => {
+      this.users = res.team.members.map(item => {
+        return {
+          _id: item.user_id,
+          name: item.user_name,
+          photo: item.user_photo,
+        };
       });
+      return res;
+    }).then((res: ITeamRes) => {
+      this.messages = res.team.history.map(item => {
+        return {
+          text: item.text,
+          user: this.users.find(userItem => userItem._id === item.user_id),
+          date: item.date,
+        };
+      });
+      this.groupMessages();
+    });
   }
 
   initSocket() {
@@ -162,5 +170,39 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   addToMessage(text: string) {
     const index = this.groupedMessages.length;
     this.groupedMessages[index - 1].text += `\r\n${text}`;
+  }
+
+
+  getTeamData(): void {
+    this.chatService.getTeam(this.teamId).then((res: ITeamRes) => {
+      this.chatTeamImages = res.team.images;
+    });
+  }
+
+  onImagePicked(event: Event): void {
+    this.imageObj = (event.target as HTMLInputElement).files[0];
+    this.imageName = this.imageObj.name;
+    this.isNewPhoto = true;
+  }
+
+  onImageUpload() {
+    const imageForm = new FormData();
+    imageForm.append('image', this.imageObj);
+    this.chatService.imageUpload(this.room, imageForm).subscribe({
+      next: (res) => {
+        this.chatTeamImages.push(res.image);
+        this.isImgTooBig = false;
+        this.isImgUploadError = false;
+        this.isNewPhoto = false;
+        this.imageName = '';
+      },
+      error: (err) => {
+        if (err.status === 413) {
+          this.isImgTooBig = true;
+        } else {
+          this.isImgUploadError = true;
+        }
+      }
+    });
   }
 }

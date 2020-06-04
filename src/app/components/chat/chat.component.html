@@ -8,7 +8,36 @@
         <app-chat-users [users]="users" [online]="onlineUsers"></app-chat-users>
       </mat-tab>
       <mat-tab label="Files">Files should be here</mat-tab>
-      <mat-tab label="Images">Images should be here</mat-tab>
+
+
+      <mat-tab label="Images">
+
+        <div class="images__wrapper">
+          <img class="images__item" *ngFor="let image of chatTeamImages" [src]=image alt="">
+        </div>
+
+        <div class="images__btn-wrapper">
+        <label class="images__item--label">
+            Add image
+          <input (change)="onImagePicked($event)" accept=".jpg, .jpeg, .png" type="file"
+                 class="images__item--input">
+        </label>
+        <button mat-raised-button color="accent"
+                (click)="onImageUpload()" [disabled]="!isNewPhoto">
+          Submit
+        </button>
+        </div>
+
+        <p class="images__item--name" *ngIf="imageName">{{ imageName }}</p>
+        <mat-error *ngIf="isImgTooBig" class="images__item--error">File should not be more than 1 mg</mat-error>
+        <mat-error *ngIf="isImgUploadError" class="images__item--error">
+          Sorry, something went wrong and we can’t upload your image now. Please try again later.
+        </mat-error>
+
+      </mat-tab>
+
+
+
     </mat-tab-group>
   </mat-sidenav>
   <mat-sidenav-content class="chat__messages messages">

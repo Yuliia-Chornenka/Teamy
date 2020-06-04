@@ -73,6 +73,7 @@ import { CountdownModule } from 'ng2-date-countdown';
 import { ChangePasswordPopupComponent } from './components/change-password-popup/change-password-popup.component';
 import { AuthorComponent } from './components/project/author/author.component';
 import { AddMentorFormComponent } from './components/project/add-mentor-form/add-mentor-form.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 // const fbLoginOptions: LoginOpt = {
 //   scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
@@ -166,7 +167,7 @@ export function provideConfig() {
     MatChipsModule,
     MatSnackBarModule,
     MatProgressBarModule,
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([ AppEffects ]),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -174,10 +175,11 @@ export function provideConfig() {
         strictActionImmutability: true,
       },
     }),
-    StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    StoreDevtoolsModule.instrument({maxAge: 25}),
     StoreRouterConnectingModule.forRoot(),
     CountdownModule,
     MatTabsModule,
+    MatGridListModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
