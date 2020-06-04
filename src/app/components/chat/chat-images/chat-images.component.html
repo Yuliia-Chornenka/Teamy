@@ -1,17 +1,23 @@
-<mat-grid-list cols="4" rowHeight="1:1">
-  <mat-grid-tile>Image 1</mat-grid-tile>
-  <mat-grid-tile>Image 2</mat-grid-tile>
-  <mat-grid-tile>Image 3</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-  <mat-grid-tile>Image 4</mat-grid-tile>
-</mat-grid-list>
+<div class="images__wrapper">
+  <a class="images__item" *ngFor="let image of chatTeamImages" [href]="image" target="_blank">
+    <img class="images__picture" [src]="image" alt="">
+  </a>
+</div>
+
+<div class="images__btn-wrapper">
+  <label class="images__item--label">
+    Add image
+    <input (change)="onImagePicked($event)" accept=".jpg, .jpeg, .png" type="file"
+           class="images__item--input">
+  </label>
+  <button mat-raised-button color="accent"
+          (click)="onImageUpload()" [disabled]="!isNewPhoto">
+    Submit
+  </button>
+</div>
+
+<p class="images__item--name" *ngIf="imageName">{{ imageName }}</p>
+<mat-error *ngIf="isImgTooBig" class="images__item--error">File should not be more than 1 mg</mat-error>
+<mat-error *ngIf="isImgUploadError" class="images__item--error">
+  Sorry, something went wrong and we can’t upload your image now. Please try again later.
+</mat-error>

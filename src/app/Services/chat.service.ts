@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,13 @@ export class ChatService {
     return this.http.patch(`${this.baseUrl}${id}/history`, {
       message
     });
+  }
+
+  imageUpload(id: string, imageForm: FormData): Observable<any> {
+    return this.http.patch(`${this.baseUrl}${id}/images`, imageForm);
+  }
+
+  fileUpload(id: string, imageForm: FormData): Observable<any> {
+    return this.http.patch(`${this.baseUrl}${id}/files`, imageForm);
   }
 }

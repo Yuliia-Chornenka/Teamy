@@ -54,6 +54,28 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/login/fb", async (req, res) => {
+  const existedUser = await User.findOne({ email: req.body.email });
+
+  if (existedUser) {
+    const obj = {
+      _id: existedUser._id,
+      dates: existedUser.dates,
+      name: existedUser.name,
+      email: existedUser.email,
+      photo: existedUser.photo,
+    };
+
+    const token = jwt.sign(obj, process.env.TOKEN_SECRET);
+
+    try {
+      res.header("authorization", token).send(JSON.stringify({ token }));
+      return;
+    } catch (err) {
+      res.status(400).send(err);
+      return;
+    }
+  }
+
   const user = new User({
     name: req.body.name,
     email: req.body.email,
