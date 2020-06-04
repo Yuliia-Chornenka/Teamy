@@ -10,12 +10,12 @@ import { ChatService } from '../../../Services/chat.service';
 })
 export class ChatFilesComponent implements OnInit {
 
-  imageObj: File;
-  imageName: string;
-  isImgTooBig = false;
-  isImgUploadError = false;
-  isNewPhoto = false;
-  chatTeamImages: Array<string>;
+  fileObj: File;
+  fileName: string;
+  isFileTooBig = false;
+  isFileUploadError = false;
+  isNewFile = false;
+  chatTeamFiles: Array<string>;
   teamId: string;
 
   constructor(private route: ActivatedRoute,
@@ -29,35 +29,34 @@ export class ChatFilesComponent implements OnInit {
 
   getTeamData(): void {
     this.chatService.getTeam(this.teamId).then((res: ITeamRes) => {
-      this.chatTeamImages = res.team.images;
+      this.chatTeamFiles = res.team.files;
     });
   }
 
-  onImagePicked(event: Event): void {
-    this.imageObj = (event.target as HTMLInputElement).files[0];
-    this.imageName = this.imageObj.name;
-    this.isNewPhoto = true;
+  onFilePicked(event: Event): void {
+    this.fileObj = (event.target as HTMLInputElement).files[0];
+    this.fileName = this.fileObj.name;
+    this.isNewFile = true;
   }
 
-  onImageUpload() {
-    const imageForm = new FormData();
-    imageForm.append('image', this.imageObj);
-    this.chatService.imageUpload(this.teamId, imageForm).subscribe({
+  onFileUpload() {
+    const fileForm = new FormData();
+    fileForm.append('image', this.fileObj);
+    this.chatService.fileUpload(this.teamId, fileForm).subscribe({
       next: (res) => {
-        this.chatTeamImages.push(res.image);
-        this.isImgTooBig = false;
-        this.isImgUploadError = false;
-        this.isNewPhoto = false;
-        this.imageName = '';
+        this.chatTeamFiles.push(res.file);
+        this.isFileTooBig = false;
+        this.isFileUploadError = false;
+        this.isNewFile = false;
+        this.fileName = '';
       },
       error: (err) => {
         if (err.status === 413) {
-          this.isImgTooBig = true;
+          this.isFileTooBig = true;
         } else {
-          this.isImgUploadError = true;
+          this.isFileUploadError = true;
         }
       }
     });
   }
-
 }
