@@ -1,3 +1,63 @@
-mat-grid-tile {
-  background: lightgrey;
+@import '../../../variables/colors.scss';
+
+.images {
+
+  &__wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 5px 10px 10px;
+  }
+
+  &__btn-wrapper {
+    width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px auto 0 auto;
+  }
+
+  &__item {
+    height: 130px;
+    width: 24%;
+    margin: 0 1% 5px 0;
+
+    &--input {
+      visibility: hidden;
+    }
+
+    &--label {
+      background-color: $lightpurple;
+      width: 130px;
+      font-size: 16px;
+      color: white;
+      padding: 5px;
+      text-align: center;
+      box-sizing: border-box;
+      height: 33px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    &--name {
+      margin: 0 auto;
+      width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &--error {
+      display: block;
+      text-align: center;
+      margin-top: 5px;
+    }
+  }
+
+  &__picture {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
 }

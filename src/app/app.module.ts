@@ -78,7 +78,7 @@ import { AddMentorFormComponent } from './components/project/add-mentor-form/add
 import { ChatInfoHeaderComponent } from './components/chat/chat-info-header/chat-info-header.component';
 import { ChatImagesComponent } from './components/chat/chat-images/chat-images.component';
 import { ChatFilesComponent } from './components/chat/chat-files/chat-files.component';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const config = new AuthServiceConfig([
   // {
@@ -165,7 +165,7 @@ export function provideConfig() {
     MatChipsModule,
     MatSnackBarModule,
     MatProgressBarModule,
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([ AppEffects ]),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -173,13 +173,14 @@ export function provideConfig() {
         strictActionImmutability: true,
       },
     }),
-    StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    StoreDevtoolsModule.instrument({maxAge: 25}),
     StoreRouterConnectingModule.forRoot(),
     CountdownModule,
     MatTabsModule,
     MatExpansionModule,
     MatGridListModule,
     MatListModule,
+    MatAutocompleteModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

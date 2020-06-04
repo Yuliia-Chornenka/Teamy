@@ -2,6 +2,8 @@ const router = require('express').Router();
 const Team = require('../../models/Team');
 const User = require('../../models/User');
 const auth = require('../middleware/auth');
+const upload = require('../middleware/file-upload');
+const multer = require('multer');
 
 // Get team object by id
 router.get('/:id', auth, (req, res) => {
@@ -27,7 +29,7 @@ router.get('/:id', auth, (req, res) => {
       })
     }
 
-    // why do i have to use '_doc' to get the object i want? 
+    // why do i have to use '_doc' to get the object i want?
     // i dont know what im doing anymore, mongoose is weird
     const modTeam = { ...team }._doc;
     const members = [];
@@ -43,7 +45,7 @@ router.get('/:id', auth, (req, res) => {
     }));
 
     modTeam.members = members;
-    
+
     res.status(200).json({
       status: 'Success',
       team: modTeam,
@@ -84,7 +86,7 @@ router.post('/', auth, (req, res) => {
 // Delete team
 router.delete('/:id', auth, (req, res) => {
   const { id } = req.params;
-  
+
   if (!id) {
     return res.status(400).json({
       status: 'Team ID missing',
@@ -209,6 +211,77 @@ router.patch('/:id/history', auth, (req, res) => {
       status: 'Success',
     });
   });
+});
+
+
+/*  Upload images */
+router.patch('/:id/images', auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const team = await Team.findByIdAndUpdate(id, (error) => {
+      if (error) {
+        return res.status(500).json({message: 'Failed to find a team'});
+      }
+    });
+
+    await upload(req, res, function (err) {
+      const imgUrl = `https://teamy.s3.amazonaws.com/${req.file}`;
+
+      if (err instanceof multer.MulterError) {
+        res.status(413).json('File size must not exceed 1 megabyte');
+      } else {
+        team.images.push(imgUrl);
+        Team.findByIdAndUpdate(id,
+          { images: team.images }, { new: true }, (error) => {
+            if (error) {
+              return res.status(500).json({ message: 'Failed to update' });
+            }
+          });
+        res.send({ image: imgUrl });
+      }
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: 'Something went wrong. Try again later',
+      error: e,
+    });
+  }
+});
+
+/*  Upload files */
+router.patch('/:id/files', auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const team = await Team.findByIdAndUpdate(id, (error) => {
+      if (error) {
+        return res.status(500).json({message: 'Failed to find a team'});
+      }
+    });
+
+    await upload(req, res, function (err) {
+      const fileUrl = `https://teamy.s3.amazonaws.com/${req.file}`;
+
+      if (err instanceof multer.MulterError) {
+        res.status(413).json('File size must not exceed 1 megabyte');
+      } else {
+        team.files.push(fileUrl);
+        Team.findByIdAndUpdate(id,
+          { files: team.files }, { new: true }, (error) => {
+            if (error) {
+              return res.status(500).json({ message: 'Failed to update' });
+            }
+          });
+        res.send({ file: fileUrl });
+      }
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: 'Something went wrong. Try again later',
+      error: e,
+    });
+  }
 });
 
 module.exports = router;

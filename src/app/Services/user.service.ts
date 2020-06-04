@@ -51,6 +51,10 @@ export class UserService {
     return this.http.delete('/api/profile');
   }
 
+  changeAccountPassword(): Observable<object> {
+    return this.http.put('profile/change-password', {});
+  }
+
   getUser(userId): Observable<IUser> {
     return this.http.get(`/api/users/${userId}`);
   }
