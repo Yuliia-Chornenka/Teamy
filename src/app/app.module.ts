@@ -165,7 +165,7 @@ export function provideConfig() {
     MatChipsModule,
     MatSnackBarModule,
     MatProgressBarModule,
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([ AppEffects ]),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -173,7 +173,7 @@ export function provideConfig() {
         strictActionImmutability: true,
       },
     }),
-    StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    StoreDevtoolsModule.instrument({maxAge: 25}),
     StoreRouterConnectingModule.forRoot(),
     CountdownModule,
     MatTabsModule,
