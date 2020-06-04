@@ -9,11 +9,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { IToken } from '../../Models/token';
 import { AuthService, SocialUser } from 'angularx-social-login';
-import { FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
+import {
+  FacebookLoginProvider,
+  GoogleLoginProvider,
+} from 'angularx-social-login';
 import { UserService } from '../../Services/user.service';
 import { Store } from '@ngrx/store';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
-import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
+import {
+  LoadingStartAction,
+  LoadingFinishAction,
+} from 'src/app/reducers/loading/loading.actions';
 
 @Component({
   selector: 'app-login',
@@ -22,11 +28,9 @@ import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loadin
   providers: [
     { provide: MatFormFieldControl, useExisting: MatInput },
     { provide: MatButtonModule },
-  ]
+  ],
 })
-
 export class LoginComponent implements OnInit {
-
   user: IUser = new User('', '', '', '', '');
   form: FormGroup;
   returnUrl: string;
@@ -42,8 +46,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private authSocialService: AuthService,
     private addUserService: UserService,
-    private store$: Store<LoadingState>,
-  ) { }
+    private store$: Store<LoadingState>
+  ) {}
 
   ngOnInit(): void {
     this.createUser();
@@ -51,7 +55,7 @@ export class LoginComponent implements OnInit {
 
     this.authSocialService.authState.subscribe((userSocial) => {
       this.userSocial = userSocial;
-      this.loggedIn = (userSocial != null);
+      this.loggedIn = userSocial != null;
     });
   }
 
@@ -69,7 +73,7 @@ export class LoginComponent implements OnInit {
 
     const user: IUser = {
       email,
-      password
+      password,
     };
 
     this.authService.loginUser(user).subscribe({
@@ -85,36 +89,47 @@ export class LoginComponent implements OnInit {
           this.invalidLogin = true;
           this.errorMessage = 'The password is not correct!';
         }
-      }, complete: () => {
+      },
+      complete: () => {
         this.store$.dispatch(new LoadingFinishAction());
         this.router.navigate([this.returnUrl]);
-      }
+      },
     });
+  }
+
+  signInWithFB(): void {
+    this.authSocialService
+      .signIn(FacebookLoginProvider.PROVIDER_ID)
+      .then((user) => {
+        this.authService.setValue(this.authService.loggedIn());
+
+        const userSoc: IUser = {
+          name: user.name,
+          email: user.email,
+          photo: user.photoUrl,
+        };
+
+        this.addUserService.addSocUser(userSoc).subscribe(
+          (resp) => {
+            localStorage.setItem('token', resp.token);
+          },
+          (error) => {
+            if (error.status === 400) {
+              this.errorMessage =
+                'The error has been occurred during social login';
+            }
+          },
+          () => {
+            this.store$.dispatch(new LoadingFinishAction());
+            this.router.navigate(['/profile']);
+            console.log('user', userSoc);
+          }
+        );
+      });
   }
 
   // signInWithGoogle(): void {
   //   this.authSocialService.signIn(GoogleLoginProvider.PROVIDER_ID)
   //     .then(x => console.log(x));
   // }
-
-  signInWithFB(): void {
-    this.authSocialService.signIn(FacebookLoginProvider.PROVIDER_ID)
-      .then((user) => {
-        localStorage.setItem('token', user.authToken),
-          this.authService.setValue(this.authService.loggedIn());
-
-        this.addUserService.addSocUser({
-          name: user.name,
-          email: user.email,
-          photo: user.photoUrl
-        }),
-          this.router.navigate(['/profile']),
-          console.log('user', user);
-      });
-  }
-
-  signOut(): void {
-    this.authSocialService.signOut();
-  }
 }
-

@@ -39,39 +39,42 @@ router.post("/login", async (req, res) => {
   if (!validPass) return res.status(401).send("Invalid password");
 
   //Token
-  const token = jwt.sign(
-    {
-      _id: user._id,
-      dates: user.dates,
-      name: user.name,
-      email: user.email,
-      photo: user.photo,
-    },
-    process.env.TOKEN_SECRET
-  );
+
+  const obj = {
+    _id: user._id,
+    dates: user.dates,
+    name: user.name,
+    email: user.email,
+    photo: user.photo,
+  };
+
+  const token = jwt.sign(obj, process.env.TOKEN_SECRET);
+
   res.header("authorization", token).send(JSON.stringify({ token }));
 });
 
-router.post("/soclogin", async (req, res) => {
-
+router.post("/login/fb", async (req, res) => {
   const user = new User({
     name: req.body.name,
     email: req.body.email,
-    photo: '',
+    photo: req.body.photo,
   });
+
+  // Token
+
+  const obj = {
+    _id: user._id,
+    dates: user.dates,
+    name: user.name,
+    email: user.email,
+    photo: user.photo,
+  };
+
+  const token = jwt.sign(obj, process.env.TOKEN_SECRET);
+
   try {
     await user.save();
-    //Token
-    const token = jwt.sign(
-      {
-        name: user.name,
-        email: user.email,
-        photo: user.photo,
-      },
-      process.env.TOKEN_SECRET
-    );
     res.header("authorization", token).send(JSON.stringify({ token }));
-
   } catch (err) {
     res.status(400).send(err);
   }

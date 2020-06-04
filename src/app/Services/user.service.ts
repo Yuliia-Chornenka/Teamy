@@ -11,6 +11,10 @@ interface IId {
   deadline: number;
 }
 
+interface IToken {
+  token: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -23,8 +27,8 @@ export class UserService {
     return this.http.post<IUser>(`${this.baseUrl}/register`, user);
   }
 
-  addSocUser(user: User): Observable<User> {
-    return this.http.post<IUser>(`${this.baseUrl}/soclogin`, user);
+  addSocUser(user: User): Observable<IToken> {
+    return this.http.post<IToken>(`${this.baseUrl}/login/fb`, user);
   }
 
   imageUpload(imageForm: FormData): Observable<any> {
