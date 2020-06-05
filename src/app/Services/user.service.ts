@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IUser } from '../Models/user.model';
 import { User } from '../Models/user';
 import { IProject } from '../Models/project';
+import { UserInterface } from '../components/project/add-mentor-form/add-mentor-form.component';
 
 interface IId {
   _id: string;
@@ -55,7 +56,11 @@ export class UserService {
     return this.http.put('/api/profile/change-password', passwords);
   }
 
-  getUser(userId): Observable<IUser> {
-    return this.http.get(`/api/users/${userId}`);
+  getUser(userId): Observable<UserInterface> {
+    return this.http.get<UserInterface>(`/api/users/${userId}`);
+  }
+
+  getUsers(): Observable<UserInterface[]> {
+    return this.http.get<UserInterface[]>('/api/users');
   }
 }

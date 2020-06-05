@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { IUser } from 'src/app/components/project/add-mentor-form/add-mentor-form.component';
+import { UserInterface } from 'src/app/components/project/add-mentor-form/add-mentor-form.component';
 
 export enum mentorsActionsType {
   save = '[MENTORS] save',
@@ -10,13 +10,13 @@ export enum mentorsActionsType {
 export class SaveMentorsAction implements Action {
   readonly type = mentorsActionsType.save;
 
-  constructor(public payload: IUser[]) {}
+  constructor(public payload: UserInterface[]) {}
 }
 
 export class AddMentorAction implements Action {
   readonly type = mentorsActionsType.add;
 
-  constructor(public payload: IUser) {}
+  constructor(public payload: UserInterface) {}
 }
 
 export class RemoveMentorAction implements Action {

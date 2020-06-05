@@ -34,6 +34,10 @@
     align-items: center;
   }
 
+  &__copy-link-button {
+    margin-top: 15px;
+  }
+
   &__countdown {
     width: 50%;
     display: flex;
@@ -71,8 +75,6 @@
     align-items: center;
     justify-content: space-between;
 
-
-
     .instructions {
       display: flex;
       align-items: center;
@@ -100,6 +102,31 @@
     font-size: 32px;
     font-weight: 700;
     color: $purple;
+  }
+
+  .mentor-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0;
+    width: 100%;
+    margin-bottom: 10px;
+
+    &__item {
+      margin: 2%;
+      cursor: pointer;
+    }
+
+    &__image-container {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    &__image {
+      width: 100%;
+    }
   }
 }
 

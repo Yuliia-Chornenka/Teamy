@@ -1,4 +1,4 @@
-import { IUser } from '../components/project/add-mentor-form/add-mentor-form.component';
+import { UserInterface } from '../components/project/add-mentor-form/add-mentor-form.component';
 
 interface IRequirement {
   title: string;
@@ -13,7 +13,7 @@ export interface IProject {
   description: string;
   members?: [object];
   teams?: [object];
-  mentors?: IUser[];
+  mentors?: UserInterface[];
   role?: string;
   _id?: string;
   status?: string;
