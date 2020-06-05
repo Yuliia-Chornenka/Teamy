@@ -20,7 +20,6 @@ export class AuthorComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    console.log(this.authorId);
     this.userService.getUser(this.authorId).subscribe((user) => {
       this.author = { name: user.name, photo: user.photo, email: user.email };
     });

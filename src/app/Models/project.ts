@@ -1,3 +1,5 @@
+import { UserInterface } from '../components/project/add-mentor-form/add-mentor-form.component';
+
 interface IRequirement {
   title: string;
   priority: boolean;
@@ -11,7 +13,7 @@ export interface IProject {
   description: string;
   members?: [object];
   teams?: [object];
-  mentors?: Array<string>;
+  mentors?: UserInterface[];
   role?: string;
   _id?: string;
   status?: string;

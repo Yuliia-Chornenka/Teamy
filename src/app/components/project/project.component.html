@@ -8,14 +8,14 @@
     </div>
     <div class="project__options">
       <div class="project__author">
-        <h2>Author:</h2>
+        <h2 class="project__subtitle">Author:</h2>
         <app-author
           *ngIf="project?.created_by"
           [authorId]="project?.created_by"
         ></app-author>
       </div>
       <div class="project__countdown">
-        <h2>Time left:</h2>
+        <h2 class="project__subtitle">Time left:</h2>
         <div *ngIf="!isProjectOver; else projectIsOver">
           <countdown
             *ngIf="project?.deadline"
@@ -25,10 +25,32 @@
             [text]="countDownText"
           ></countdown>
         </div>
+        <button
+          class="project__copy-link-button"
+          mat-raised-button
+          color="accent"
+          [cdkCopyToClipboard]="projectUrl"
+          (click)="showMessageCopiedLink()"
+        >
+          Copy project link
+        </button>
       </div>
       <div class="project__mentor">
-        <h2>Mentors:</h2>
-        <p>{{ mentors$ | async | json }}</p>
+        <h2 class="project__subtitle">Mentors:</h2>
+        <ul class="project__mentor-list mentor-list">
+          <li class="mentor-list__item" *ngFor="let mentor of mentors$ | async">
+            <div class="mentor-list__image-container">
+              <img
+                class="mentor-list__image"
+                [src]="
+                  mentor.photo ? mentor.photo : '/assets/default-user-image.png'
+                "
+                [alt]="mentor.name"
+                [matTooltip]="mentor.email"
+              />
+            </div>
+          </li>
+        </ul>
         <button mat-raised-button color="accent" (click)="openModalAddMentor()">
           Add mentor
         </button>

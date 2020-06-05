@@ -28,11 +28,10 @@ export class ProjectService {
   }
 
   becomeProjectMentor(data): Observable<IProject> {
-    const { projectId, mentorName, mentorId } = data;
+    const { projectId, mentor } = data;
 
     return this.http.patch<IProject>(`/api/project/mentors/${projectId}`, {
-      name: mentorName,
-      id: mentorId,
+      ...mentor,
     });
   }
 

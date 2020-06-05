@@ -6,14 +6,17 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../Services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store, select } from '@ngrx/store';
-import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import {
   LoadingStartAction,
   LoadingFinishAction,
 } from 'src/app/reducers/loading/loading.actions';
 import { MatDialog } from '@angular/material/dialog';
-import { AddMentorFormComponent, IUser } from './add-mentor-form/add-mentor-form.component';
+import {
+  AddMentorFormComponent,
+  UserInterface,
+} from './add-mentor-form/add-mentor-form.component';
 import { selectMentors } from 'src/app/reducers/mentors/mentors.selector';
+import { SaveMentorsAction } from 'src/app/reducers/mentors/mentors.actions';
 
 @Component({
   selector: 'app-project',
@@ -22,21 +25,29 @@ import { selectMentors } from 'src/app/reducers/mentors/mentors.selector';
 })
 export class ProjectComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
-  project: IProject = {
-    created_by: '5ed66bf1f9409f0017c8fb28',
-    deadline: 1492946000000,
-    description: 'You should resolve issue for remoute work',
-    members: [{ id: 'someid', name: 'Ivan' }],
-    mentors: [],
-    requirements: [
-      { title: 'Use Angular Framework', priority: true },
-      { title: 'Social Login', priority: true },
-      { title: 'AWS', priority: false },
-    ],
-    teams: [{}],
-    title: 'Angular Final Task',
-    _id: '5ed4081334af460017bac211',
-  };
+  project: IProject;
+  //  = {
+  //   created_by: '5ed66bf1f9409f0017c8fb28',
+  //   deadline: 1492946000000,
+  //   description: 'You should resolve issue for remoute work',
+  //   members: [{ id: 'someid', name: 'Ivan' }],
+  //   mentors: [
+  //     {
+  //       _id: 'string',
+  //       name: 'string',
+  //       email: 'string',
+  //       photo: 'string',
+  //     },
+  //   ],
+  //   requirements: [
+  //     { title: 'Use Angular Framework', priority: true },
+  //     { title: 'Social Login', priority: true },
+  //     { title: 'AWS', priority: false },
+  //   ],
+  //   teams: [{}],
+  //   title: 'Angular Final Task',
+  //   _id: '5ed4081334af460017bac211',
+  // };
   id: string;
   projectUrl: string;
   countDownText = {
@@ -46,7 +57,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
     Seconds: 'Seconds:',
   };
   isProjectOver = false;
-  public mentors$: Observable<IUser[]> = this.store$.pipe(select(selectMentors));
+  public mentors$: Observable<UserInterface[]> = this.store$.pipe(
+    select(selectMentors)
+  );
 
   constructor(
     private projectService: ProjectService,
@@ -79,7 +92,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.projectService.getProject(projectId).subscribe(
         (project: IProject) => {
-          console.log('Project from server:', project);
           this.project = project;
         },
         (err) => {
@@ -87,6 +99,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
           this.store$.dispatch(new LoadingFinishAction());
         },
         () => {
+          this.store$.dispatch(new SaveMentorsAction(this.project.mentors));
           this.store$.dispatch(new LoadingFinishAction());
         }
       )
@@ -126,6 +139,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   openModalAddMentor() {
-    this.dialog.open(AddMentorFormComponent);
+    this.dialog.open(AddMentorFormComponent, { data: { projectId: this.id } });
   }
 }
