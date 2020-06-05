@@ -11,18 +11,17 @@ import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
   styleUrls: ['./header.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class HeaderComponent implements OnInit {
 
   isLoggedIn: boolean;
   public loading$: Observable<boolean> = this.store$.pipe(select(selectLoading));
-
 
   constructor(private authService: AuthenticationService, private store$: Store<LoadingState>) { }
 
   ngOnInit(): void {
     this.authService.getValue().subscribe((value) => {
       this.isLoggedIn = value;
-      console.log(value);
     });
   }
 

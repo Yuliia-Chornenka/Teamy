@@ -54,6 +54,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/login/fb", async (req, res) => {
+
   const existedUser = await User.findOne({ email: req.body.email });
 
   if (existedUser) {
@@ -83,7 +84,6 @@ router.post("/login/fb", async (req, res) => {
   });
 
   // Token
-
   const obj = {
     _id: user._id,
     dates: user.dates,

@@ -21,12 +21,14 @@ const userSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
+    required: false,
   },
   projects: {
     mentor: Array,
     member: Array,
   },
   dates: {
+    required: false,
     type: Date,
     default: Date.now()
   }

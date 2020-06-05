@@ -1,7 +1,12 @@
-@import "../../variables/colors";
+@import '../../variables/colors';
+@import '../../layout/media';
 
 .header {
   height: 110px;
+
+  @include phones {
+    height: auto;
+  }
 
   &__contacts {
     display: flex;
@@ -9,6 +14,7 @@
     width: 100%;
     font-size: 14px;
     background-color: $purple;
+    padding: 12px 0;
   }
 
   &__main {
@@ -19,6 +25,7 @@
   &__logo {
     cursor: pointer;
     display: flex;
+    font-family: 'Poiret One', cursive;
 
     a {
       display: flex;
@@ -36,13 +43,37 @@
     letter-spacing: 2px;
     color: $dimgray;
   }
+
+  &__info {
+    @include phones {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  &__socials {
+    @include phones {
+      justify-content: center;
+      width: 100%;
+      display: flex;
+    }
+  }
 }
 
 .info {
   display: flex;
 
+  @include phones {
+    flex-direction: column-reverse;
+  }
+
   &__item {
     margin-right: 25px;
+
+    @include phones {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
 
     &:last-child {
       margin-right: 0;

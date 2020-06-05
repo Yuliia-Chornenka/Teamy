@@ -1,5 +1,7 @@
 <div class="images__wrapper">
-  <img class="images__item" *ngFor="let image of chatTeamImages" [src]=image alt="">
+  <a class="images__item" *ngFor="let image of chatTeamImages" [href]="image" target="_blank">
+    <img class="images__picture" [src]="image" alt="">
+  </a>
 </div>
 
 <div class="images__btn-wrapper">

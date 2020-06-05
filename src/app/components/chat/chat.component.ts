@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import * as io from 'socket.io-client';
 import { FormBuilder, NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IUser } from '../../Models/user.model';
 import { IMessage } from '../../Models/message';
 import { ITeamRes } from '../../Models/team-res';
@@ -33,7 +33,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
               private route: ActivatedRoute,
               private chatService: ChatService,
               private errorMessage: MatSnackBar,
-              private projectService: ProjectService) {
+              private projectService: ProjectService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -87,6 +88,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     mainDiv.scrollTop = mainDiv.scrollHeight;
   }
 
+  checkUser(users, user) {
+    console.log('USERS', users);
+    console.log('USER', user);
+    if (!users.find(item => item._id === user._id)) {
+      console.log('NO USER');
+      return;
+    }
+    this.router.navigate(['/profile']);
+  }
+
   initChat() {
     this.route.params.subscribe(params => {
       this.room = params.id;
@@ -94,8 +105,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     this.chatService.getUser()
       .then((res: IUser) => this.user = res)
-      .then(user => this.initSocket());
+      .then(user => {
+        this.initSocket();
+        return user;
+      })
+      .then(user => this.initTeam(user));
+  }
 
+  initTeam(user) {
     this.chatService.getTeam(this.room)
       .then((res: ITeamRes) => {
         this.users = res.team.members.map(item => {
@@ -120,7 +137,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       })
       .then((res: ITeamRes) => {
         this.getProject(res.team.project_id);
-      });
+        return res
+      })
+      .then((res: ITeamRes) => this.checkUser(res.team.members, user));
   }
 
   initSocket() {

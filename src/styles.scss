@@ -1,7 +1,7 @@
 @import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
-@import "app/variables/colors";
-
+@import 'app/variables/colors';
+@import 'app/layout/media';
 
 html, body {
   height: 100%;
@@ -9,13 +9,15 @@ html, body {
 
 body {
   margin: 0;
-  font-family: 'Poiret One', cursive;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   position: relative;
   letter-spacing: 1.1px;
 }
 
 ul {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -37,6 +39,10 @@ button {
 
 section {
   min-height: 600px;
+
+  @include phones {
+    min-height: 300px;
+  }
 }
 
 ::selection {

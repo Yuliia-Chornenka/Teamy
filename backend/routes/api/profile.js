@@ -130,7 +130,7 @@ router.delete("/profile", auth, async (req, res) => {
   }
 });
 
-router.put("profile/change-password", auth, async (req, res) => {
+router.put("/profile/change-password", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json('USER not found');
@@ -139,7 +139,7 @@ router.put("profile/change-password", auth, async (req, res) => {
     if (password && newPassword && newPasswordConfirmation) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        await res.json({ message: "Invalid password" })
+        await res.status(401).json({message: 'Invalid password'});
       }
 
       if (newPassword !== newPasswordConfirmation) {

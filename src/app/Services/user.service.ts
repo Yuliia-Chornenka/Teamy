@@ -51,8 +51,8 @@ export class UserService {
     return this.http.delete('/api/profile');
   }
 
-  changeAccountPassword(): Observable<object> {
-    return this.http.put('profile/change-password', {});
+  changeAccountPassword(passwords: object): Observable<object> {
+    return this.http.put('/api/profile/change-password', passwords);
   }
 
   getUser(userId): Observable<IUser> {

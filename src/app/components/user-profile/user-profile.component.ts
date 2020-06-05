@@ -108,9 +108,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   changePassword(): void {
-    const dialogRef = this.dialog.open(ChangePasswordPopupComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-    });
+    this.dialog.open(ChangePasswordPopupComponent);
   }
 }
