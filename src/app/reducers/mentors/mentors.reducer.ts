@@ -8,21 +8,7 @@ export interface MentorsState {
 }
 
 const initialState = {
-  mentors: [
-    {
-      _id: '5ecbbf5ce3dd0c00175a2333',
-      name: 'Yulia',
-      photo:
-        'https://teamy.s3.amazonaws.com/1590950911791iconfinder_Man-16_379442.png',
-      email: '123@123',
-    },
-    {
-      _id: '5ed54665bb0846001728840d',
-      name: 'Ivan',
-      photo: 'https://teamy.s3.amazonaws.com/15911189851838069da92-96a5-4ad6-bb93-6b302a7dbbb4.jpg',
-      email: 'blackyulia583@gmail.com',
-    },
-  ],
+  mentors: [],
 };
 
 export const mentorsReducer = (
@@ -31,7 +17,7 @@ export const mentorsReducer = (
 ) => {
   switch (action.type) {
     case mentorsActionsType.save:
-      return { ...state, mentors: [...state.mentors, ...action.payload] };
+      return { ...state, mentors: [...action.payload] };
     case mentorsActionsType.add:
       return { ...state, mentors: [...state.mentors, action.payload] };
     case mentorsActionsType.remove:

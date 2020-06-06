@@ -33,6 +33,7 @@ router.get('/:id', auth, (req, res) => {
     // i dont know what im doing anymore, mongoose is weird
     const modTeam = { ...team }._doc;
     const members = [];
+    const mentors = [];
 
     await Promise.all(modTeam.members.map(async item => {
       const user = await User.findById(item.user_id);
@@ -44,6 +45,20 @@ router.get('/:id', auth, (req, res) => {
       });
     }));
 
+    await Promise.all(modTeam.mentors.map(async item => {
+      const user = await User.findById(item.user_id);
+
+      mentors.push({
+        user_id: item.user_id,
+        user_name: item.user_name,
+        user_photo: user ? user.photo : '',
+        user_email: user ? user.email : '',
+        mark: item.mark,
+        comment: item.comment,
+      });
+    }));
+
+    modTeam.mentors = mentors;
     modTeam.members = members;
 
     res.status(200).json({
@@ -55,31 +70,28 @@ router.get('/:id', auth, (req, res) => {
 
 // Create team
 router.post('/', auth, (req, res) => {
-  const { projectId, members } = req.body;
+  const { teams } = req.body;
 
-  if (!projectId || !members) {
+  if (!teams) {
     return res.status(400).json({
-      status: 'Project ID or members array missing',
+      status: 'Teams array missing',
     });
   }
 
-  const newTeam = new Team({
-    project_id: projectId,
-    members,
+  teams.forEach(async (team, index) => {
+    const newTeam = new Team({
+      project_id: team.projectId,
+      project_name: team.projectName,
+      members: team.members,
+      mentors: team.mentors,
+      name: `Team ${index + 1}`,
+    });
+  
+    await newTeam.save();
   });
 
-  newTeam.save((err, team) => {
-    if (err) {
-      return res.status(500).json({
-        status: 'Mongo error',
-        err,
-      });
-    }
-
-    res.status(200).json({
-      status: 'Success',
-      team_id: team._id,
-    });
+  res.status(200).json({
+    status: 'Success',
   });
 });
 
@@ -282,6 +294,36 @@ router.patch('/:id/files', auth, async (req, res) => {
       error: e,
     });
   }
+});
+
+router.patch('/:id/name', auth, (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  if (!id || !name) {
+    return res.status(400).json({
+      status: 'Team ID or name missing',
+    });
+  }
+
+  Team.findByIdAndUpdate(id, { name }, (err, team) => {
+    if (err) {
+      return res.status(500).json({
+        status: 'Mongo error',
+        err,
+      });
+    }
+
+    if (!team) {
+      return res.status(400).json({
+        status: 'Team not found',
+      });
+    }
+
+    res.status(200).json({
+      status: 'Name changed successfully',
+    })
+  })
 });
 
 module.exports = router;

@@ -31,28 +31,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   userId: string;
   projectAuthorId: string;
   isUserProjectCreator = false;
-  //  = {
-  //   created_by: '5ed66bf1f9409f0017c8fb28',
-  //   deadline: 1492946000000,
-  //   description: 'You should resolve issue for remoute work',
-  //   members: [{ id: 'someid', name: 'Ivan' }],
-  //   mentors: [
-  //     {
-  //       _id: 'string',
-  //       name: 'string',
-  //       email: 'string',
-  //       photo: 'string',
-  //     },
-  //   ],
-  //   requirements: [
-  //     { title: 'Use Angular Framework', priority: true },
-  //     { title: 'Social Login', priority: true },
-  //     { title: 'AWS', priority: false },
-  //   ],
-  //   teams: [{}],
-  //   title: 'Angular Final Task',
-  //   _id: '5ed4081334af460017bac211',
-  // };
+
   id: string;
   projectUrl: string;
   countDownText = {
@@ -116,7 +95,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   becomeMember(): void {
     this.subscriptions.add(
-      this.projectService.becomeProjectMember(this.id).subscribe(
+      this.projectService.becomeProjectMember({ projectId: this.id }).subscribe(
         (project: IProject) => {
           this.project.members = project.members;
 
@@ -138,8 +117,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     );
   }
 
-  showMessageCopiedLink() {
-    this.openSnackBar('Link copied', '✔');
+  showMessageCopied() {
+    this.openSnackBar('Copied', '✔');
   }
 
   projectIsOverMessage(e) {

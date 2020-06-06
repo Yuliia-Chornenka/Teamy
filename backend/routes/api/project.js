@@ -41,52 +41,125 @@ router.get("/:projectId", auth, async (req, res) => {
 });
 
 router.patch("/members/:projectId", auth, async (req, res) => {
-  try {
-    const memberId = req.user._id;
+  const isRequestBodyEmpty =
+    Object.keys(req.body).length === 0 && req.body.constructor === Object;
 
-    const project = await Project.findById(req.params.projectId, (error) => {
-      if (error) {
-        return res.status(500).json({ message: "Failed to find a project" });
-      }
-    });
+  if (isRequestBodyEmpty) {
+    try {
+      const { _id, name, email, photo } = req.user;
 
-    const isCreator = project.created_by === req.user._id;
-
-    if (isCreator) {
-      return res
-        .status(500)
-        .json({ message: "You are creator of this project" });
-    }
-
-    const isMemberExist = project.members.some(
-      (member) => member.id === req.user._id
-    );
-
-    if (isMemberExist) {
-      return res
-        .status(500)
-        .json({ message: "You are already a member of this project" });
-    }
-
-    project.members.push({ id: memberId, name: req.user.name });
-
-    const updatedProject = await Project.findByIdAndUpdate(
-      req.params.projectId,
-      project,
-      { new: true },
-      (error) => {
+      const project = await Project.findById(req.params.projectId, (error) => {
         if (error) {
-          return res.status(500).json({ message: "Failed to update" });
+          return res.status(500).json({ message: "Failed to find a project" });
         }
-      }
-    );
+      });
 
-    await res.json(updatedProject);
-  } catch (e) {
-    res.status(500).json({
-      message: "Something went wrong. Try again later.",
-      error: e,
-    });
+      const isCreator = project.created_by === _id;
+
+      if (isCreator) {
+        return res
+          .status(500)
+          .json({ message: "You are creator of this project" });
+      }
+
+      const isMemberExist = project.members.some(
+        (member) => member._id === _id
+      );
+
+      if (isMemberExist) {
+        return res
+          .status(500)
+          .json({ message: "You are already a member of this project" });
+      }
+
+      const isMentorExist = project.mentors.some(
+        (mentor) => mentor._id === _id
+      );
+
+      if (isMentorExist) {
+        return res
+          .status(500)
+          .json({ message: "You are already a mentor of this project" });
+      }
+
+      project.members.push({ _id, name, email, photo });
+
+      const updatedProject = await Project.findByIdAndUpdate(
+        req.params.projectId,
+        project,
+        { new: true },
+        (error) => {
+          if (error) {
+            return res.status(500).json({ message: "Failed to update" });
+          }
+        }
+      );
+
+      await res.json(updatedProject);
+    } catch (e) {
+      res.status(500).json({
+        message: "Something went wrong. Try again later.",
+        error: e,
+      });
+    }
+  } else {
+    try {
+      const { _id, name, email, photo } = req.body;
+
+      const project = await Project.findById(req.params.projectId, (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to find a project" });
+        }
+      });
+
+      const isCreator = project.created_by === _id;
+
+      if (isCreator) {
+        return res
+          .status(500)
+          .json({ message: "User is creator of this project" });
+      }
+
+      const isMemberExist = project.members.some(
+        (member) => member._id === _id
+      );
+
+      if (isMemberExist) {
+        return res
+          .status(500)
+          .json({ message: "User is already a member of this project" });
+      }
+
+      const isMentorExist = project.mentors.some(
+        (mentor) => mentor._id === _id
+      );
+
+      if (isMentorExist) {
+        return res
+          .status(500)
+          .json({ message: "User is already a mentor of this project" });
+      }
+
+      project.members.push({ _id, name, email, photo });
+
+      const updatedProject = await Project.findByIdAndUpdate(
+        req.params.projectId,
+        project,
+        { new: true },
+        (error) => {
+          if (error) {
+            return res.status(500).json({ message: "Failed to update" });
+          }
+        }
+      );
+
+      await res.json(updatedProject);
+    } catch (e) {
+      res.status(500).json({
+        message: "Something went wrong. Try again later.",
+        error: e,
+      });
+    }
   }
 });
 
@@ -114,6 +187,14 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
       return res
         .status(500)
         .json({ message: "User is mentor of this project" });
+    }
+
+    const isMemberExist = project.members.some((member) => member._id === _id);
+
+    if (isMemberExist) {
+      return res
+        .status(500)
+        .json({ message: "User is member of this project" });
     }
 
     project.mentors.push({ _id, name, photo, email });

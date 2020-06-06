@@ -9,6 +9,7 @@ import { IUser } from '../../../models/user.model';
 export class ChatUsersComponent implements OnInit {
   @Input() users: IUser[] = [];
   @Input() online: IUser[] = [];
+  @Input() type: string;
 
   constructor() { }
 

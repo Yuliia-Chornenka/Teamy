@@ -30,16 +30,19 @@
           mat-raised-button
           color="accent"
           [cdkCopyToClipboard]="projectUrl"
-          (click)="showMessageCopiedLink()"
+          (click)="showMessageCopied()"
         >
           Copy project link
         </button>
       </div>
-      <div class="project__mentor">
+      <div class="project__mentor" matTooltip="Click on mentor photo to copy email">
         <h2 class="project__subtitle">Mentors:</h2>
         <ul class="project__mentor-list mentor-list">
           <li class="mentor-list__item" *ngFor="let mentor of mentors$ | async">
-            <div class="mentor-list__image-container">
+            <div
+              class="mentor-list__image-container"
+              [cdkCopyToClipboard]="mentor.email"
+            >
               <img
                 class="mentor-list__image"
                 [src]="
@@ -47,6 +50,7 @@
                 "
                 [alt]="mentor.name"
                 [matTooltip]="mentor.email"
+                (click)="showMessageCopied()"
               />
             </div>
           </li>
@@ -59,7 +63,7 @@
     <div class="project__line"></div>
     <div class="project__info">
       <div class="project__description">
-        <h2>Descriprion:</h2>
+        <h2>Description:</h2>
         <p>{{ project?.description }}</p>
       </div>
       <div class="project__requirements" *ngIf="project?.requirements.length">
@@ -89,15 +93,6 @@
       </div>
     </div>
   </div>
-
-  <button
-    mat-raised-button
-    color="accent"
-    [cdkCopyToClipboard]="projectUrl"
-    (click)="showMessageCopiedLink()"
-  >
-    Copy project link
-  </button>
 
   <button mat-raised-button color="primary" *ngIf="!isUserProjectCreator" (click)="becomeMember()">
     Become a member

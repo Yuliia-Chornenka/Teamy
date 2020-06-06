@@ -1,8 +1,13 @@
 <section class="chat-users">
   <div class="chat-users__wrapper">
-    <ul class="chat-users__list">
+    <ul *ngIf="type === 'users'"  class="chat-users__list">
       <li *ngFor="let user of users">
         <app-chat-member [isOnline]="checkOnline(user)" [user]="user"></app-chat-member>
+      </li>
+    </ul>
+    <ul *ngIf="type === 'mentors'"  class="chat-users__list">
+      <li *ngFor="let user of users">
+        <app-chat-mentor [isOnline]="checkOnline(user)" [user]="user"></app-chat-mentor>
       </li>
     </ul>
   </div>
