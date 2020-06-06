@@ -38,7 +38,7 @@ export class AddMentorFormComponent implements OnInit {
   addMentorForm: FormGroup;
   choosenMentor: UserInterface;
   users: UserInterface[];
-  // = [
+  //  = [
   //   {
   //     _id: '5ecbbf5ce3dd0c00175a2333',
   //     name: 'Yulia',
@@ -111,6 +111,8 @@ export class AddMentorFormComponent implements OnInit {
   // ];
   filteredUsers: Observable<UserInterface[]>;
   projectId: string;
+  clickOnOption = false;
+  membersMode = false;
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
@@ -118,7 +120,7 @@ export class AddMentorFormComponent implements OnInit {
         this.users = users;
       },
       error: (err) => {
-        console.log(err);
+        this.openSnackBar(err.error.message, 'Error');
       },
       complete: () => {},
     });
@@ -131,6 +133,8 @@ export class AddMentorFormComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value))
     );
+
+    this.membersMode = this.data.membersMode || false;
   }
 
   private _filter(value) {
@@ -147,9 +151,36 @@ export class AddMentorFormComponent implements OnInit {
 
   OnUserSelected(user) {
     this.choosenMentor = user;
+    this.clickOnOption = true;
   }
 
   onSubmit() {
+    if (!this.clickOnOption) {
+      this.openSnackBar('Choose user from the list', 'Error');
+      return;
+    }
+
+    if (this.membersMode) {
+      this.projectService
+        .becomeProjectMember({
+          projectId: this.data.projectId,
+          member: this.choosenMentor,
+        })
+        .subscribe({
+          next: (resp) => {
+            console.log('Add member response', resp);
+          },
+          error: (err) => {
+            this.openSnackBar(err.error.message, 'Error');
+          },
+          complete: () => {
+            this.addMentorForm.reset();
+            this.dialogRef.close();
+          },
+        });
+      return;
+    }
+
     this.projectService
       .becomeProjectMentor({
         projectId: this.data.projectId,

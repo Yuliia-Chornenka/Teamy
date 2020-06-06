@@ -108,7 +108,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   becomeMember(): void {
     this.subscriptions.add(
-      this.projectService.becomeProjectMember(this.id).subscribe(
+      this.projectService.becomeProjectMember({ projectId: this.id }).subscribe(
         (project: IProject) => {
           this.project.members = project.members;
 
@@ -130,8 +130,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     );
   }
 
-  showMessageCopiedLink() {
-    this.openSnackBar('Link copied', '✔');
+  showMessageCopied() {
+    this.openSnackBar('Copied', '✔');
   }
 
   projectIsOverMessage(e) {
