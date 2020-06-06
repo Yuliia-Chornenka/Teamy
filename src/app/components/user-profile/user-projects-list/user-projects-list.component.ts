@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { IProject } from '../../Models/project';
+import { IProject } from '../../../Models/project';
 
 
 @Component({

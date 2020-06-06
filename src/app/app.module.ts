@@ -1,84 +1,52 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { EffectsModule } from '@ngrx/effects';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { SocialLoginModule, AuthServiceConfig, LoginOpt } from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { CountdownModule } from 'ng2-date-countdown';
 
+import { MaterialModule } from './material/material.module';
+import { AppEffects } from './app.effects';
+import { reducers, metaReducers } from './reducers';
+import { AuthGuard } from './guards/auth.guard';
+import { FilterPipe } from './pipes/filter.pipe';
+import { SearchPipe } from './pipes/search.pipe';
+import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewProjectFormComponent } from './components/new-project-form/new-project-form.component';
-import { AppRoutingModule } from './app-routing.module';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { ChatComponent } from './components/chat/chat.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { LoginComponent } from './components/login/login.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { TextFieldModule } from '@angular/cdk/text-field';
 import { ChatMessageComponent } from './components/chat/chat-message/chat-message.component';
 import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
 import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { FilterPipe } from './Pipes/filter.pipe';
-import { SearchPipe } from './Pipes/search.pipe';
-
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatDialogModule } from '@angular/material/dialog';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddNewMemberFormComponent } from './components/add-new-member-form/add-new-member-form.component';
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { ClipboardModule } from '@angular/cdk/clipboard';
-import { AuthGuard } from './Guards/auth.guard';
-import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
 import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatListModule } from '@angular/material/list';
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  LoginOpt,
-} from 'angularx-social-login';
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-} from 'angularx-social-login';
-import { UserProjectsListComponent } from './components/user-projects-list/user-projects-list.component';
-import { MatSortModule } from '@angular/material/sort';
-import { MatSelectModule } from '@angular/material/select';
-import { MatChipsModule } from '@angular/material/chips';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
-import { reducers, metaReducers } from './reducers';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { AppEffects } from './app.effects';
+import { UserProjectsListComponent } from './components/user-profile/user-projects-list/user-projects-list.component';
 import { ChatProfilePicComponent } from './components/chat/chat-profile-pic/chat-profile-pic.component';
-import { DeleteProfilePopupComponent } from './components/delete-profile-popup/delete-profile-popup.component';
-import { CountdownModule } from 'ng2-date-countdown';
-import { ChangePasswordPopupComponent } from './components/change-password-popup/change-password-popup.component';
+import { DeleteProfilePopupComponent } from './components/user-profile/delete-profile-popup/delete-profile-popup.component';
+import { ChangePasswordPopupComponent } from './components/user-profile/change-password-popup/change-password-popup.component';
 import { AuthorComponent } from './components/project/author/author.component';
 import { AddMentorFormComponent } from './components/project/add-mentor-form/add-mentor-form.component';
 import { ChatInfoHeaderComponent } from './components/chat/chat-info-header/chat-info-header.component';
 import { ChatImagesComponent } from './components/chat/chat-images/chat-images.component';
 import { ChatFilesComponent } from './components/chat/chat-files/chat-files.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const config = new AuthServiceConfig([
   // {
@@ -130,41 +98,14 @@ export function provideConfig() {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    DragDropModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    MaterialModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     HttpClientModule,
-    TextFieldModule,
-    MatProgressSpinnerModule,
-    MatTooltipModule,
-    MatSidenavModule,
     ClipboardModule,
     SocialLoginModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatSelectModule,
-    MatChipsModule,
-    MatSnackBarModule,
-    MatProgressBarModule,
     EffectsModule.forRoot([ AppEffects ]),
     StoreModule.forRoot(reducers, {
       metaReducers,
@@ -176,11 +117,6 @@ export function provideConfig() {
     StoreDevtoolsModule.instrument({maxAge: 25}),
     StoreRouterConnectingModule.forRoot(),
     CountdownModule,
-    MatTabsModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatListModule,
-    MatAutocompleteModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
