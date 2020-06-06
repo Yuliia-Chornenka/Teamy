@@ -13,7 +13,7 @@ import {
   FacebookLoginProvider,
   GoogleLoginProvider,
 } from 'angularx-social-login';
-import { UserService } from '../../Services/user.service';
+import { UserService } from '../../services/user.service';
 import { Store } from '@ngrx/store';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import {
