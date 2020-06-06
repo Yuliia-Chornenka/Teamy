@@ -44,6 +44,8 @@ router.patch("/members/:projectId", auth, async (req, res) => {
   const isRequestBodyEmpty =
     Object.keys(req.body).length === 0 && req.body.constructor === Object;
 
+    console.log(isRequestBodyEmpty)
+
   if (isRequestBodyEmpty) {
     try {
       const { _id, name, email, photo } = req.user;
@@ -62,7 +64,7 @@ router.patch("/members/:projectId", auth, async (req, res) => {
           .json({ message: "You are creator of this project" });
       }
 
-      const isMemberExist = project.members.some((member) => member.id === _id);
+      const isMemberExist = project.members.some((member) => member._id === _id);
 
       if (isMemberExist) {
         return res
