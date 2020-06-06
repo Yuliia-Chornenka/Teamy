@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IProject } from '../Models/project';
+import { IProject } from '../models/project';
 import { Observable } from 'rxjs';
 
 interface IId {
