@@ -1,5 +1,7 @@
 <form [formGroup]="addMentorForm" (ngSubmit)="onSubmit()" class="form">
-  <h2 class="form__title">Add mentor</h2>
+  <h2 class="form__title" *ngIf="!membersMode; else addMemberTitle">
+    Add mentor
+  </h2>
   <mat-form-field class="form__input">
     <input
       type="text"
@@ -23,11 +25,30 @@
           />
         </div>
         <span class="form__contacts">{{ user.name }}</span> |
-        <small class="form__contacts" [matTooltip]="user.email">{{ user.email }}</small>
+        <small class="form__contacts" [matTooltip]="user.email">{{
+          user.email
+        }}</small>
       </div>
     </mat-option>
   </mat-autocomplete>
-  <button mat-raised-button type="submit" color="primary">
+  <button
+    mat-raised-button
+    type="submit"
+    color="primary"
+    *ngIf="!membersMode; else addMemberButton"
+  >
     Add mentor
   </button>
 </form>
+
+<ng-template #addMemberTitle>
+  <h2 class="form__title">
+    Add member
+  </h2></ng-template
+>
+
+<ng-template #addMemberButton>
+  <button mat-raised-button type="submit" color="primary">
+    Add member
+  </button>
+</ng-template>

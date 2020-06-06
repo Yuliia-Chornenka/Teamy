@@ -23,8 +23,21 @@ export class ProjectService {
     return this.http.get(`/api/project/${projectId}`);
   }
 
-  becomeProjectMember(projectId: string): Observable<IProject> {
-    return this.http.patch<IProject>(`/api/project/members/${projectId}`, {});
+  becomeProjectMember(data): Observable<IProject> {
+    const { projectId, member } = data;
+
+    let requestBody;
+
+    if (member) {
+      requestBody = member;
+    } else {
+      requestBody = {};
+    }
+
+    return this.http.patch<IProject>(
+      `/api/project/members/${projectId}`,
+      requestBody
+    );
   }
 
   becomeProjectMentor(data): Observable<IProject> {
