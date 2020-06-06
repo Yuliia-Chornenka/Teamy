@@ -1,11 +1,30 @@
-<form  [formGroup]="addMentorForm" (ngSubmit)="onSubmit()">
-  <h2>Add mentor</h2>
-  <mat-form-field>
-    <input type="text" matInput formControlName="mentorName" [matAutocomplete]="auto">
+<form [formGroup]="addMentorForm" (ngSubmit)="onSubmit()" class="form">
+  <h2 class="form__title">Add mentor</h2>
+  <mat-form-field class="form__input">
+    <input
+      type="text"
+      matInput
+      formControlName="mentorName"
+      [matAutocomplete]="auto"
+    />
   </mat-form-field>
   <mat-autocomplete #auto="matAutocomplete">
-    <mat-option (click)="OnUserSelected(user)" *ngFor="let user of filteredUsers | async" [value]="user.name">
-      {{ user.name }}
+    <mat-option
+      (click)="OnUserSelected(user)"
+      *ngFor="let user of filteredUsers | async"
+      [value]="user.name"
+    >
+      <div class="form__option">
+        <div class="form__image-container">
+          <img
+            aria-hidden
+            [src]="user.photo || '/assets/default-user-image.png'"
+            class="form__image"
+          />
+        </div>
+        <span class="form__contacts">{{ user.name }}</span> |
+        <small class="form__contacts" [matTooltip]="user.email">{{ user.email }}</small>
+      </div>
     </mat-option>
   </mat-autocomplete>
   <button mat-raised-button type="submit" color="primary">
