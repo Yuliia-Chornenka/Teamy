@@ -17,7 +17,7 @@ export const mentorsReducer = (
 ) => {
   switch (action.type) {
     case mentorsActionsType.save:
-      return { ...state, mentors: [...state.mentors, ...action.payload] };
+      return { ...state, mentors: [...action.payload] };
     case mentorsActionsType.add:
       return { ...state, mentors: [...state.mentors, action.payload] };
     case mentorsActionsType.remove:
