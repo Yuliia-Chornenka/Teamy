@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IUser } from '../Models/user.model';
-import { User } from '../Models/user';
-import { IProject } from '../Models/project';
+import { IUser } from '../models/user.model';
+import { User } from '../models/user';
+import { IProject } from '../models/project';
 import { UserInterface } from '../components/project/add-mentor-form/add-mentor-form.component';
 
 interface IId {

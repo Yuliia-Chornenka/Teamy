@@ -1,14 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { ProjectService } from 'src/app/Services/project.service';
+import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
-import { UserService } from '../../Services/user.service';
+import { UserService } from '../../services/user.service';
 import { Store } from '@ngrx/store';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
-import {
-  LoadingStartAction,
-  LoadingFinishAction,
-} from 'src/app/reducers/loading/loading.actions';
+import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 
 interface IRequirement {
   title: string;

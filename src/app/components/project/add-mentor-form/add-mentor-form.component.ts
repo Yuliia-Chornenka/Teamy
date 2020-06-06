@@ -6,10 +6,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { MentorsState } from 'src/app/reducers/mentors/mentors.reducer';
 import { AddMentorAction } from 'src/app/reducers/mentors/mentors.actions';
-import { ProjectService } from 'src/app/Services/project.service';
+import { ProjectService } from '../../../services/project.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserService } from 'src/app/Services/user.service';
+import { UserService } from '../../../services/user.service';
 
 export interface UserInterface {
   _id: string;

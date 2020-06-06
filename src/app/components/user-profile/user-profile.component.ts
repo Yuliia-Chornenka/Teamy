@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../Services/user.service';
-import { IUser } from '../../Models/user.model';
-import { IProject } from '../../Models/project';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
-import { MatDialog } from '@angular/material/dialog';
-import { DeleteProfilePopupComponent } from '../delete-profile-popup/delete-profile-popup.component';
-import { ChangePasswordPopupComponent } from '../change-password-popup/change-password-popup.component';
-import { AuthenticationService } from '../../Services/authentication.service';
+import { UserService } from '../../services/user.service';
+import { IUser } from '../../models/user.model';
+import { IProject } from '../../models/project';
+import { DeleteProfilePopupComponent } from './delete-profile-popup/delete-profile-popup.component';
+import { ChangePasswordPopupComponent } from './change-password-popup/change-password-popup.component';
+import { AuthenticationService } from '../../services/authentication.service';
 
 
 @Component({
@@ -49,6 +50,7 @@ export class UserProfileComponent implements OnInit {
       },
       error: (err) => {
         this.isServerWork = false;
+        this.store$.dispatch(new LoadingFinishAction());
       },
       complete: () => {
         this.store$.dispatch(new LoadingFinishAction());

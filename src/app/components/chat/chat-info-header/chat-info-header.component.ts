@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IProject } from 'src/app/Models/project';
-import { ChatService } from 'src/app/Services/chat.service';
+import { IProject } from 'src/app/models/project';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-chat-info-header',

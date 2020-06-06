@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IUser } from 'src/app/Models/user.model';
+import { IUser } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-chat-profile-pic',

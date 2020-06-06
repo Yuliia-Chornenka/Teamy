@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ProjectService } from 'src/app/Services/project.service';
+import { ProjectService } from 'src/app/services/project.service';
 import { Subscription, Observable } from 'rxjs';
-import { IProject } from '../../Models/project';
+import { IProject } from '../../models/project';
 import { ActivatedRoute, Params } from '@angular/router';
-import { UserService } from '../../Services/user.service';
+import { UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store, select } from '@ngrx/store';
 import {

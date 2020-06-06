@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IUser } from '../../../Models/user.model';
+import { IUser } from '../../../models/user.model';
 
 @Component({
   selector: 'app-chat-users',
