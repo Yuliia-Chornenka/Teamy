@@ -2,14 +2,17 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { AddNewMemberFormComponent } from '../add-new-member-form/add-new-member-form.component';
 import { ProjectService } from '../../Services/project.service';
 import { IUser } from '../../Models/user.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../../Services/user.service';
+import { IProject } from '../../Models/project';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-create-teams',
@@ -26,11 +29,19 @@ export class CreateTeamsComponent implements OnInit {
   formCreateTeams: FormGroup;
   successCreation = true;
 
+  projectId: string;
+  userId: string;
+  projectAuthorId: string;
+  isUserProjectCreator = false;
+
   constructor(public dialog: MatDialog, private projectService: ProjectService,
-              private snackBar: MatSnackBar, private store$: Store<LoadingState>) {
+              private snackBar: MatSnackBar, private store$: Store<LoadingState>,
+              private userService: UserService,  private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => (this.projectId = params.id));
+    this.getUserData();
     this.formCreateTeams = new FormGroup({
       quantity: new FormControl('', [ Validators.required, Validators.min(2), this.checkNumberOfTeams.bind(this) ]),
     });
@@ -134,4 +145,31 @@ export class CreateTeamsComponent implements OnInit {
     }
   }
 
+  getUserData() {
+    this.userService.getUserData().subscribe({
+      next: (user: IUser) => {
+        this.userId = user._id;
+      },
+      error: (err) => {
+        this.openSnackBar('Sorry something went wrong. Please try again later.', 'ERROR');
+      },
+      complete: () => {
+        this.getProject(this.projectId);
+      }
+    });
+  }
+
+  getProject(id): void {
+    this.projectService.getProject(id).subscribe({
+      next: (project: IProject) => {
+        this.projectAuthorId = project.created_by;
+      },
+      error: (err) => {
+        this.openSnackBar('Sorry something went wrong. Please try again later.', 'ERROR');
+      },
+      complete: () => {
+        this.isUserProjectCreator = this.userId === this.projectAuthorId;
+      }
+    });
+  }
 }
