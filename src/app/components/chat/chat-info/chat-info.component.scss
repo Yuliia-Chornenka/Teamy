@@ -7,3 +7,16 @@
     padding: 10px;
   }
 }
+
+.general {
+  &__list-header {
+    font-weight: bold;
+  }
+
+  &__link {
+    :hover {
+      color: $purple;
+      text-decoration: underline;
+    }
+  }
+}

@@ -9,6 +9,7 @@ import { IProject } from '../../models/project';
 import { ChatService } from '../../services/chat.service';
 import { ProjectService } from '../../services/project.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ITeam } from 'src/app/models/team';
 
 @Component({
   selector: 'app-chat',
@@ -23,11 +24,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   messages: IMessage[] = [];
   groupedMessages: IMessage[] = [];
   users: IUser[] = [];
+  mentors: IUser[] = [];
   room: string;
   user: IUser;
   project: IProject;
   onlineUsers: IUser[] = [];
   sideOpened = true;
+  team: ITeam;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -88,11 +91,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     mainDiv.scrollTop = mainDiv.scrollHeight;
   }
 
-  checkUser(users, user) {
-    console.log('USERS', users);
-    console.log('USER', user);
-    if (!users.find(item => item._id === user._id)) {
-      console.log('NO USER');
+  checkUser(user) {
+    if (this.users.find(item => item._id === user._id) ||
+        this.mentors.find(item => item._id === user._id)) {
       return;
     }
     this.router.navigate(['/profile']);
@@ -115,20 +116,42 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   initTeam(user) {
     this.chatService.getTeam(this.room)
       .then((res: ITeamRes) => {
-        this.users = res.team.members.map(item => {
-          return {
-            _id: item.user_id,
-            name: item.user_name,
-            photo: item.user_photo,
-          };
-        });
+        this.team = res.team;
+        return res;
+      })
+      .then((res: ITeamRes) => {
+        this.users = res.team.members
+          .map(item => {
+            return {
+              _id: item.user_id,
+              name: item.user_name,
+              photo: item.user_photo,
+            };
+          });
+        this.mentors = res.team.mentors
+          .map(item => {
+            return {
+              _id: item.user_id,
+              name: item.user_name,
+              photo: item.user_photo,
+              email: item.user_email,
+              mark: item.mark,
+              comment: item.comment,
+            };
+          });
         return res;
       })
       .then((res: ITeamRes) => {
         this.messages = res.team.history.map(item => {
           return {
             text: item.text,
-            user: this.users.find(userItem => userItem._id === item.user_id),
+            user: this.users.find(userItem => userItem._id === item.user_id) ||
+                  this.mentors.find(userItem => userItem._id === item.user_id) ||
+                  {
+                    _id: 'DELETED',
+                    name: 'USER DELETED',
+                    photo: '',
+                  },
             date: item.date,
           };
         });
@@ -139,7 +162,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.getProject(res.team.project_id);
         return res;
       })
-      .then((res: ITeamRes) => this.checkUser(res.team.members, user));
+      .then((res: ITeamRes) => this.checkUser(user));
   }
 
   initSocket() {
@@ -169,6 +192,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   groupMessages() {
     this.groupedMessages.length = 0;
+    console.log('MESSAGES', this.messages);
     this.messages.map((message: IMessage, index: number, array: IMessage[]) => {
       if (index > 0) {
         const lastMessage = array[index - 1];

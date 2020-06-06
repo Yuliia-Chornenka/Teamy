@@ -1,21 +1,42 @@
 <section class="chat-info">
   <div class="chat-info__wrapper">
     <mat-accordion>
-      <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel [expanded]="true" class="chat-info__general general">
         <mat-expansion-panel-header>
           <mat-panel-title>
             General
           </mat-panel-title>
         </mat-expansion-panel-header>
-        Project link and deadline
+        <div *ngIf="project">
+          <dl class="general__list">
+            <dt class="general__list-header">Project Link</dt>
+            <dd><a class="general__link" 
+                   href="/project/{{ project.title }}/{{ project._id }}" 
+                   target="_blank">{{ project.title }}</a></dd>
+            <dt class="general__list-header">Deadline</dt>
+            <dd>{{ chatService.convertToDate(project.deadline).split(' ')[0] }}</dd>
+          </dl>
+        </div>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             Team
           </mat-panel-title>
+          <mat-panel-description *ngIf="team">
+            {{ teamName }}
+          </mat-panel-description>
         </mat-expansion-panel-header>
-        Can change team name here
+        <form>
+          <mat-form-field>
+            <mat-label>Team name</mat-label>
+            <input matInput
+                   placeholder="Type your team name" 
+                   [(ngModel)]="teamName" 
+                   [ngModelOptions]="{ standalone: true }"
+                   (change)="saveTeamName($event)">
+          </mat-form-field>
+        </form>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -23,7 +44,7 @@
             Mentors
           </mat-panel-title>
         </mat-expansion-panel-header>
-        Mentors list here
+        <app-chat-users [users]="users" [online]="online" type="mentors"></app-chat-users>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>

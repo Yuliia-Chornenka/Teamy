@@ -1,0 +1,27 @@
+.member {
+  align-items: center;
+  background: lightgrey;
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  margin: 5px 0;
+  padding: 10px;
+
+  &__name {
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  &__status {
+    background: red;
+    border-radius: 50%;
+    min-height: 8px;
+    min-width: 8px;
+  }
+
+  &__status--online {
+    background: green;
+  }
+}

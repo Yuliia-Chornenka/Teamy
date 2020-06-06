@@ -9,6 +9,7 @@ const teamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  name: String,
   members: [
     {
       user_id: {
@@ -18,6 +19,26 @@ const teamSchema = new mongoose.Schema({
       user_name: {
         type: String,
         required: true,
+      },
+    },
+  ],
+  mentors: [
+    {
+      user_id: {
+        type: String,
+        required: true,
+      },
+      user_name: {
+        type: String,
+        required: true,
+      },
+      comment: {
+        type: String,
+        default: '',
+      },
+      mark: {
+        type: Number,
+        default: 0,
       },
     },
   ],

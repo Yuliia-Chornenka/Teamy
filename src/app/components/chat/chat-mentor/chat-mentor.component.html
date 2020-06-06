@@ -1,0 +1,7 @@
+<div class="member" [cdkCopyToClipboard]="user.email" 
+                    [matTooltip]="user.email" 
+                    (click)="showSuccessBar()">
+  <div class="member__status" [ngClass]="isOnline ? 'member__status--online' : ''"></div>
+  <app-chat-profile-pic [user]="user" [offset]="false"></app-chat-profile-pic>
+  <div class="member__name">{{ user.name }}</div>
+</div>

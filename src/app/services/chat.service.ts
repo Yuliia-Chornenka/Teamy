@@ -33,7 +33,13 @@ export class ChatService {
 
   patchMessage(id, message) {
     return this.http.patch(`${this.baseUrl}${id}/history`, {
-      message
+      message,
+    });
+  }
+
+  patchTeamName(id, name) {
+    return this.http.patch(`${this.baseUrl}${id}/name`, {
+      name,
     });
   }
 

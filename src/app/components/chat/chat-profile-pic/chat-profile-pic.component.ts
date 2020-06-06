@@ -13,7 +13,6 @@ export class ChatProfilePicComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // console.log(this.user);
   }
 
 }
