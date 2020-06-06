@@ -130,8 +130,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     );
   }
 
-  showMessageCopiedLink() {
-    this.openSnackBar('Link copied', '✔');
+  showMessageCopied() {
+    this.openSnackBar('Copied', '✔');
   }
 
   projectIsOverMessage(e) {
