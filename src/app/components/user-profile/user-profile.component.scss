@@ -48,8 +48,18 @@
       justify-content: space-between;
     }
 
+    @include phones {
+      flex-direction: column;
+      justify-content: space-between;
+      height: 90px;
+    }
+
     &-text {
       font-size: 18px;
+
+      @include phones {
+        font-size: 14px;
+      }
 
       &--bold {
         font-weight: 500;
@@ -69,6 +79,10 @@
     letter-spacing: 1px;
     width: 70%;
     text-align: center;
+
+    @include phones {
+      font-size: 16px;
+    }
   }
 
   &__avatar {

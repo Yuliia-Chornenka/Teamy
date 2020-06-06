@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { ProjectService } from 'src/app/services/project.service';
+import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Store } from '@ngrx/store';
