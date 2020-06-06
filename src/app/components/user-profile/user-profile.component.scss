@@ -1,4 +1,6 @@
 @import "../../styles/variables/colors";
+@import '../../styles/layout/media';
+
 
 .user {
   margin: 0 auto 65px auto;
@@ -20,6 +22,10 @@
     padding: 30px;
     box-sizing: border-box;
     background-color: #BBBBBB;
+
+    @include phones {
+      width: 280px;
+    }
 
     &--container {
       min-height: 650px;
@@ -75,6 +81,10 @@
     border-radius: 5px;
     margin-bottom: 15px;
     background-size: cover;
+
+    @include phones {
+      height: 200px;
+    }
 
     &--input {
       visibility: hidden;

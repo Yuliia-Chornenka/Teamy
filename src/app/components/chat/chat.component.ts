@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import * as io from 'socket.io-client';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IUser } from '../../Models/user.model';
-import { IMessage } from '../../Models/message';
-import { ITeamRes } from '../../Models/team-res';
-import { IProject } from '../../Models/project';
-import { ChatService } from '../../Services/chat.service';
-import { ProjectService } from '../../Services/project.service';
+import { IUser } from '../../models/user.model';
+import { IMessage } from '../../models/message';
+import { ITeamRes } from '../../models/team-res';
+import { IProject } from '../../models/project';
+import { ChatService } from '../../services/chat.service';
+import { ProjectService } from '../../services/project.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -137,7 +137,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       })
       .then((res: ITeamRes) => {
         this.getProject(res.team.project_id);
-        return res
+        return res;
       })
       .then((res: ITeamRes) => this.checkUser(res.team.members, user));
   }

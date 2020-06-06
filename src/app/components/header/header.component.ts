@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AuthenticationService } from '../../Services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectLoading } from 'src/app/reducers/loading/loading.selectors';

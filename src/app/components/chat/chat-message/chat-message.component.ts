@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ChatService } from '../../../Services/chat.service';
-import { IMessage } from '../../../Models/message';
-import { IUser } from '../../../Models/user.model';
+import { ChatService } from '../../../services/chat.service';
+import { IMessage } from '../../../models/message';
+import { IUser } from '../../../models/user.model';
 
 @Component({
   selector: 'app-chat-message',

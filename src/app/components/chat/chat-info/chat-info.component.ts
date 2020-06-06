@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IProject } from 'src/app/Models/project';
+import { IProject } from 'src/app/models/project';
 
 @Component({
   selector: 'app-chat-info',
