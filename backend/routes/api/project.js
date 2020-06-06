@@ -44,8 +44,6 @@ router.patch("/members/:projectId", auth, async (req, res) => {
   const isRequestBodyEmpty =
     Object.keys(req.body).length === 0 && req.body.constructor === Object;
 
-    console.log(isRequestBodyEmpty)
-
   if (isRequestBodyEmpty) {
     try {
       const { _id, name, email, photo } = req.user;
