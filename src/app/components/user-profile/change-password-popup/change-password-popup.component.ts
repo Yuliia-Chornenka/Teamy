@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MustMatch } from './must-match.validator';
-import { UserService } from '../../../Services/user.service';
-import { IUser } from '../../../Models/user.model';
+import { UserService } from '../../../services/user.service';
+import { IUser } from '../../../models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 

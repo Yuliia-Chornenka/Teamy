@@ -7,10 +7,10 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AddNewMemberFormComponent } from '../add-new-member-form/add-new-member-form.component';
-import { ProjectService } from '../../Services/project.service';
-import { IUser } from '../../Models/user.model';
-import { UserService } from '../../Services/user.service';
-import { IProject } from '../../Models/project';
+import { ProjectService } from '../../services/project.service';
+import { IUser } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
+import { IProject } from '../../models/project';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 

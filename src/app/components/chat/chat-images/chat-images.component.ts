@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { ITeamRes } from '../../../Models/team-res';
-import { ChatService } from '../../../Services/chat.service';
+import { ITeamRes } from '../../../models/team-res';
+import { ChatService } from '../../../services/chat.service';
 
 @Component({
   selector: 'app-chat-images',

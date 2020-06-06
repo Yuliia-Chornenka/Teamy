@@ -3,11 +3,11 @@ import { MatInput } from '@angular/material/input';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IUser } from '../../Models/user.model';
-import { User } from '../../Models/user';
+import { IUser } from '../../models/user.model';
+import { User } from '../../models/user';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from 'src/app/Services/authentication.service';
-import { IToken } from '../../Models/token';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { IToken } from '../../models/token';
 import { AuthService, SocialUser } from 'angularx-social-login';
 import {
   FacebookLoginProvider,
