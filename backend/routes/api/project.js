@@ -62,12 +62,24 @@ router.patch("/members/:projectId", auth, async (req, res) => {
           .json({ message: "You are creator of this project" });
       }
 
-      const isMemberExist = project.members.some((member) => member._id === _id);
+      const isMemberExist = project.members.some(
+        (member) => member._id === _id
+      );
 
       if (isMemberExist) {
         return res
           .status(500)
           .json({ message: "You are already a member of this project" });
+      }
+
+      const isMentorExist = project.mentors.some(
+        (mentor) => mentor._id === _id
+      );
+
+      if (isMentorExist) {
+        return res
+          .status(500)
+          .json({ message: "You are already a mentor of this project" });
       }
 
       project.members.push({ _id, name, email, photo });
@@ -105,7 +117,7 @@ router.patch("/members/:projectId", auth, async (req, res) => {
       if (isCreator) {
         return res
           .status(500)
-          .json({ message: "You are creator of this project" });
+          .json({ message: "User is creator of this project" });
       }
 
       const isMemberExist = project.members.some(
@@ -115,7 +127,17 @@ router.patch("/members/:projectId", auth, async (req, res) => {
       if (isMemberExist) {
         return res
           .status(500)
-          .json({ message: "You are already a member of this project" });
+          .json({ message: "User is already a member of this project" });
+      }
+
+      const isMentorExist = project.mentors.some(
+        (mentor) => mentor._id === _id
+      );
+
+      if (isMentorExist) {
+        return res
+          .status(500)
+          .json({ message: "User is already a mentor of this project" });
       }
 
       project.members.push({ _id, name, email, photo });
@@ -165,6 +187,14 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
       return res
         .status(500)
         .json({ message: "User is mentor of this project" });
+    }
+
+    const isMemberExist = project.members.some((member) => member._id === _id);
+
+    if (isMemberExist) {
+      return res
+        .status(500)
+        .json({ message: "User is member of this project" });
     }
 
     project.mentors.push({ _id, name, photo, email });
