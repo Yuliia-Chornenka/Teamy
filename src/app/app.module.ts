@@ -19,7 +19,7 @@ import { reducers, metaReducers } from './reducers';
 import { AuthGuard } from './guards/auth.guard';
 import { FilterPipe } from './pipes/filter.pipe';
 import { SearchPipe } from './pipes/search.pipe';
-import { TokenInterceptorService } from './Services/token-iterceptor/token-interceptor.service';
+import { TokenInterceptorService } from './services/token-iterceptor/token-interceptor.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewProjectFormComponent } from './components/new-project-form/new-project-form.component';
