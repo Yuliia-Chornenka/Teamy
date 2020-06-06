@@ -17,6 +17,7 @@ import {
 } from './add-mentor-form/add-mentor-form.component';
 import { selectMentors } from 'src/app/reducers/mentors/mentors.selector';
 import { SaveMentorsAction } from 'src/app/reducers/mentors/mentors.actions';
+import { IUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-project',
@@ -26,6 +27,10 @@ import { SaveMentorsAction } from 'src/app/reducers/mentors/mentors.actions';
 export class ProjectComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   project: IProject;
+
+  userId: string;
+  projectAuthorId: string;
+  isUserProjectCreator = false;
   //  = {
   //   created_by: '5ed66bf1f9409f0017c8fb28',
   //   deadline: 1492946000000,
@@ -73,6 +78,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => (this.id = params.id));
     this.getProject(this.id);
+    this.getUserData();
     this.projectUrl = window.location.href;
   }
 
@@ -93,12 +99,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
       this.projectService.getProject(projectId).subscribe(
         (project: IProject) => {
           this.project = project;
+          this.projectAuthorId = project.created_by;
         },
         (err) => {
           this.openSnackBar(err.error.message, 'Error');
           this.store$.dispatch(new LoadingFinishAction());
         },
         () => {
+          this.isUserProjectCreator = this.userId === this.projectAuthorId;
           this.store$.dispatch(new SaveMentorsAction(this.project.mentors));
           this.store$.dispatch(new LoadingFinishAction());
         }
@@ -140,5 +148,19 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   openModalAddMentor() {
     this.dialog.open(AddMentorFormComponent, { data: { projectId: this.id } });
+  }
+
+  getUserData() {
+    this.userService.getUserData().subscribe({
+      next: (user: IUser) => {
+        this.userId = user._id;
+      },
+      error: (err) => {
+        this.openSnackBar('Sorry something went wrong. Please try again later.', 'ERROR');
+      },
+      complete: () => {
+        this.getProject(this.id);
+      }
+    });
   }
 }

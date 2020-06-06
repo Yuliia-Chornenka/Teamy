@@ -51,7 +51,7 @@
             </div>
           </li>
         </ul>
-        <button mat-raised-button color="accent" (click)="openModalAddMentor()">
+        <button mat-raised-button color="accent" *ngIf="isUserProjectCreator" (click)="openModalAddMentor()">
           Add mentor
         </button>
       </div>
@@ -99,17 +99,15 @@
     Copy project link
   </button>
 
-  <button mat-raised-button color="primary" (click)="becomeMember()">
+  <button mat-raised-button color="primary" *ngIf="!isUserProjectCreator" (click)="becomeMember()">
     Become a member
   </button>
 
   <app-create-teams
-    *ngIf="project?.members.length"
-    [members]="project?.members"
-  >
+    [members]="project?.members">
   </app-create-teams>
 </div>
 
-<ng-template #projectIsOver
-  ><div><p class="project__over">Project is over</p></div></ng-template
->
+<ng-template #projectIsOver>
+  <div><p class="project__over">Project is over</p></div>
+</ng-template>

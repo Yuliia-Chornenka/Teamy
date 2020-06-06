@@ -48,7 +48,7 @@ export class CreateTeamsComponent implements OnInit {
   }
 
   checkNumberOfTeams(control: FormControl) {
-    if (control.value >= this.members.length) {
+    if (this.members && control.value >= this.members.length) {
       return {
         numberError: true
       };
