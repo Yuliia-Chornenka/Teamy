@@ -62,7 +62,7 @@ router.patch("/members/:projectId", auth, async (req, res) => {
           .json({ message: "You are creator of this project" });
       }
 
-      const isMemberExist = project.members.some((member) => member.id === _id);
+      const isMemberExist = project.members.some((member) => member._id === _id);
 
       if (isMemberExist) {
         return res
