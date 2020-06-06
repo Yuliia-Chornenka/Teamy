@@ -46,7 +46,7 @@ router.patch("/members/:projectId", auth, async (req, res) => {
 
   if (isRequestBodyEmpty) {
     try {
-      const { _id, name, email, photi } = req.user;
+      const { _id, name, email, photo } = req.user;
 
       const project = await Project.findById(req.params.projectId, (error) => {
         if (error) {
