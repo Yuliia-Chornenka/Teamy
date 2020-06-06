@@ -121,15 +121,15 @@ export class ProjectComponent implements OnInit, OnDestroy {
           this.project.members = project.members;
 
           this.userService
-            .addUserMemberProject(project)
-            .subscribe((response: IProject) => {
-              if (response) {
-                this.openSnackBar(
-                  'You have successfully confirmed your participation',
-                  '✔'
-                );
-              }
-            });
+               .addUserMemberProject(project)
+               .subscribe((response: IProject) => {
+            if (response) {
+              this.openSnackBar(
+                'You have successfully confirmed your participation',
+                '✔'
+              );
+            }
+          });
         },
         (err) => {
           this.openSnackBar(err.error.message, 'Error');
