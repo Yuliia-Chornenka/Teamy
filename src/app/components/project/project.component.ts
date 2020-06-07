@@ -100,15 +100,15 @@ export class ProjectComponent implements OnInit, OnDestroy {
           this.project.members = project.members;
 
           this.userService
-               .addUserMemberProject(project)
-               .subscribe((response: IProject) => {
-            if (response) {
-              this.openSnackBar(
-                'You have successfully confirmed your participation',
-                '✔'
-              );
-            }
-          });
+            .addUserMemberProject(project)
+            .subscribe((response: IProject) => {
+              if (response) {
+                this.openSnackBar(
+                  'You have successfully confirmed your participation',
+                  '✔'
+                );
+              }
+            });
         },
         (err) => {
           this.openSnackBar(err.error.message, 'Error');
@@ -126,7 +126,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   openModalAddMentor() {
-    this.dialog.open(AddMentorFormComponent, { data: { projectId: this.id } });
+    this.dialog.open(AddMentorFormComponent, {
+      data: { projectId: this.id, project: this.project },
+    });
   }
 
   getUserData() {
@@ -135,11 +137,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
         this.userId = user._id;
       },
       error: (err) => {
-        this.openSnackBar('Sorry something went wrong. Please try again later.', 'ERROR');
+        this.openSnackBar(
+          'Sorry something went wrong. Please try again later.',
+          'ERROR'
+        );
       },
       complete: () => {
         this.getProject(this.id);
-      }
+      },
     });
   }
 }

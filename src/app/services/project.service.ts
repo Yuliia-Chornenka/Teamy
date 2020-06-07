@@ -15,8 +15,8 @@ interface IId {
 export class ProjectService {
   constructor(private http: HttpClient) {}
 
-  createNewProject(newProject: IProject): Observable<IId> {
-    return this.http.post<IId>(`/api/project/create`, newProject);
+  createNewProject(newProject: IProject): Observable<IProject> {
+    return this.http.post<IProject>(`/api/project/create`, newProject);
   }
 
   getProject(projectId: string) {
