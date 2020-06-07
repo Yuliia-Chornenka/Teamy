@@ -24,6 +24,11 @@ export class ChatAssessmentComponent implements OnInit {
   sendRating(rating) {
     this.chatService.patchMentorRating(this.team._id, this.user._id, rating)
       .subscribe({
+        next: res => {
+          this.snackBar.open('Your rating saved!', '✔', {
+            duration: 3000,
+          });
+        },
         error: res => {
           console.error(res);
           this.snackBar.open('Sorry, something went wrong', 'Close', {
@@ -36,6 +41,11 @@ export class ChatAssessmentComponent implements OnInit {
   sendComment(ev) {
     this.chatService.patchMentorComment(this.team._id, this.user._id, ev.target.value)
       .subscribe({
+        next: res => {
+          this.snackBar.open('Your comment saved!', '✔', {
+            duration: 3000,
+          });
+        },
         error: res => {
           console.error(res);
           this.snackBar.open('Sorry, something went wrong', 'Close', {
