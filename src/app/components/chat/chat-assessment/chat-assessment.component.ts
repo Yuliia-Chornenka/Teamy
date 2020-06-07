@@ -39,7 +39,7 @@ export class ChatAssessmentComponent implements OnInit {
   }
 
   sendComment(ev) {
-    this.chatService.patchMentorComment(this.team._id, this.user._id, ev.target.value)
+    this.chatService.patchMentorComment(this.team._id, this.user._id, ev.target.value.trim())
       .subscribe({
         next: res => {
           this.snackBar.open('Your comment saved!', '✔', {

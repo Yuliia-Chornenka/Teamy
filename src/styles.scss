@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
 @import 'app/styles/variables/colors';
 @import 'app/styles/layout/media';
+@import 'app/styles/mixins/mixins.scss';
 
 html, body {
   height: 100%;
@@ -47,4 +48,8 @@ section {
 
 ::selection {
   background-color: $yellow;
+}
+
+.mat-tab-body-content {
+  @include scrollbar();
 }
