@@ -5,7 +5,10 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Store } from '@ngrx/store';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
-import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
+import {
+  LoadingStartAction,
+  LoadingFinishAction,
+} from 'src/app/reducers/loading/loading.actions';
 
 interface IRequirement {
   title: string;

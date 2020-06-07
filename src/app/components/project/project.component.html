@@ -35,7 +35,10 @@
           Copy project link
         </button>
       </div>
-      <div class="project__mentor" matTooltip="Click on mentor photo to copy email">
+      <div
+        class="project__mentor"
+        matTooltip="Click on mentor photo to copy email"
+      >
         <h2 class="project__subtitle">Mentors:</h2>
         <ul class="project__mentor-list mentor-list">
           <li class="mentor-list__item" *ngFor="let mentor of mentors$ | async">
@@ -55,7 +58,12 @@
             </div>
           </li>
         </ul>
-        <button mat-raised-button color="accent" *ngIf="isUserProjectCreator" (click)="openModalAddMentor()">
+        <button
+          mat-raised-button
+          color="accent"
+          *ngIf="isUserProjectCreator"
+          (click)="openModalAddMentor()"
+        >
           Add mentor
         </button>
       </div>
@@ -93,14 +101,19 @@
       </div>
     </div>
   </div>
+  <div class="project__member-button-container">
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="!isUserProjectCreator"
+      (click)="becomeMember()"
+      class="project__member-button"
+    >
+      Become a member
+    </button>
+  </div>
 
-  <button mat-raised-button color="primary" *ngIf="!isUserProjectCreator" (click)="becomeMember()">
-    Become a member
-  </button>
-
-  <app-create-teams
-    [members]="project?.members">
-  </app-create-teams>
+  <app-create-teams [members]="project?.members"> </app-create-teams>
 </div>
 
 <ng-template #projectIsOver>

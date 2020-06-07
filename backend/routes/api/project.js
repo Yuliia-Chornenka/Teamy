@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Project = require("../../models/Project");
 const auth = require("../middleware/auth");
 const sendEmail = require("../../nodemailer/send-email");
+const User = require("../../models/User");
 
 router.post("/create", auth, async (req, res) => {
   const newProject = new Project({
@@ -12,13 +13,7 @@ router.post("/create", auth, async (req, res) => {
   try {
     await newProject.save();
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
-      JSON.stringify({
-        _id: newProject._id,
-        title: newProject.title,
-        deadline: newProject.deadline,
-      })
-    );
+    res.end(JSON.stringify(newProject));
   } catch (err) {
     res.writeHead(400, { "Content-Type": "application/json" });
     res.end(JSON.stringify(err));
@@ -153,6 +148,41 @@ router.patch("/members/:projectId", auth, async (req, res) => {
         }
       );
 
+
+      try {
+        const user = await User.findById(_id, (error) => {
+          if (error) {
+            return res.status(500).json({ message: "Failed to find a project" });
+          }
+        });
+  
+        const projectWithRole = {
+          mentors: project.mentors,
+          members: project.members,
+          teams: project.teams,
+          requirements: project.requirements,
+          _id: project._id,
+          title: project.title,
+          deadline: project.deadline,
+          description: project.description,
+          created_by: project.created_by,
+          role: "member",
+        };
+  
+        user.projects.member.push(projectWithRole);
+  
+        await User.findByIdAndUpdate(_id, user, { new: true }, (error) => {
+          if (error) {
+            return res.status(500).json({ message: "Failed to update" });
+          }
+        });
+      } catch (e) {
+        return res.status(500).json({
+          message: "Something went wrong. Try again later.",
+          error: e,
+        });
+      }
+
       await res.json(updatedProject);
     } catch (e) {
       res.status(500).json({
@@ -210,10 +240,44 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
       }
     );
 
+    try {
+      const user = await User.findById(_id, (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to find a project" });
+        }
+      });
+
+      const projectWithRole = {
+        mentors: project.mentors,
+        members: project.members,
+        teams: project.teams,
+        requirements: project.requirements,
+        _id: project._id,
+        title: project.title,
+        deadline: project.deadline,
+        description: project.description,
+        created_by: project.created_by,
+        role: "mentor",
+      };
+
+      user.projects.mentor.push(projectWithRole);
+
+      await User.findByIdAndUpdate(_id, user, { new: true }, (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to update" });
+        }
+      });
+    } catch (e) {
+      return res.status(500).json({
+        message: "Something went wrong. Try again later.",
+        error: e,
+      });
+    }
+
     await res.json(updatedProject);
     return;
   } catch (e) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Something went wrong. Try again later.",
       error: e,
     });
@@ -237,6 +301,31 @@ router.post("/send-email", auth, async (req, res) => {
   } catch (e) {
     res.status(500).json({ status: "Something went wrong. Try again" });
   }
+});
+
+router.delete("/:projectId", auth, async (req, res) => {
+  const { projectId } = req.params;
+
+  await Project.findByIdAndRemove(projectId, (err, doc) => {
+    if (doc) {
+      if (err) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+
+        res.end(JSON.stringify(err));
+      } else {
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(
+          JSON.stringify({
+            message: `Project have been removed successfully. ID: ${projectId}`,
+          })
+        );
+      }
+    } else {
+      res.writeHead(400, { "Content-Type": "application/json" });
+
+      res.end(JSON.stringify({ message: "Project doesn`t exist" }));
+    }
+  });
 });
 
 module.exports = router;

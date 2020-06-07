@@ -6,11 +6,11 @@ import { User } from '../models/user';
 import { IProject } from '../models/project';
 import { UserInterface } from '../components/project/add-mentor-form/add-mentor-form.component';
 
-interface IId {
-  _id: string;
-  title: string;
-  deadline: number;
-}
+// interface IId {
+//   _id: string;
+//   title: string;
+//   deadline: number;
+// }
 
 interface IToken {
   token: string;
@@ -36,8 +36,8 @@ export class UserService {
     return this.http.patch('/api/profile', imageForm);
   }
 
-  addUsersProject(project: IId): Observable<IId> {
-    return this.http.put<IId>(`/api/profile/project-mentor`, project);
+  addUsersProject(project: IProject): Observable<IProject> {
+    return this.http.put<IProject>(`/api/profile/project-mentor`, project);
   }
 
   addUserMemberProject(project: IProject): Observable<IProject> {

@@ -129,6 +129,11 @@
       object-fit: cover;
     }
   }
+
+  &__member-button-container {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 :host ::ng-deep .countdown {
