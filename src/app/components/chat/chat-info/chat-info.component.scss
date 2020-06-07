@@ -20,3 +20,13 @@
     }
   }
 }
+
+.links {
+  &__input {
+    width: 80%;
+  }
+
+  &__add-btn {
+    width: 20%;
+  }
+}

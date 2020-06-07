@@ -1,0 +1,5 @@
+<li class="chat-link">
+  <app-chat-link-icon *ngIf="link" [link]="link"></app-chat-link-icon>
+  <a [href]="link">{{ link }}</a>
+  <mat-icon (click)="linkApi.deleteLink(link)" class="chat-link__delete chat-link__icon">delete</mat-icon>
+</li>

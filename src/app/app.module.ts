@@ -48,6 +48,8 @@ import { ChatInfoHeaderComponent } from './components/chat/chat-info-header/chat
 import { ChatImagesComponent } from './components/chat/chat-images/chat-images.component';
 import { ChatFilesComponent } from './components/chat/chat-files/chat-files.component';
 import { ChatMentorComponent } from './components/chat/chat-mentor/chat-mentor.component';
+import { ChatLinkComponent } from './components/chat/chat-link/chat-link.component';
+import { ChatLinkIconComponent } from './components/chat/chat-link/chat-link-icon/chat-link-icon.component';
 
 const config = new AuthServiceConfig([
   // {
@@ -95,6 +97,8 @@ export function provideConfig() {
     ChatImagesComponent,
     ChatFilesComponent,
     ChatMentorComponent,
+    ChatLinkComponent,
+    ChatLinkIconComponent,
   ],
   imports: [
     BrowserModule,

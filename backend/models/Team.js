@@ -60,6 +60,7 @@ const teamSchema = new mongoose.Schema({
   ],
   files: Array,
   images: Array,
+  links: Array,
 });
 
 module.exports = mongoose.model("teams", teamSchema);

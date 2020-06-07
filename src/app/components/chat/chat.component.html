@@ -1,4 +1,4 @@
-<mat-sidenav-container class="chat-wrapper chat">
+<mat-sidenav-container class="chat-wrapper chat" *ngIf="project && team && socket">
   <mat-sidenav class="chat__sidebar" #sidenav mode="side" [(opened)]="sideOpened">
     <app-chat-info-header [project]="project"></app-chat-info-header>
     <mat-tab-group class="tab-wrapper">

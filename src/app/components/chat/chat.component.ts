@@ -10,6 +10,9 @@ import { ChatService } from '../../services/chat.service';
 import { ProjectService } from '../../services/project.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ITeam } from 'src/app/models/team';
+import { Store } from '@ngrx/store';
+import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
+import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 
 @Component({
   selector: 'app-chat',
@@ -37,7 +40,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
               private chatService: ChatService,
               private errorMessage: MatSnackBar,
               private projectService: ProjectService,
-              private router: Router) {
+              private router: Router,
+              private store$: Store<LoadingState>) {
   }
 
   ngOnInit(): void {
@@ -88,7 +92,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   scrollChat(): void {
     const mainDiv = (document.querySelector('.messages__main') as HTMLElement);
-    mainDiv.scrollTop = mainDiv.scrollHeight;
+    if (mainDiv) {
+      mainDiv.scrollTop = mainDiv.scrollHeight;
+    }
   }
 
   checkUser(user) {
@@ -100,6 +106,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   initChat() {
+    this.store$.dispatch(new LoadingStartAction());
+
     this.route.params.subscribe(params => {
       this.room = params.id;
     });
@@ -117,6 +125,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatService.getTeam(this.room)
       .then((res: ITeamRes) => {
         this.team = res.team;
+        if (!this.team) {
+          this.router.navigate(['/profile']);
+        }
         return res;
       })
       .then((res: ITeamRes) => {
@@ -162,7 +173,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.getProject(res.team.project_id);
         return res;
       })
-      .then((res: ITeamRes) => this.checkUser(user));
+      .then((res: ITeamRes) => {
+        this.checkUser(user);
+        return res;
+      })
+      .then((res: ITeamRes) => this.store$.dispatch(new LoadingFinishAction()));
   }
 
   initSocket() {

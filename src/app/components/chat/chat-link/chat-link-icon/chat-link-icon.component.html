@@ -1,0 +1,2 @@
+<mat-icon class="icon__generic" *ngIf="iconType === 'generic'">{{ iconName }}</mat-icon>
+<img class="icon__custom" *ngIf="iconType === 'custom'" [src]="'/assets/' + iconName">

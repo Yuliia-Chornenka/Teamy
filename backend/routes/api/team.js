@@ -326,4 +326,34 @@ router.patch('/:id/name', auth, (req, res) => {
   })
 });
 
+router.patch('/:id/links', auth, (req, res) => {
+  const { id } = req.params;
+  const { links } = req.body;
+
+  if (!id || !links) {
+    return res.status(400).json({
+      status: 'Team ID or links missing',
+    });
+  }
+
+  Team.findByIdAndUpdate(id, { links }, (err, team) => {
+    if (err) {
+      return res.status(500).json({
+        status: 'Mongo error',
+        err,
+      });
+    }
+
+    if (!team) {
+      return res.status(400).json({
+        status: 'Team not found',
+      });
+    }
+
+    res.status(200).json({
+      status: 'Links saved',
+    });
+  });
+});
+
 module.exports = router;

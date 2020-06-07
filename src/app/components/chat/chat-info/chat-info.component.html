@@ -1,6 +1,8 @@
 <section class="chat-info">
   <div class="chat-info__wrapper">
     <mat-accordion>
+
+      <!-- General info block -->
       <mat-expansion-panel [expanded]="true" class="chat-info__general general">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -18,6 +20,8 @@
           </dl>
         </div>
       </mat-expansion-panel>
+
+      <!-- Team name block -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -38,22 +42,43 @@
           </mat-form-field>
         </form>
       </mat-expansion-panel>
+
+      <!-- Mentors block -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             Mentors
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-chat-users [users]="users" [online]="online" type="mentors"></app-chat-users>
+        <app-chat-users *ngIf="users.length; else elseBlock" [users]="users" [online]="online" type="mentors"></app-chat-users>
+        <ng-template #elseBlock>Sorry, no mentors found</ng-template>
       </mat-expansion-panel>
-      <mat-expansion-panel>
+
+      <!-- Links block -->
+      <mat-expansion-panel class="chat-info__links links">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Links
           </mat-panel-title>
         </mat-expansion-panel-header>
-        Can add links here
+        <ul>
+          <app-chat-link *ngFor="let link of team.links" [link]="link" [linkApi]="getLinkApi()"></app-chat-link>
+        </ul>
+        <div class="links__add-container">
+          <form [formGroup]="linkForm" (ngSubmit)="addNewLink(linkForm.value)">
+            <mat-form-field class="links__input">
+              <input matInput 
+                     placeholder="Paste link here" 
+                     type="text" 
+                     formControlName="link" 
+                     required 
+                     pattern="^http:\/\/|^https:\/\/.*">
+            </mat-form-field>
+            <button mat-button color="primary" class="links__add-btn">Add link</button>
+          </form>
+        </div>
       </mat-expansion-panel>
+
     </mat-accordion>
   </div>
 </section>

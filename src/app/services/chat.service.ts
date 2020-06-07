@@ -43,6 +43,12 @@ export class ChatService {
     });
   }
 
+  patchTeamLinks(id, links) {
+    return this.http.patch(`${this.baseUrl}${id}/links`, {
+      links,
+    });
+  }
+
   imageUpload(id: string, imageForm: FormData): Observable<any> {
     return this.http.patch(`${this.baseUrl}${id}/images`, imageForm);
   }

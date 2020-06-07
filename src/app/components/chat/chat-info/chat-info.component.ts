@@ -4,6 +4,7 @@ import { ChatService } from '../../../services/chat.service';
 import { ITeam } from 'src/app/models/team';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IUser } from 'src/app/models/user.model';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-info',
@@ -18,9 +19,15 @@ export class ChatInfoComponent implements OnInit, OnChanges {
   deadlineDate: string;
   projectLink: string;
   teamName = '';
+  linkForm;
 
   constructor(public chatService: ChatService,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar,
+              private formBuilder: FormBuilder) {
+    this.linkForm = this.formBuilder.group({
+      link: '',
+    });
+  }
 
   ngOnChanges(): void {
     this.setTeamName();
@@ -55,4 +62,39 @@ export class ChatInfoComponent implements OnInit, OnChanges {
     }
   }
 
+  addNewLink(data) {
+    if (this.linkForm.valid) {
+      this.team.links.push(data.link);
+      this.linkForm.reset();
+      this.sendLinks();
+    }
+  }
+
+  deleteLink(link) {
+    const index = this.team.links.findIndex(item => item === link);
+    if (index >= 0) {
+      this.team.links.splice(index, 1);
+      this.sendLinks();
+    }
+  }
+
+  sendLinks() {
+    this.chatService.patchTeamLinks(this.team._id, this.team.links)
+      .subscribe({
+        error: res => {
+          console.error(res);
+          this.snackBar.open('Sorry, something went wrong', 'Close', {
+            duration: 3000,
+          });
+        },
+      });
+  }
+
+  getLinkApi() {
+    return {
+      deleteLink: (link) => {
+        this.deleteLink(link);
+      }
+    };
+  }
 }

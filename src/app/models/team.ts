@@ -32,4 +32,9 @@ export interface ITeam {
   ];
   files?: Array<string>;
   images?: Array<string>;
+  links?: Array<string>;
+}
+
+export interface ILinkApi {
+  deleteLink: (link) => void;
 }
