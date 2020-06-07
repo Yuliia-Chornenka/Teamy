@@ -50,6 +50,7 @@ import { ChatFilesComponent } from './components/chat/chat-files/chat-files.comp
 import { ChatMentorComponent } from './components/chat/chat-mentor/chat-mentor.component';
 import { ChatLinkComponent } from './components/chat/chat-link/chat-link.component';
 import { ChatLinkIconComponent } from './components/chat/chat-link/chat-link-icon/chat-link-icon.component';
+import { ChatAssessmentComponent } from './components/chat/chat-assessment/chat-assessment.component';
 
 const config = new AuthServiceConfig([
   // {
@@ -99,6 +100,7 @@ export function provideConfig() {
     ChatMentorComponent,
     ChatLinkComponent,
     ChatLinkIconComponent,
+    ChatAssessmentComponent,
   ],
   imports: [
     BrowserModule,

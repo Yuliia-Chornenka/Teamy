@@ -49,6 +49,20 @@ export class ChatService {
     });
   }
 
+  patchMentorRating(id, mentorId, rating) {
+    return this.http.patch(`${this.baseUrl}${id}/rate`, {
+      rating,
+      mentorId,
+    });
+  }
+
+  patchMentorComment(id, mentorId, comment) {
+    return this.http.patch(`${this.baseUrl}${id}/comment`, {
+      comment,
+      mentorId,
+    });
+  }
+
   imageUpload(id: string, imageForm: FormData): Observable<any> {
     return this.http.patch(`${this.baseUrl}${id}/images`, imageForm);
   }

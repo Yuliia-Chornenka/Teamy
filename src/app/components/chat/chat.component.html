@@ -2,6 +2,9 @@
   <mat-sidenav class="chat__sidebar" #sidenav mode="side" [(opened)]="sideOpened">
     <app-chat-info-header [project]="project"></app-chat-info-header>
     <mat-tab-group class="tab-wrapper">
+      <mat-tab label="Assess" *ngIf="overdue && isMentor">
+        <app-chat-assessment [user]="user" [team]="team"></app-chat-assessment>
+      </mat-tab>
       <mat-tab label="Info">
         <app-chat-info [project]="project" [team]="team" [users]="mentors" [online]="onlineUsers"></app-chat-info>
       </mat-tab>

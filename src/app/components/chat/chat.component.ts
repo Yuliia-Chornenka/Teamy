@@ -34,6 +34,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   onlineUsers: IUser[] = [];
   sideOpened = true;
   team: ITeam;
+  isMentor = false;
+  overdue = false;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -98,8 +100,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   checkUser(user) {
-    if (this.users.find(item => item._id === user._id) ||
-        this.mentors.find(item => item._id === user._id)) {
+    if (this.users.find(item => item._id === user._id)) {
+      return;
+    }
+    if (this.mentors.find(item => item._id === user._id)) {
+      this.isMentor = true;
       return;
     }
     this.router.navigate(['/profile']);
@@ -207,7 +212,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   groupMessages() {
     this.groupedMessages.length = 0;
-    console.log('MESSAGES', this.messages);
     this.messages.map((message: IMessage, index: number, array: IMessage[]) => {
       if (index > 0) {
         const lastMessage = array[index - 1];
@@ -234,6 +238,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   getProject(id) {
     this.projectService.getProject(id).subscribe((res: IProject) => {
       this.project = res;
+      this.overdue = this.project.deadline <= Date.now();
     });
   }
 }

@@ -1,0 +1,50 @@
+.assessment {
+  padding: 10px;
+
+  section {
+    min-height: 0;
+  }
+}
+
+.stars {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-top: 10px;
+
+  input {
+    display: none;
+
+    &:checked ~ label {
+      color: #ffd700;
+    }
+  }
+
+  label {
+    color: lightgrey;
+    cursor: pointer;
+
+    &:hover {
+      color: #ffd700;
+    }
+
+    &:hover ~ label {
+      color: #ffd700;
+    }
+  }
+
+  mat-icon {
+    font-size: 36px;
+    height: 36px;
+    width: 36px;
+  }
+}
+
+.comment {
+  margin-top: 30px;
+
+  &__textarea {
+    height: auto;
+    width: 100%;
+  }
+}
