@@ -1,9 +1,14 @@
+@import '../../../styles/mixins/mixins.scss';
+@import '../../../styles/variables/colors.scss';
+
 .assessment {
   padding: 10px;
 
   section {
     min-height: 0;
   }
+
+  @include scrollbar();
 }
 
 .stars {
@@ -46,5 +51,9 @@
   &__textarea {
     height: auto;
     width: 100%;
+
+    textarea {
+      @include scrollbar();
+    }
   }
 }

@@ -2,17 +2,17 @@
   <mat-sidenav class="chat__sidebar" #sidenav mode="side" [(opened)]="sideOpened">
     <app-chat-info-header [project]="project"></app-chat-info-header>
     <mat-tab-group class="tab-wrapper">
-      <mat-tab label="Assess" *ngIf="overdue && isMentor">
+      <mat-tab label="Assess" *ngIf="overdue && isMentor" class="content-wrapper">
         <app-chat-assessment [user]="user" [team]="team"></app-chat-assessment>
       </mat-tab>
-      <mat-tab label="Info">
+      <mat-tab label="Info" class="content-wrapper">
         <app-chat-info [project]="project" [team]="team" [users]="mentors" [online]="onlineUsers"></app-chat-info>
       </mat-tab>
-      <mat-tab label="Team">
+      <mat-tab label="Team" class="content-wrapper">
         <app-chat-users [users]="users" [online]="onlineUsers" type="users"></app-chat-users>
       </mat-tab>
-      <mat-tab label="Files"><app-chat-files></app-chat-files></mat-tab>
-      <mat-tab label="Images"><app-chat-images></app-chat-images></mat-tab>
+      <mat-tab label="Files" class="content-wrapper"><app-chat-files></app-chat-files></mat-tab>
+      <mat-tab label="Images" class="content-wrapper"><app-chat-images></app-chat-images></mat-tab>
     </mat-tab-group>
   </mat-sidenav>
   <mat-sidenav-content class="chat__messages messages">
