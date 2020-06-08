@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-module.exports = async (email) => {
+module.exports = async (userEmail, userName, projectTitle, projectId, teamId) => {
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
@@ -14,14 +14,16 @@ module.exports = async (email) => {
 
     const mailOptions = {
       from: `Teamy ${process.env.EMAIL_ADDRESS}`,
-      to: email,
-      subject: 'Details about the project ${project.name}',
+      to: userEmail,
+      subject: `Details about the project '${projectTitle}'`,
       html:
-        `<p>Hello, <b>{user.name}</b>!</p>
-        Your mentor has created teams in the project <b>{project.name}</b>.<br>
-        We are glad to announce that a chat for your team has already been created: {chat.link} <br>
+        `<p>Hello, <b>${userName}</b>!</p>
+        Your mentor has created teams in the project <b>${projectTitle}</b>.<br>
+        We are glad to announce that a chat for your team has already been created:
+        <a href="https://teamy-app.herokuapp.com/team/${teamId}" target="_blank">chat</a> <br>
         You can talk there with your teammates and save all necessary information.<br>
-        Also you can find all information about the project here: {project.link} <br>
+        Also you can find all information about the project
+        <a href="https://teamy-app.herokuapp.com/project/${projectTitle.toLowerCase().split(' ').join('-')}/${projectId}" target="_blank">here</a> <br>
         And in your <a href="https://teamy-app.herokuapp.com/profile" target="_blank">profile</a>
         you can find information about all the projects in which you are participating.<br>
         <p>

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../models/user';
+import { IUser } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,10 @@ export class ChatService {
     const mins = date.getMinutes();
 
     return `${day > 9 ? day : '0' + day}.${month}.${year} ${hours > 9 ? hours : '0' + hours }:${mins > 9 ? mins : '0' + mins}`;
+  }
+
+  createTeam(team): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, team);
   }
 
   getTeam(id) {

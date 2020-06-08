@@ -275,8 +275,9 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
 
 router.post("/send-email", auth, async (req, res) => {
   try {
-    const email = req.user.email;
-    const mailResult = sendEmail(email);
+    const {userEmail, userName, projectTitle, projectId, teamId} = req.body;
+
+    const mailResult = sendEmail(userEmail, userName, projectTitle, projectId, teamId);
 
     await mailResult.then((result) => {
       if (result === "Success") {
