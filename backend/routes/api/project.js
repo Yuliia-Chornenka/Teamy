@@ -148,29 +148,24 @@ router.patch("/members/:projectId", auth, async (req, res) => {
         }
       );
 
-
       try {
         const user = await User.findById(_id, (error) => {
           if (error) {
-            return res.status(500).json({ message: "Failed to find a project" });
+            return res
+              .status(500)
+              .json({ message: "Failed to find a project" });
           }
         });
-  
+
         const projectWithRole = {
-          mentors: project.mentors,
-          members: project.members,
-          teams: project.teams,
-          requirements: project.requirements,
           _id: project._id,
           title: project.title,
           deadline: project.deadline,
-          description: project.description,
-          created_by: project.created_by,
           role: "member",
         };
-  
+
         user.projects.member.push(projectWithRole);
-  
+
         await User.findByIdAndUpdate(_id, user, { new: true }, (error) => {
           if (error) {
             return res.status(500).json({ message: "Failed to update" });
@@ -248,15 +243,9 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
       });
 
       const projectWithRole = {
-        mentors: project.mentors,
-        members: project.members,
-        teams: project.teams,
-        requirements: project.requirements,
         _id: project._id,
         title: project.title,
         deadline: project.deadline,
-        description: project.description,
-        created_by: project.created_by,
         role: "mentor",
       };
 
