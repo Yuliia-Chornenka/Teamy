@@ -97,9 +97,7 @@ export class AddMentorFormComponent implements OnInit {
           member: this.choosenMentor,
         })
         .subscribe({
-          next: (resp) => {
-            console.log('Add member response', resp);
-          },
+          next: (resp) => {},
           error: (err) => {
             this.openSnackBar(err.error.message, 'Error');
           },
