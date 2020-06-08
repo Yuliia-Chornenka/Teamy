@@ -54,6 +54,10 @@ io.sockets.on("connection", (socket) => {
     });
   });
 
+  socket.on("new member", (data) => {
+    io.sockets.in(data.room).emit("new member");
+  })
+
   socket.on("disconnect", () => {
     const socketIndex = socketClients.findIndex(
       (item) => item.id === socket.id
