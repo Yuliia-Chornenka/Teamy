@@ -55,7 +55,7 @@ export class NewProjectFormComponent implements OnInit {
     this.newProjectForm.valueChanges.subscribe((formData) => {
       this.newProject = {
         ...formData,
-        deadline: Date.parse(formData.deadline),
+        deadline: Date.parse(formData.deadline) + 86399000,
       };
     });
   }
