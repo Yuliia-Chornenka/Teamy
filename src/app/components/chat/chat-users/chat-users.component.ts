@@ -17,9 +17,6 @@ export class ChatUsersComponent implements OnInit {
   }
 
   checkOnline(user) {
-    console.log('USER', user);
-    console.log('USERS', this.users);
-    console.log('ONLINE', this.online);
     return this.online.find(item => item._id === user._id);
   }
 
