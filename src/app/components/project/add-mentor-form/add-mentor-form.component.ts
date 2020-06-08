@@ -10,6 +10,7 @@ import { ProjectService } from '../../../services/project.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../../../services/user.service';
+import * as io from 'socket.io-client';
 
 export interface UserInterface {
   _id: string;
@@ -105,6 +106,9 @@ export class AddMentorFormComponent implements OnInit {
           complete: () => {
             this.addMentorForm.reset();
             this.dialogRef.close();
+            this.data.socket.emit('new member', {
+              room: this.data.projectId,
+            });
           },
         });
       return;

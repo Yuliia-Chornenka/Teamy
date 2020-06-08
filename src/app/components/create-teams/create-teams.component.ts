@@ -26,6 +26,7 @@ import { ChatService } from '../../services/chat.service';
 })
 export class CreateTeamsComponent implements OnInit {
   @Input() members: Array<object>;
+  @Input() socket;
 
   randomTeams = [];
   isTeamExist = false;
@@ -82,7 +83,7 @@ export class CreateTeamsComponent implements OnInit {
 
   openDialogNewMember() {
     this.dialog.open(AddMentorFormComponent, {
-      data: {projectId: this.projectId, membersMode: true},
+      data: {projectId: this.projectId, membersMode: true, socket: this.socket},
     });
   }
 
