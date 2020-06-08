@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProjectService } from 'src/app/services/project.service';
 import { Subscription, Observable } from 'rxjs';
 import { IProject } from '../../models/project';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store, select } from '@ngrx/store';
@@ -19,6 +19,9 @@ import { selectMentors } from 'src/app/reducers/mentors/mentors.selector';
 import { SaveMentorsAction } from 'src/app/reducers/mentors/mentors.actions';
 import { IUser } from '../../models/user.model';
 import * as io from 'socket.io-client';
+import { FirstAlertComponent } from './first-alert/first-alert.component';
+import { SecondAlertComponent } from './second-alert/second-alert.component';
+import { ThirdAlertComponent } from './third-alert/third-alert.component';
 
 @Component({
   selector: 'app-project',
@@ -54,7 +57,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private store$: Store,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -170,6 +174,43 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
     this.socket.on('new member', () => {
       this.getProject(this.id);
+    });
+  }
+
+  onRemoveProject() {
+    const firstConfirm = this.dialog.open(FirstAlertComponent);
+
+    firstConfirm.afterClosed().subscribe((firstConfirmation) => {
+      if (firstConfirmation) {
+        const secondConfirm = this.dialog.open(SecondAlertComponent);
+
+        secondConfirm.afterClosed().subscribe((secondConfirmation) => {
+          if (secondConfirmation) {
+            const thirdConfirm = this.dialog.open(ThirdAlertComponent);
+
+            thirdConfirm.afterClosed().subscribe((thirdConfirmation) => {
+              if (thirdConfirmation) {
+                this.removeProject();
+              }
+              return;
+            });
+          }
+          return;
+        });
+      }
+      return;
+    });
+  }
+
+  removeProject() {
+    this.projectService.removeProject(this.id).subscribe({
+      next: () => {},
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        this.router.navigate(['profile']);
+      },
     });
   }
 }

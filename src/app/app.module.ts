@@ -51,6 +51,9 @@ import { ChatMentorComponent } from './components/chat/chat-mentor/chat-mentor.c
 import { ChatLinkComponent } from './components/chat/chat-link/chat-link.component';
 import { ChatLinkIconComponent } from './components/chat/chat-link/chat-link-icon/chat-link-icon.component';
 import { ChatAssessmentComponent } from './components/chat/chat-assessment/chat-assessment.component';
+import { FirstAlertComponent } from './components/project/first-alert/first-alert.component';
+import { SecondAlertComponent } from './components/project/second-alert/second-alert.component';
+import { ThirdAlertComponent } from './components/project/third-alert/third-alert.component';
 
 const config = new AuthServiceConfig([
   // {
@@ -101,6 +104,9 @@ export function provideConfig() {
     ChatLinkComponent,
     ChatLinkIconComponent,
     ChatAssessmentComponent,
+    FirstAlertComponent,
+    SecondAlertComponent,
+    ThirdAlertComponent,
   ],
   imports: [
     BrowserModule,
