@@ -1,7 +1,6 @@
 <div class="wrapper create__teams-wrapper">
 
   <ng-container *ngIf="!isTeamExist">
-    <!--    <p class="list__title">All members:</p>-->
     <p class="list__title">{{ members?.length ? "All members:" : "There are no participants on this project yet."}}</p>
     <div class="list">
       <p class="list__item" *ngFor="let member of members">{{ member.name }}</p>
@@ -64,6 +63,7 @@
     </button>
 
     <mat-error *ngIf="!successCreation" class="teams__error"> We can't accept teams & send invitations now, please try again later.</mat-error>
+    <p *ngIf="isEmailSend" class="teams__success">Teams accepting and emails sent to everybody.</p>
 
   </ng-container>
 </div>
