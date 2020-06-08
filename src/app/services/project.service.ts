@@ -48,7 +48,7 @@ export class ProjectService {
     });
   }
 
-  sendEmailToMembers(): Observable<any> {
-    return this.http.post(`/api/project/send-email`, {});
+  sendEmailToMembers(infoForEmail): Observable<any> {
+    return this.http.post(`/api/project/send-email`, infoForEmail);
   }
 }

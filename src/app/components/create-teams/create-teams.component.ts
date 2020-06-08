@@ -33,6 +33,7 @@ export class CreateTeamsComponent implements OnInit {
   formCreateTeams: FormGroup;
   successCreation = true;
   projectInfo: IProject;
+  isEmailSend = false;
 
   projectId: string;
   userId: string;
@@ -179,8 +180,7 @@ export class CreateTeamsComponent implements OnInit {
 
             const teamItem = {
               index,
-              team:
-                {
+              team: {
                   projectId: this.projectInfo._id,
                   projectName: this.projectInfo.title,
                   members,
@@ -190,7 +190,29 @@ export class CreateTeamsComponent implements OnInit {
 
             this.chatService.createTeam(teamItem).subscribe({
               next: (result) => {
-                console.log(result);
+                team.forEach((member) => {
+                  const infoForEmail = {
+                    userEmail: member.email,
+                    userName: member.name,
+                    projectTitle: this.projectInfo.title,
+                    projectId: this.projectInfo._id,
+                    teamId: result.teamId,
+                  };
+
+                  this.projectService.sendEmailToMembers(infoForEmail).subscribe({
+                    next: (response) => {
+                      this.isEmailSend = true;
+                    },
+                    error: (err) => {
+                      this.successCreation = false;
+                      this.store$.dispatch(new LoadingFinishAction());
+                    },
+                    complete: () => {
+                      this.store$.dispatch(new LoadingFinishAction());
+                    },
+                  });
+
+                });
               },
               error: (err) => {
                     this.successCreation = false;
@@ -203,80 +225,7 @@ export class CreateTeamsComponent implements OnInit {
           });
         },
     });
-
-    // this.projectService.sendEmailToMembers().subscribe({
-    //   next: (response) => {
-    //     this.openSnackBar('Teams accepting and emails sent to everybody', '✔');
-    //   },
-    //   error: (err) => {
-    //     this.successCreation = false;
-    //     this.store$.dispatch(new LoadingFinishAction());
-    //   },
-    //   complete: () => {
-    //     this.store$.dispatch(new LoadingFinishAction());
-    //   },
-    // });
   }
-
-
-
-
-  // addTeams(): void {
-  //   // console.log(this.randomTeams);
-  //   // console.log(this.projectInfo);
-  //   this.store$.dispatch(new LoadingStartAction());
-  //
-  //   this.randomTeams.forEach((team, index: number) => {
-  //     const teamItem = {
-  //       index,
-  //       team:
-  //           {
-  //             projectId: this.projectInfo._id,
-  //             projectName: this.projectInfo.title,
-  //             members: [
-  //               {
-  //                 user_id: team[index]._id,
-  //                 user_name: team[index].name
-  //               },
-  //             ],
-  //             mentors: this.projectInfo.mentors
-  //           }
-  //     };
-  //
-  //     console.log(teamItem);
-  //
-  //     // this.chatService.createTeam(teamItem).subscribe({
-  //     //   next: (result) => {
-  //     //     console.log(result);
-  //     //   },
-  //     //   error: (err) => {
-  //     //         this.successCreation = false;
-  //     //         this.store$.dispatch(new LoadingFinishAction());
-  //     //   },
-  //     //   complete: () => {
-  //     //     this.store$.dispatch(new LoadingFinishAction());
-  //     //   },
-  //     // });
-  //   });
-  //
-  //
-  //
-  //   // this.successCreation = true;
-  //   // this.store$.dispatch(new LoadingStartAction());
-  //   //
-  //   // this.projectService.sendEmailToMembers().subscribe({
-  //   //   next: (response) => {
-  //   //     this.openSnackBar('Teams accepting and emails sent to everybody', '✔');
-  //   //   },
-  //   //   error: (err) => {
-  //   //     this.successCreation = false;
-  //   //     this.store$.dispatch(new LoadingFinishAction());
-  //   //   },
-  //   //   complete: () => {
-  //   //     this.store$.dispatch(new LoadingFinishAction());
-  //   //   },
-  //   // });
-  // }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
