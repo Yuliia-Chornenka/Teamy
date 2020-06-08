@@ -18,6 +18,7 @@ import {
 import { selectMentors } from 'src/app/reducers/mentors/mentors.selector';
 import { SaveMentorsAction } from 'src/app/reducers/mentors/mentors.actions';
 import { IUser } from '../../models/user.model';
+import * as io from 'socket.io-client';
 
 @Component({
   selector: 'app-project',
@@ -45,6 +46,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     select(selectMentors)
   );
 
+  socket;
+
   constructor(
     private projectService: ProjectService,
     private userService: UserService,
@@ -59,6 +62,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.getProject(this.id);
     this.getUserData();
     this.projectUrl = window.location.href;
+    this.initSocket();
   }
 
   ngOnDestroy() {
@@ -107,6 +111,11 @@ export class ProjectComponent implements OnInit, OnDestroy {
                   'You have successfully confirmed your participation',
                   '✔'
                 );
+
+                // Send message to others
+                this.socket.emit('new member', {
+                  room: this.id,
+                });
               }
             });
         },
@@ -145,6 +154,22 @@ export class ProjectComponent implements OnInit, OnDestroy {
       complete: () => {
         this.getProject(this.id);
       },
+    });
+  }
+
+  initSocket() {
+    // Open socket connection and join the room (room === unique project id)
+    this.socket = io.connect();
+
+    this.socket.on('connect', () => {
+      this.socket.emit('connect room', {
+        room: this.id,
+        user: this.userId,
+      });
+    });
+
+    this.socket.on('new member', () => {
+      this.getProject(this.id);
     });
   }
 }

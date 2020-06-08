@@ -6,11 +6,6 @@ import { User } from '../models/user';
 import { IProject } from '../models/project';
 import { UserInterface } from '../components/project/add-mentor-form/add-mentor-form.component';
 
-// interface IId {
-//   _id: string;
-//   title: string;
-//   deadline: number;
-// }
 
 interface IToken {
   token: string;
