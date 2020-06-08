@@ -20,6 +20,7 @@ import {
   LoadingStartAction,
   LoadingFinishAction,
 } from 'src/app/reducers/loading/loading.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +47,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private authSocialService: AuthService,
     private addUserService: UserService,
-    private store$: Store<LoadingState>
+    private store$: Store<LoadingState>,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +103,6 @@ export class LoginComponent implements OnInit {
     this.authSocialService
       .signIn(FacebookLoginProvider.PROVIDER_ID)
       .then((user) => {
-
         const userSoc: IUser = {
           name: user.name,
           email: user.email,
@@ -115,7 +116,7 @@ export class LoginComponent implements OnInit {
           },
           (error) => {
             if (error.status === 400) {
-              console.log(error);
+              this.openSnackBar(error.error.message, 'ERROR');
             }
           },
           () => {
@@ -126,8 +127,9 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  // signInWithGoogle(): void {
-  //   this.authSocialService.signIn(GoogleLoginProvider.PROVIDER_ID)
-  //     .then(x => console.log(x));
-  // }
+  openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
+  }
 }

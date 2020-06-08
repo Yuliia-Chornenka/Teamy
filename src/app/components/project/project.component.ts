@@ -206,7 +206,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.projectService.removeProject(this.id).subscribe({
       next: () => {},
       error: (err) => {
-        console.log(err);
+        this.openSnackBar(err.error.message, 'ERROR');
       },
       complete: () => {
         this.router.navigate(['profile']);

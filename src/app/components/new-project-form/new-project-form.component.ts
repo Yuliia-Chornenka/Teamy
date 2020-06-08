@@ -9,6 +9,7 @@ import {
   LoadingStartAction,
   LoadingFinishAction,
 } from 'src/app/reducers/loading/loading.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface IRequirement {
   title: string;
@@ -33,7 +34,8 @@ export class NewProjectFormComponent implements OnInit {
     private projectService: ProjectService,
     private userService: UserService,
     private router: Router,
-    private store$: Store<LoadingState>
+    private store$: Store<LoadingState>,
+    private snackBar: MatSnackBar,
   ) {}
 
   newProjectForm: FormGroup;
@@ -86,8 +88,8 @@ export class NewProjectFormComponent implements OnInit {
 
         this.userService.addUsersProject(response).subscribe();
       },
-      error: (msg) => {
-        console.log(msg);
+      error: (err) => {
+        this.openSnackBar(err.error.message, 'ERROR');
       },
       complete: () => {
         this.store$.dispatch(new LoadingFinishAction());
@@ -100,5 +102,11 @@ export class NewProjectFormComponent implements OnInit {
 
   formatProjectTitleForUrl(projectTitle: string): string {
     return projectTitle.toLowerCase().split(' ').join('-');
+  }
+
+  openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
   }
 }
