@@ -158,7 +158,7 @@ router.patch("/members/:projectId", auth, async (req, res) => {
         });
 
         const projectWithRole = {
-          _id: project._id,
+          _id: project._id.toString(),
           title: project.title,
           deadline: project.deadline,
           role: "member",
@@ -243,7 +243,7 @@ router.patch("/mentors/:projectId", auth, async (req, res) => {
       });
 
       const projectWithRole = {
-        _id: project._id,
+        _id: project._id.toString(),
         title: project.title,
         deadline: project.deadline,
         role: "mentor",
@@ -295,26 +295,75 @@ router.post("/send-email", auth, async (req, res) => {
 router.delete("/:projectId", auth, async (req, res) => {
   const { projectId } = req.params;
 
-  await Project.findByIdAndRemove(projectId, (err, doc) => {
-    if (doc) {
+  const removedProject = await Project.findByIdAndRemove(
+    projectId,
+    async (err, doc) => {
       if (err) {
-        res.writeHead(400, { "Content-Type": "application/json" });
-
-        res.end(JSON.stringify(err));
-      } else {
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(
-          JSON.stringify({
-            message: `Project have been removed successfully. ID: ${projectId}`,
-          })
-        );
+        return res.status(500).json({ message: "Failed to delete" });
       }
-    } else {
-      res.writeHead(400, { "Content-Type": "application/json" });
+    }
+  );
 
-      res.end(JSON.stringify({ message: "Project doesn`t exist" }));
+  const users = await User.find({}, (error) => {
+    if (error) {
+      return res.status(500).json({ message: "Failed to find a users" });
     }
   });
+
+  const usersWithProjectInMentor = [];
+  const usersWithProjectInMember = [];
+
+  users.forEach((user) => {
+    const isProjectInMentor = user.projects.mentor.some(
+      (project) => project._id === projectId
+    );
+
+    if (isProjectInMentor) {
+      usersWithProjectInMentor.push(user);
+    }
+
+    const isProjectInMember = user.projects.member.some(
+      (project) => project._id === projectId
+    );
+
+    if (isProjectInMember) {
+      usersWithProjectInMember.push(user);
+    }
+  });
+
+  if (usersWithProjectInMentor.length !== 0) {
+    usersWithProjectInMentor.forEach(async (user) => {
+      user.projects.mentor = user.projects.mentor.filter(
+        (project) => project._id !== projectId
+      );
+
+      await User.findByIdAndUpdate(user._id, user, { new: true }, (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to update" });
+        }
+      });
+    });
+  }
+
+  if (usersWithProjectInMember.length !== 0) {
+    usersWithProjectInMember.forEach(async (user) => {
+      user.projects.member = user.projects.member.filter(
+        (project) => project._id !== projectId
+      );
+
+      await User.findByIdAndUpdate(user._id, user, { new: true }, (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to update" });
+        }
+      });
+    });
+  }
+
+  res.json({
+    message: `Project ${projectId} has been removed successfully`,
+    removedProject,
+  });
+  return;
 });
 
 module.exports = router;
