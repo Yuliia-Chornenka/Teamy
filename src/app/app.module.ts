@@ -52,8 +52,10 @@ import { ChatLinkComponent } from './components/chat/chat-link/chat-link.compone
 import { ChatLinkIconComponent } from './components/chat/chat-link/chat-link-icon/chat-link-icon.component';
 import { ChatAssessmentComponent } from './components/chat/chat-assessment/chat-assessment.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
-import {FlickityModule} from 'ngx-flickity';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
+import { FirstAlertComponent } from './components/project/first-alert/first-alert.component';
+import { SecondAlertComponent } from './components/project/second-alert/second-alert.component';
+import { ThirdAlertComponent } from './components/project/third-alert/third-alert.component';
 
 const config = new AuthServiceConfig([
   {
@@ -101,6 +103,9 @@ export function provideConfig() {
     ChatLinkIconComponent,
     ChatAssessmentComponent,
     GalleryComponent,
+    FirstAlertComponent,
+    SecondAlertComponent,
+    ThirdAlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -125,7 +130,6 @@ export function provideConfig() {
     StoreDevtoolsModule.instrument({maxAge: 25}),
     StoreRouterConnectingModule.forRoot(),
     CountdownModule,
-    FlickityModule,
     MatStepperModule,
   ],
   providers: [

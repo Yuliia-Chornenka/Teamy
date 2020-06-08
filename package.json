@@ -42,7 +42,6 @@
     "multer-s3": "^2.9.0",
     "ng-simple-slideshow": "^1.2.9",
     "ng2-date-countdown": "^1.1.2",
-    "ngx-flickity": "0.0.9",
     "nodemailer": "^6.4.8",
     "nodemon": "^2.0.4",
     "path": "^0.12.7",
