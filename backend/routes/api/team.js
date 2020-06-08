@@ -69,29 +69,28 @@ router.get('/:id', auth, (req, res) => {
 });
 
 // Create team
-router.post('/', auth, (req, res) => {
-  const { teams } = req.body;
+router.post('/', auth, async (req, res) => {
+  const { team, index } = req.body;
 
-  if (!teams) {
+  if (!team) {
     return res.status(400).json({
-      status: 'Teams array missing',
+      status: 'Team data missing',
     });
   }
 
-  teams.forEach(async (team, index) => {
-    const newTeam = new Team({
-      project_id: team.projectId,
-      project_name: team.projectName,
-      members: team.members,
-      mentors: team.mentors,
-      name: `Team ${index + 1}`,
-    });
-  
-    await newTeam.save();
+  const newTeam = new Team({
+    project_id: team.projectId,
+    project_name: team.projectName,
+    members: team.members,
+    mentors: team.mentors,
+    name: `Team ${index + 1}`,
   });
+
+  await newTeam.save();
 
   res.status(200).json({
     status: 'Success',
+    teamId: newTeam._id,
   });
 });
 
