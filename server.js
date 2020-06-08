@@ -34,16 +34,18 @@ const socketClients = [];
 io.sockets.on("connection", (socket) => {
   socket.on("connect room", (data) => {
     socket.join(data.room);
-    const client = {
-      id: socket.id,
-      room: data.room,
-      user: data.user,
-    };
-    socketClients.push(client);
-    io.sockets.in(data.room).emit(
-      "user connected",
-      socketClients.map((item) => item.user)
-    );
+    if (data.user) {
+      const client = {
+        id: socket.id,
+        room: data.room,
+        user: data.user,
+      };
+      socketClients.push(client);
+      io.sockets.in(data.room).emit(
+        "user connected",
+        socketClients.map((item) => item.user)
+      );
+    }
   });
 
   socket.on("message", (data) => {

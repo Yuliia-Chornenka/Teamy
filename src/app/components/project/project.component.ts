@@ -168,7 +168,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.socket.on('connect', () => {
       this.socket.emit('connect room', {
         room: this.id,
-        user: this.userId,
       });
     });
 
