@@ -51,4 +51,8 @@ export class ProjectService {
   sendEmailToMembers(infoForEmail): Observable<any> {
     return this.http.post(`/api/project/send-email`, infoForEmail);
   }
+
+  removeProject(projectId: string): Observable<any> {
+    return this.http.delete(`/api/project/${projectId}`);
+  }
 }
