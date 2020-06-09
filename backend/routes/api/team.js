@@ -355,56 +355,23 @@ router.patch('/:id/links', auth, (req, res) => {
   });
 });
 
-router.patch('/:id/rate', auth, (req, res) => {
+router.patch('/:id/assessment/', auth, (req, res) => {
   const { id } = req.params;
-  const { rating, mentorId } = req.body;
+  const { comment, mark, mentorId } = req.body;
 
-  if (!id || !mentorId || !rating) {
+  if (!id || !mentorId) {
     return res.status(400).json({
-      status: 'Team ID, mentor ID or rating missing',
-    });
-  }
-
-  Team.findByIdAndUpdate(
-    id,
-    { $set: { "mentors.$[elem].mark": rating } },
-    { 
-      arrayFilters: [{ "elem.user_id": mentorId }],
-      new: false,
-    },
-    (err, team) => {
-      if (err) {
-        return res.status(500).json({
-          status: 'Mongo error',
-          err,
-        });
-      }
-
-      if (!team) {
-        return res.status(400).json({
-          status: 'Team not found',
-        });
-      }
-
-      res.status(200).json({
-        status: 'Rating saved',
-      });
-    });
-});
-
-router.patch('/:id/comment/', auth, (req, res) => {
-  const { id } = req.params;
-  const { comment, mentorId } = req.body;
-
-  if (!id || !mentorId || !comment) {
-    return res.status(400).json({
-      status: 'Team ID, mentor ID or rating missing',
+      status: 'Team ID or mentor ID',
     });
   }
 
   Team.findByIdAndUpdate(
     id, 
-    { $set: { "mentors.$[elem].comment": comment } },
+    { $set: { 
+        "mentors.$[elem].comment": comment,
+        "mentors.$[elem].mark": mark,
+      } 
+    },
     { arrayFilters: [{ "elem.user_id": mentorId }] },
     (err, team) => {
       if (err) {
@@ -421,7 +388,7 @@ router.patch('/:id/comment/', auth, (req, res) => {
       }
 
       res.status(200).json({
-        status: 'Comment saved',
+        status: 'Feedback saved',
       });
     });
 });
