@@ -78,7 +78,7 @@
           <mat-icon>launch</mat-icon>
         </a>
       </td>
-      <td [class.table__deadline--red]="getDaysToDeadline(today, project.deadline) < 1
+      <td [class.table__deadline--red]="getDaysToDeadline(today, project.deadline) < 2
         && isProjectFinished(today, project.deadline) === 'In progress'">
         {{ project.deadline | date:'longDate' }}
       </td>

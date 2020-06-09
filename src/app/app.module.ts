@@ -34,7 +34,6 @@ import { ChatMessageComponent } from './components/chat/chat-message/chat-messag
 import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
 import { ChatInfoComponent } from './components/chat/chat-info/chat-info.component';
 import { CreateTeamsComponent } from './components/create-teams/create-teams.component';
-import { AddNewMemberFormComponent } from './components/add-new-member-form/add-new-member-form.component';
 import { ProjectComponent } from './components/project/project.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ChatMemberComponent } from './components/chat/chat-member/chat-member.component';
@@ -56,6 +55,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FirstAlertComponent } from './components/project/first-alert/first-alert.component';
 import { SecondAlertComponent } from './components/project/second-alert/second-alert.component';
 import { ThirdAlertComponent } from './components/project/third-alert/third-alert.component';
+import { CreatedTeamCardComponent } from './components/created-team-card/created-team-card.component';
 
 const config = new AuthServiceConfig([
   {
@@ -83,7 +83,6 @@ export function provideConfig() {
     ChatMessageComponent,
     ChatUsersComponent,
     ChatInfoComponent,
-    AddNewMemberFormComponent,
     ProjectComponent,
     UserProfileComponent,
     ChatMemberComponent,
@@ -106,6 +105,7 @@ export function provideConfig() {
     FirstAlertComponent,
     SecondAlertComponent,
     ThirdAlertComponent,
+    CreatedTeamCardComponent,
   ],
   imports: [
     BrowserModule,
