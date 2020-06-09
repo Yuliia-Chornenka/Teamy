@@ -55,16 +55,10 @@ export class ChatService {
     });
   }
 
-  patchMentorRating(id, mentorId, rating) {
-    return this.http.patch(`${this.baseUrl}${id}/rate`, {
-      rating,
-      mentorId,
-    });
-  }
-
-  patchMentorComment(id, mentorId, comment) {
-    return this.http.patch(`${this.baseUrl}${id}/comment`, {
-      comment,
+  patchMentorAssessment(id, mentorId, data) {
+    return this.http.patch(`${this.baseUrl}${id}/assessment`, {
+      comment: data.comment.trim(),
+      mark: data.mark,
       mentorId,
     });
   }
