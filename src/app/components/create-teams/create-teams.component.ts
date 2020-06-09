@@ -198,7 +198,7 @@ export class CreateTeamsComponent implements OnInit {
 
                 this.projectService.putTeamsToProject(this.projectInfo._id, this.randomTeams).subscribe({
                   next: (response) => {
-                    console.log(response);
+                    this.successCreation = true;
                   },
                   error: (err) => {
                     this.successCreation = false;
@@ -211,6 +211,7 @@ export class CreateTeamsComponent implements OnInit {
                 this.projectService.sendEmailToMembers(infoForEmail).subscribe({
                   next: (response) => {
                     this.isEmailSend = true;
+                    setTimeout('window.location.reload()', 3000);
                   },
                   error: (err) => {
                     this.successCreation = false;
@@ -220,7 +221,6 @@ export class CreateTeamsComponent implements OnInit {
                     this.store$.dispatch(new LoadingFinishAction());
                   },
                 });
-
               });
             },
             error: (err) => {
