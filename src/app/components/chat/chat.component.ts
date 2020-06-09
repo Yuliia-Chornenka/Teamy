@@ -182,7 +182,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.checkUser(user);
         return res;
       })
-      .then((res: ITeamRes) => this.store$.dispatch(new LoadingFinishAction()));
+      .then((res: ITeamRes) => this.store$.dispatch(new LoadingFinishAction()))
+      .catch(error => this.router.navigate(['/profile']));
   }
 
   initSocket() {

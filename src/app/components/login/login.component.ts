@@ -11,7 +11,6 @@ import { IToken } from '../../models/token';
 import { AuthService, SocialUser } from 'angularx-social-login';
 import {
   FacebookLoginProvider,
-  GoogleLoginProvider,
 } from 'angularx-social-login';
 import { UserService } from '../../services/user.service';
 import { Store } from '@ngrx/store';
@@ -84,6 +83,7 @@ export class LoginComponent implements OnInit {
         this.authService.setValue(this.authService.loggedIn());
       },
       error: (error) => {
+        this.store$.dispatch(new LoadingFinishAction());
         if (error.status === 400) {
           this.invalidLogin = true;
           this.errorMessage = 'The email is not found!';
@@ -100,6 +100,7 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithFB(): void {
+    this.store$.dispatch(new LoadingStartAction());
     this.authSocialService
       .signIn(FacebookLoginProvider.PROVIDER_ID)
       .then((user) => {
@@ -115,6 +116,7 @@ export class LoginComponent implements OnInit {
             this.authService.setValue(this.authService.loggedIn());
           },
           (error) => {
+            this.store$.dispatch(new LoadingFinishAction());
             if (error.status === 400) {
               this.openSnackBar(error.error.message, 'ERROR');
             }

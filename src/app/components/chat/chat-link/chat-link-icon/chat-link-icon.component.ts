@@ -27,7 +27,7 @@ export class ChatLinkIconComponent implements OnInit {
       this.iconName = 'travis.png';
     }
 
-    if (this.link.match(/^https:\/\/(www.)?.*\.heroku\.com/gm)) {
+    if (this.link.match(/^https:\/\/(www.)?.*\.herokuapp\.com/gm)) {
       this.iconType = 'custom';
       this.iconName = 'heroku.png';
     }
