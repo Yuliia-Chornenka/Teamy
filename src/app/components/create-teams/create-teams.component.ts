@@ -6,16 +6,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-// import { AddNewMemberFormComponent } from '../add-new-member-form/add-new-member-form.component';
 import { ProjectService } from '../../services/project.service';
 import { IUser } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { IProject } from '../../models/project';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
-import {
-  LoadingStartAction,
-  LoadingFinishAction,
-} from 'src/app/reducers/loading/loading.actions';
+import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
 import { AddMentorFormComponent, UserInterface } from '../project/add-mentor-form/add-mentor-form.component';
 import { ChatService } from '../../services/chat.service';
 
@@ -118,10 +114,7 @@ export class CreateTeamsComponent implements OnInit {
 
       for (let i = arrayOfStudents.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [ arrayOfStudents[i], arrayOfStudents[j] ] = [
-          arrayOfStudents[j],
-          arrayOfStudents[i],
-        ];
+        [ arrayOfStudents[i], arrayOfStudents[j] ] = [ arrayOfStudents[j], arrayOfStudents[i] ];
       }
 
       for (let i = 1; i <= numberOfTeams; i++) {
@@ -149,82 +142,97 @@ export class CreateTeamsComponent implements OnInit {
 
     let author = {};
     this.userService.getUser(this.projectInfo.created_by).subscribe({
-        next: (projectCreator: IUser) => {
-          author = {
-            user_id: projectCreator._id,
-            user_name: projectCreator.name
-          };        },
-        error: (err) => {
-          this.successCreation = false;
-          this.store$.dispatch(new LoadingFinishAction());
-        },
-        complete: () => {
-          this.store$.dispatch(new LoadingFinishAction());
+      next: (projectCreator: IUser) => {
+        author = {
+          user_id: projectCreator._id,
+          user_name: projectCreator.name
+        };
+      },
+      error: (err) => {
+        this.successCreation = false;
+        this.store$.dispatch(new LoadingFinishAction());
+      },
+      complete: () => {
+        this.store$.dispatch(new LoadingFinishAction());
 
-          this.randomTeams.forEach((team, index: number) => {
-            const members = [];
-            team.forEach((member) => {
-              members.push({
-                user_id: member._id,
-                user_name: member.name
-              });
-            });
-
-            const mentors = [];
-            this.projectInfo.mentors.forEach((mentor: UserInterface) => {
-              mentors.push({
-                user_id: mentor._id,
-                user_name: mentor.name
-              });
-            });
-            mentors.push(author);
-
-            const teamItem = {
-              index,
-              team: {
-                  projectId: this.projectInfo._id,
-                  projectName: this.projectInfo.title,
-                  members,
-                  mentors
-                }
-            };
-
-            this.chatService.createTeam(teamItem).subscribe({
-              next: (result) => {
-                team.forEach((member) => {
-                  const infoForEmail = {
-                    userEmail: member.email,
-                    userName: member.name,
-                    projectTitle: this.projectInfo.title,
-                    projectId: this.projectInfo._id,
-                    teamId: result.teamId,
-                  };
-
-                  this.projectService.sendEmailToMembers(infoForEmail).subscribe({
-                    next: (response) => {
-                      this.isEmailSend = true;
-                    },
-                    error: (err) => {
-                      this.successCreation = false;
-                      this.store$.dispatch(new LoadingFinishAction());
-                    },
-                    complete: () => {
-                      this.store$.dispatch(new LoadingFinishAction());
-                    },
-                  });
-
-                });
-              },
-              error: (err) => {
-                    this.successCreation = false;
-                    this.store$.dispatch(new LoadingFinishAction());
-              },
-              complete: () => {
-                this.store$.dispatch(new LoadingFinishAction());
-              },
+        this.randomTeams.forEach((team, index: number) => {
+          const members = [];
+          team.forEach((member) => {
+            members.push({
+              user_id: member._id,
+              user_name: member.name
             });
           });
-        },
+
+          const mentors = [];
+          this.projectInfo.mentors.forEach((mentor: UserInterface) => {
+            mentors.push({
+              user_id: mentor._id,
+              user_name: mentor.name
+            });
+          });
+          mentors.push(author);
+
+          const teamItem = {
+            index,
+            team: {
+              projectId: this.projectInfo._id,
+              projectName: this.projectInfo.title,
+              members,
+              mentors
+            }
+          };
+
+          this.chatService.createTeam(teamItem).subscribe({
+            next: (result) => {
+              team.forEach((member) => {
+                const infoForEmail = {
+                  userEmail: member.email,
+                  userName: member.name,
+                  projectTitle: this.projectInfo.title,
+                  projectId: this.projectInfo._id,
+                  teamId: result.teamId,
+                };
+
+                member.teamId = result.teamId;
+
+                this.projectService.putTeamsToProject(this.projectInfo._id, this.randomTeams).subscribe({
+                  next: (response) => {
+                    console.log(response);
+                  },
+                  error: (err) => {
+                    this.successCreation = false;
+                  },
+                  complete: () => {
+                    this.isUserProjectCreator = this.userId === this.projectAuthorId;
+                  },
+                });
+
+                this.projectService.sendEmailToMembers(infoForEmail).subscribe({
+                  next: (response) => {
+                    this.isEmailSend = true;
+                  },
+                  error: (err) => {
+                    this.successCreation = false;
+                    this.store$.dispatch(new LoadingFinishAction());
+                  },
+                  complete: () => {
+                    this.store$.dispatch(new LoadingFinishAction());
+                  },
+                });
+
+              });
+            },
+            error: (err) => {
+              this.successCreation = false;
+              this.store$.dispatch(new LoadingFinishAction());
+            },
+            complete: () => {
+              this.store$.dispatch(new LoadingFinishAction());
+            },
+          });
+        });
+      },
     });
   }
 

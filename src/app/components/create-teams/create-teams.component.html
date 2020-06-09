@@ -1,69 +1,75 @@
 <div class="wrapper create__teams-wrapper">
 
-  <ng-container *ngIf="!isTeamExist">
-    <p class="list__title">{{ members?.length ? "All members:" : "There are no participants on this project yet."}}</p>
-    <div class="list">
-      <p class="list__item" *ngFor="let member of members">{{ member.name }}</p>
-      <button mat-fab color="accent" class="list__add-btn"
-              (click)="openDialogNewMember()">
-        <mat-icon>add</mat-icon>
-      </button>
+  <app-created-team-card
+    *ngIf="projectInfo?.teams.length">
+  </app-created-team-card>
+
+  <ng-container *ngIf="!projectInfo?.teams.length">
+
+    <ng-container *ngIf="!isTeamExist">
+      <p class="list__title">{{ members?.length ? "All members:" : "There are no participants on this project yet."}}</p>
+      <div class="list">
+        <p class="list__item" *ngFor="let member of members">{{ member.name }}</p>
+        <button mat-fab color="accent" class="list__add-btn"
+                (click)="openDialogNewMember()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+
+    <div class="form__wrapper" *ngIf="!isTeamExist && isUserProjectCreator && members.length">
+      <form [formGroup]="formCreateTeams" class="form">
+        <mat-form-field class="form__input">
+          <mat-label>How many teams you need to create?</mat-label>
+          <input #quantity matInput required type="number" formControlName="quantity">
+          <mat-error *ngIf="formCreateTeams.get('quantity').invalid"> {{ getErrorQuantity() }}</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" class="form__btn"
+                matTooltip="After creation you will not be able to change the number of teams, but you can move members between teams"
+                matTooltipPosition='above'
+                [disabled]="formCreateTeams.invalid || formCreateTeams.disabled"
+                (click)="createRandomTeams(members, quantity.value)">
+          Create random teams
+        </button>
+
+        <mat-error *ngIf="!successCreation"> We can't create teams now, please try again later.</mat-error>
+      </form>
     </div>
-  </ng-container>
 
-  <div class="form__wrapper" *ngIf="!isTeamExist && isUserProjectCreator && members.length">
-    <form [formGroup]="formCreateTeams" class="form">
-      <mat-form-field class="form__input">
-        <mat-label>How many teams you need to create?</mat-label>
-        <input #quantity matInput required type="number" formControlName="quantity">
-        <mat-error *ngIf="formCreateTeams.get('quantity').invalid"> {{ getErrorQuantity() }}</mat-error>
-      </mat-form-field>
+    <mat-spinner color="accent" class="teams__spinner" *ngIf="isPending"></mat-spinner>
 
-      <button mat-raised-button color="accent" class="form__btn"
-              matTooltip="After creation you will not be able to change the number of teams, but you can move members between teams"
-              matTooltipPosition='above'
-              [disabled]="formCreateTeams.invalid || formCreateTeams.disabled"
-              (click)="createRandomTeams(members, quantity.value)">
-        Create random teams
-      </button>
+    <ng-container *ngIf="isTeamExist">
+      <p class="list__title">Your teams:</p>
 
-      <mat-error *ngIf="!successCreation"> We can't create teams now, please try again later.</mat-error>
-    </form>
-  </div>
-
-  <mat-spinner color="accent" class="teams__spinner" *ngIf="isPending"></mat-spinner>
-
-  <ng-container *ngIf="isTeamExist">
-    <p class="list__title">Your teams:</p>
-
-    <div cdkDropListGroup class="teams">
-      <mat-card *ngFor="let team of randomTeams let idx = index" class="teams__item">
-        <mat-card-title class="teams__item-title">Team {{ idx + 1 }}:</mat-card-title>
-        <mat-card-content>
-          <div
-            cdkDropList
-            [cdkDropListData]="team"
-            (cdkDropListDropped)="drop($event)">
-            <div class="teams__item-participant" *ngFor="let student of team" cdkDrag>
-              <span class="teams__item-student"> {{ student.name }} </span>
-              <button mat-button matSuffix mat-icon-button>
-                <mat-icon>delete</mat-icon>
-              </button>
+      <div cdkDropListGroup class="teams">
+        <mat-card *ngFor="let team of randomTeams let idx = index" class="teams__item">
+          <mat-card-title class="teams__item-title">Team {{ idx + 1 }}:</mat-card-title>
+          <mat-card-content>
+            <div
+              cdkDropList
+              [cdkDropListData]="team"
+              (cdkDropListDropped)="drop($event)">
+              <div class="teams__item-participant" *ngFor="let student of team" cdkDrag>
+                <span class="teams__item-student"> {{ student.name }} </span>
+              </div>
             </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
 
-    <button mat-raised-button color="warn" class="teams__accept-btn"
-            matTooltip="After accepting you will not be able to change the teams"
-            matTooltipPosition='above'
-            (click)="addTeams()">
-      Accept teams & send invitations
-    </button>
+      <button mat-raised-button color="warn" class="teams__accept-btn"
+              matTooltip="After accepting you will not be able to change the teams"
+              matTooltipPosition='above'
+              (click)="addTeams()">
+        Accept teams & send invitations
+      </button>
 
-    <mat-error *ngIf="!successCreation" class="teams__error"> We can't accept teams & send invitations now, please try again later.</mat-error>
-    <p *ngIf="isEmailSend" class="teams__success">Teams accepting and emails sent to everybody.</p>
+      <mat-error *ngIf="!successCreation" class="teams__error"> We can't accept teams & send invitations now, please try again later.</mat-error>
+      <p *ngIf="isEmailSend" class="teams__success">Teams accepting and emails sent to everybody.</p>
+
+    </ng-container>
 
   </ng-container>
+
 </div>

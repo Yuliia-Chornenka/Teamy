@@ -36,7 +36,6 @@ router.get("/users/:userId", auth, async (req, res) => {
       if (error) {
         return res.status(500).json({ message: "Failed to find a user" });
       }
-      return;
     });
     await res.json(user);
   } catch (e) {
