@@ -79,7 +79,7 @@ export class RegistrationComponent implements OnInit {
     if (this.userPsw.hasError('required')) {
       return 'You must enter password';
     }
-    return this.userPsw.hasError('password') ? 'Password must be at least 5 characters' : '';
+    return this.userPsw.hasError('minlength') ? 'Password must be at least 5 characters' : '';
   }
 
 
