@@ -23,7 +23,7 @@ export class ChangePasswordPopupComponent implements OnInit {
   ngOnInit(): void {
     this.formChangePassword = this.formBuilder.group({
       password: ['', [ Validators.required ]],
-      newPassword: ['', [ Validators.required, Validators.minLength(6) ]],
+      newPassword: ['', [ Validators.required, Validators.minLength(5) ]],
       newPasswordConfirmation: ['', [ Validators.required]],
     }, {
       validator: MustMatch('newPassword', 'newPasswordConfirmation')
@@ -52,7 +52,7 @@ export class ChangePasswordPopupComponent implements OnInit {
     if (this.newPasswordControl.hasError('required')) {
       return 'You must enter new password';
     }
-    return this.newPasswordControl.hasError('minlength') ? 'Password must be at least 6 characters' : '';
+    return this.newPasswordControl.hasError('minlength') ? 'Password must be at least 5 characters' : '';
   }
 
   getErrorMessageNewPasswordConfirmation(): string {

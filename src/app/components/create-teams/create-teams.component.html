@@ -58,6 +58,8 @@
         </mat-card>
       </div>
 
+      <p *ngIf="isEmailSend" class="teams__success">Teams accepting and emails sent to everybody.</p>
+
       <button mat-raised-button color="warn" class="teams__accept-btn"
               matTooltip="After accepting you will not be able to change the teams"
               matTooltipPosition='above'
@@ -66,10 +68,7 @@
       </button>
 
       <mat-error *ngIf="!successCreation" class="teams__error"> We can't accept teams & send invitations now, please try again later.</mat-error>
-      <p *ngIf="isEmailSend" class="teams__success">Teams accepting and emails sent to everybody.</p>
 
     </ng-container>
-
   </ng-container>
-
 </div>

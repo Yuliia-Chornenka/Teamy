@@ -32,7 +32,7 @@
               <label class="user__photo--label">
                 Сhoose a photo
                 <input (change)="onImagePicked($event)" accept=".jpg, .jpeg, .png" type="file"
-                       class="user__photo--input">
+                       class="user__photo--input" [disabled]="isNewPhoto">
               </label>
               <button mat-raised-button color="accent"
                       (click)="onImageUpload()" [disabled]="!isNewPhoto">
@@ -41,7 +41,7 @@
             </div>
 
             <p class="user__photo--name" *ngIf="imageName">{{ imageName }}</p>
-            <mat-error *ngIf="isImgTooBig" class="user__photo--error">File should not be more than 1 mg</mat-error>
+            <mat-error *ngIf="isImgTooBig" class="user__photo--error">File should not be more than 3 mg</mat-error>
             <mat-error *ngIf="isImgUploadError" class="user__photo--error">
               Sorry, something went wrong and we can’t update your photo now. Please try again later.
             </mat-error>
