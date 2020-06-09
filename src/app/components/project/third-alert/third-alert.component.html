@@ -1,0 +1,16 @@
+<div class="third-alert">
+  <p>Please, think one more time!</p>
+  <div class="third-alert__buttons">
+    <button mat-button [mat-dialog-close]="false" cdkFocusInitial>
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+    >
+      Plese, remove it!
+    </button>
+  </div>
+</div>

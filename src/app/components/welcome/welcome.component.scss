@@ -9,6 +9,9 @@
   &__info {
     width: 50%;
     letter-spacing: 1.5px;
+    z-index: 3;
+    margin-bottom: 170px;
+    padding-top: 150px;
 
     @include tablets {
       padding-top: 31%;
@@ -48,10 +51,16 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 500px;
+    display: flex;
+    z-index: 0;
 
     @include phones {
       background: none;
     }
+  }
+
+  &__gallery {
+    width: 100%;
   }
 }

@@ -10,7 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { SocialLoginModule, AuthServiceConfig, LoginOpt } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { FacebookLoginProvider } from 'angularx-social-login';
 import { CountdownModule } from 'ng2-date-countdown';
 
 import { MaterialModule } from './material/material.module';
@@ -51,13 +51,14 @@ import { ChatMentorComponent } from './components/chat/chat-mentor/chat-mentor.c
 import { ChatLinkComponent } from './components/chat/chat-link/chat-link.component';
 import { ChatLinkIconComponent } from './components/chat/chat-link/chat-link-icon/chat-link-icon.component';
 import { ChatAssessmentComponent } from './components/chat/chat-assessment/chat-assessment.component';
+import { GalleryComponent } from './components/gallery/gallery.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { FirstAlertComponent } from './components/project/first-alert/first-alert.component';
+import { SecondAlertComponent } from './components/project/second-alert/second-alert.component';
+import { ThirdAlertComponent } from './components/project/third-alert/third-alert.component';
 import { CreatedTeamCardComponent } from './components/created-team-card/created-team-card.component';
 
 const config = new AuthServiceConfig([
-  // {
-  //   id: GoogleLoginProvider.PROVIDER_ID,
-  //   provider: new GoogleLoginProvider('Google-OAuth-Client-Id')
-  // },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
     provider: new FacebookLoginProvider('2635201316727876'),
@@ -102,6 +103,10 @@ export function provideConfig() {
     ChatLinkComponent,
     ChatLinkIconComponent,
     ChatAssessmentComponent,
+    GalleryComponent,
+    FirstAlertComponent,
+    SecondAlertComponent,
+    ThirdAlertComponent,
     CreatedTeamCardComponent,
   ],
   imports: [
@@ -116,7 +121,7 @@ export function provideConfig() {
     HttpClientModule,
     ClipboardModule,
     SocialLoginModule,
-    EffectsModule.forRoot([ AppEffects ]),
+    EffectsModule.forRoot([AppEffects]),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -127,6 +132,7 @@ export function provideConfig() {
     StoreDevtoolsModule.instrument({maxAge: 25}),
     StoreRouterConnectingModule.forRoot(),
     CountdownModule,
+    MatStepperModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

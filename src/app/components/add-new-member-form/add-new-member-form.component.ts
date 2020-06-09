@@ -26,8 +26,6 @@ export class AddNewMemberFormComponent implements OnInit {
     name = name.value.toLowerCase();
     email = email.value;
 
-    console.log(name, email);
-
     this.formNewMember.disable();
     this.isPending = true;
     this.successSubmitted = true;

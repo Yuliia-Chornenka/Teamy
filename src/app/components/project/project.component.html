@@ -113,7 +113,13 @@
     </button>
   </div>
 
-  <app-create-teams [members]="project?.members"> </app-create-teams>
+  <app-create-teams [members]="project?.members" [socket]="socket"> </app-create-teams>
+  
+  <div class="project__remove-button-container">
+    <button mat-raised-button color="warn" (click)="onRemoveProject()">
+      Delete project
+    </button>
+  </div>
 </div>
 
 <ng-template #projectIsOver>
