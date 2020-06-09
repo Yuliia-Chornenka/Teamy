@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  FormControl,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -35,7 +42,7 @@ export class NewProjectFormComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private store$: Store<LoadingState>,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) {}
 
   newProjectForm: FormGroup;
@@ -46,9 +53,15 @@ export class NewProjectFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.newProjectForm = this.fb.group({
-      title: '',
-      deadline: '',
-      description: '',
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+      ]),
+      deadline: new FormControl('', Validators.required),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+      ]),
       requirements: this.fb.array([]),
     });
 
@@ -66,7 +79,10 @@ export class NewProjectFormComponent implements OnInit {
 
   addRequirement() {
     const requirement = this.fb.group({
-      title: '',
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+      ]),
       priority: false,
     });
 

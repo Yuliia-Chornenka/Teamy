@@ -7,7 +7,6 @@
       >
         <input
           matInput
-          required
           placeholder="Project title"
           formControlName="title"
           class="new-project__input new-project__input--title"
@@ -42,11 +41,7 @@
           <div class="new-project__requirement-controls">
             <mat-checkbox formControlName="priority">Priority</mat-checkbox>
 
-            <button
-              mat-icon-button
-              color="warn"
-              (click)="deleteRequirement(i)"
-            >
+            <button mat-icon-button color="warn" (click)="deleteRequirement(i)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -73,7 +68,13 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi #picker></mat-datepicker
       ></mat-form-field>
-      <button mat-raised-button type="submit" color="primary" (click)="createProject()" [disabled]="newProjectForm.invalid">
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        (click)="createProject()"
+        [disabled]="newProjectForm.invalid"
+      >
         Create project
       </button>
     </form>
