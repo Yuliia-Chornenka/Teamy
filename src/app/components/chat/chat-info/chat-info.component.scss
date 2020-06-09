@@ -17,9 +17,10 @@
   }
 
   &__link {
-    :hover {
+    text-decoration: underline;
+
+    &:hover {
       color: $purple;
-      text-decoration: underline;
     }
   }
 }
