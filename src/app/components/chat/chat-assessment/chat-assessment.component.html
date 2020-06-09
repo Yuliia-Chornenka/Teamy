@@ -1,27 +1,27 @@
 <div class="assessment" *ngIf="user && team">
   <mat-card class="assessment__card">
     <mat-card-content>
-      <form>
+      <form [formGroup]="assessmentForm" (ngSubmit)="sendAssessment(assessmentForm.value)">
         <section class="assessment__points points">
           <header>Please rate team's work on current project:</header>
           <div class="stars">
-            <input type="radio" name="rating" id="star_5" value="5" (change)="sendRating(5)" [checked]="5 == mentor.mark">
+            <input type="radio" id="star_5" [value]="5" name="mark" [(ngModel)]="mentor.mark" formControlName="mark" required>
             <label for="star_5">
               <mat-icon>star</mat-icon>
             </label>
-            <input type="radio" name="rating" id="star_4" value="4" (change)="sendRating(4)" [checked]="4 == mentor.mark">
+            <input type="radio" id="star_4" [value]="4" name="mark" [(ngModel)]="mentor.mark" formControlName="mark">
             <label for="star_4">
               <mat-icon>star</mat-icon>
             </label>
-            <input type="radio" name="rating" id="star_3" value="3" (change)="sendRating(3)" [checked]="3 == mentor.mark">
+            <input type="radio" id="star_3" [value]="3" name="mark" [(ngModel)]="mentor.mark" formControlName="mark">
             <label for="star_3">
               <mat-icon>star</mat-icon>
             </label>
-            <input type="radio" name="rating" id="star_2" value="2" (change)="sendRating(2)" [checked]="2 == mentor.mark">
+            <input type="radio" id="star_2" [value]="2" name="mark" [(ngModel)]="mentor.mark" formControlName="mark">
             <label for="star_2">
               <mat-icon>star</mat-icon>
             </label>
-            <input type="radio" name="rating" id="star_1" value="1" (change)="sendRating(1)" [checked]="1 == mentor.mark">
+            <input type="radio" id="star_1" [value]="1" name="mark" [(ngModel)]="mentor.mark" formControlName="mark">
             <label for="star_1">
               <mat-icon>star</mat-icon>
             </label>
@@ -30,15 +30,16 @@
         <section class="assessment__comment comment">
           <header>And leave a comment if you feel like it:</header>
           <mat-form-field class="comment__textarea">
-            <textarea (change)="sendComment($event)" 
-                      matInput 
+            <textarea matInput 
                       cdkTextareaAutosize 
                       #autosize="cdkTextareaAutosize" 
                       cdkAutosizeMinRows="1" 
                       cdkAutosizeMaxRows="20"
+                      formControlName="comment"
                       id="mentor_comment">{{ mentor.comment }}</textarea>
           </mat-form-field>
         </section>
+        <button mat-flat-button color="primary" type="submit">Save</button>
       </form>
     </mat-card-content>
   </mat-card>

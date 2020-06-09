@@ -3,6 +3,7 @@ import { IUser } from 'src/app/models/user.model';
 import { ITeam } from 'src/app/models/team';
 import { ChatService } from 'src/app/services/chat.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-assessment',
@@ -13,45 +14,40 @@ export class ChatAssessmentComponent implements OnInit {
   @Input() user: IUser;
   @Input() team: ITeam;
   mentor;
+  assessmentForm;
 
   constructor(private chatService: ChatService,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.mentor = this.team.mentors.find(item => item.user_id === this.user._id);
+    this.assessmentForm = this.formBuilder.group({
+      comment: this.mentor.comment,
+      mark: new FormControl(this.mentor.mark),
+    });
   }
 
-  sendRating(rating) {
-    this.chatService.patchMentorRating(this.team._id, this.user._id, rating)
-      .subscribe({
-        next: res => {
-          this.snackBar.open('Your rating saved!', '✔', {
-            duration: 3000,
-          });
-        },
-        error: res => {
-          console.error(res);
-          this.snackBar.open('Sorry, something went wrong', 'Close', {
-            duration: 3000,
-          });
-        },
+  sendAssessment(data) {
+    if (data.mark) {
+      this.chatService.patchMentorAssessment(this.team._id, this.user._id, data)
+        .subscribe({
+          next: res => {
+            this.snackBar.open('Your feedback saved!', '✔', {
+              duration: 3000,
+            });
+          },
+          error: res => {
+            console.error(res);
+            this.snackBar.open('Sorry, something went wrong', 'Close', {
+              duration: 3000,
+            });
+          },
+        });
+    } else {
+      this.snackBar.open('Please choose a mark before saving', 'Close', {
+        duration: 3000,
       });
-  }
-
-  sendComment(ev) {
-    this.chatService.patchMentorComment(this.team._id, this.user._id, ev.target.value.trim())
-      .subscribe({
-        next: res => {
-          this.snackBar.open('Your comment saved!', '✔', {
-            duration: 3000,
-          });
-        },
-        error: res => {
-          console.error(res);
-          this.snackBar.open('Sorry, something went wrong', 'Close', {
-            duration: 3000,
-          });
-        },
-      });
+    }
   }
 }
