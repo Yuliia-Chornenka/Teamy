@@ -11,7 +11,7 @@
 <div class="files__btn-wrapper">
   <label class="files__item--label">
     Add file
-    <input (change)="onFilePicked($event)" class="files__item--input" type="file"
+    <input (change)="onFilePicked($event)" class="files__item--input" type="file" [disabled]="isNewFile"
            accept=".doc, .docx, .txt, .pdf, .xls, .xlsx, .zip, .rar, .ppt, .pptx">
   </label>
   <button mat-raised-button color="accent"

@@ -22,6 +22,7 @@ import * as io from 'socket.io-client';
 import { FirstAlertComponent } from './first-alert/first-alert.component';
 import { SecondAlertComponent } from './second-alert/second-alert.component';
 import { ThirdAlertComponent } from './third-alert/third-alert.component';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-project',
@@ -58,7 +59,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private store$: Store,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private chatService: ChatService
   ) {}
 
   ngOnInit(): void {
@@ -208,8 +210,26 @@ export class ProjectComponent implements OnInit, OnDestroy {
         this.openSnackBar(err.error.message, 'ERROR');
       },
       complete: () => {
+        this.removeTeams();
         this.router.navigate(['profile']);
       },
+    });
+  }
+
+  removeTeams() {
+    const teamsIds = [];
+
+    this.project.teams.forEach((team) => teamsIds.push(team[0].teamId));
+
+    teamsIds.forEach((teamId) => {
+      this.chatService.removeTeam(teamId).subscribe({
+        next: () => {},
+        error: (err) => {
+          this.snackBar.open(err.error.message, 'Error');
+          return;
+        },
+        complete: () => {},
+      });
     });
   }
 }
