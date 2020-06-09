@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatInput } from '@angular/material/input';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from '../../models/user.model';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LoadingState } from 'src/app/reducers/loading/loading.reducer';
 import { LoadingStartAction, LoadingFinishAction } from 'src/app/reducers/loading/loading.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmRegisterComponent } from './confirm-alert/confirm-alert.component';
 
 @Component({
   selector: 'app-registration',
@@ -31,7 +33,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private addUserService: UserService,
     private router: Router,
-    private store$: Store<LoadingState>) {
+    private store$: Store<LoadingState>,
+    public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -45,6 +48,40 @@ export class RegistrationComponent implements OnInit {
       password: new FormControl('', [Validators.required, Validators.minLength(5)]),
     });
   }
+
+  get userName(): AbstractControl {
+    return this.form.get('name');
+  }
+
+  get userEmail(): AbstractControl {
+    return this.form.get('email');
+  }
+
+  get userPsw(): AbstractControl {
+    return this.form.get('password');
+  }
+
+  getErrorMessageName(): string {
+    if (this.userName.hasError('required')) {
+      return 'You must enter a name';
+    }
+    return this.userName.hasError('minlength') ? 'Name must be at least 2 characters' : '';
+  }
+
+  getErrorMessageEmail(): string {
+    if (this.userEmail.hasError('required')) {
+      return 'You must enter email';
+    }
+    return this.userEmail.hasError('email') ? 'Please enter valid email. Example: email@gmail.com' : '';
+  }
+
+  getErrorMessagePsw(): string {
+    if (this.userPsw.hasError('required')) {
+      return 'You must enter password';
+    }
+    return this.userPsw.hasError('minlength') ? 'Password must be at least 5 characters' : '';
+  }
+
 
   register() {
     if (this.form.valid === false) {
@@ -63,6 +100,7 @@ export class RegistrationComponent implements OnInit {
       this.addUserService.addUser(user).subscribe(
         () => {
           this.form.reset();
+          this.dialog.open(ConfirmRegisterComponent);
         },
         error => {
           if (error.status === 400) {

@@ -55,6 +55,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FirstAlertComponent } from './components/project/first-alert/first-alert.component';
 import { SecondAlertComponent } from './components/project/second-alert/second-alert.component';
 import { ThirdAlertComponent } from './components/project/third-alert/third-alert.component';
+import {ConfirmRegisterComponent} from './components/registration/confirm-alert/confirm-alert.component';
 import { CreatedTeamCardComponent } from './components/created-team-card/created-team-card.component';
 
 const config = new AuthServiceConfig([
@@ -105,6 +106,7 @@ export function provideConfig() {
     FirstAlertComponent,
     SecondAlertComponent,
     ThirdAlertComponent,
+    ConfirmRegisterComponent,
     CreatedTeamCardComponent,
   ],
   imports: [
@@ -147,4 +149,5 @@ export function provideConfig() {
   ],
   bootstrap: [AppComponent],
 })
+
 export class AppModule {}

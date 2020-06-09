@@ -5,16 +5,29 @@ import { User } from '../models/user';
 import { IUser } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChatService {
   baseUrl = 'api/team/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   convertToDate(timestamp): string {
     const date = new Date(timestamp);
-    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const months = [
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12',
+    ];
 
     const day = date.getDate();
     const month = months[date.getMonth()];
@@ -22,7 +35,9 @@ export class ChatService {
     const hours = date.getHours();
     const mins = date.getMinutes();
 
-    return `${day > 9 ? day : '0' + day}.${month}.${year} ${hours > 9 ? hours : '0' + hours }:${mins > 9 ? mins : '0' + mins}`;
+    return `${day > 9 ? day : '0' + day}.${month}.${year} ${
+      hours > 9 ? hours : '0' + hours
+    }:${mins > 9 ? mins : '0' + mins}`;
   }
 
   createTeam(team): Observable<any> {
@@ -69,5 +84,9 @@ export class ChatService {
 
   fileUpload(id: string, imageForm: FormData): Observable<any> {
     return this.http.patch(`${this.baseUrl}${id}/files`, imageForm);
+  }
+
+  removeTeam(teamId: string) {
+    return this.http.delete(`${this.baseUrl}${teamId}`);
   }
 }
