@@ -10,7 +10,11 @@
           placeholder="Project title"
           formControlName="title"
           class="new-project__input new-project__input--title"
+          #title
         />
+        <mat-error *ngIf="newProjectForm.get('title').invalid">
+          {{ getErrorTitle() }}</mat-error
+        >
       </mat-form-field>
 
       <mat-form-field class="new-project__form-field">
@@ -21,6 +25,9 @@
           formControlName="description"
           class="new-project__input new-project__input--textarea"
         ></textarea>
+        <mat-error *ngIf="newProjectForm.get('description').invalid">
+          {{ getErrorDescription() }}</mat-error
+        >
       </mat-form-field>
 
       <ol formArrayName="requirements" class="new-project__requirements-list">
@@ -36,6 +43,9 @@
               formControlName="title"
               class="new-project__input"
             />
+            <mat-error *ngIf="newProjectForm.get('requirements').invalid">
+              {{ getErrorRequirement() }}</mat-error
+            >
           </mat-form-field>
 
           <div class="new-project__requirement-controls">
@@ -64,10 +74,14 @@
           formControlName="deadline"
           placeholder="Deadline"
           class="new-project__input"
-          [min]="minDate" />
+          [min]="minDate"
+        />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker touchUi #picker></mat-datepicker
-      ></mat-form-field>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+        <mat-error *ngIf="newProjectForm.get('deadline').invalid">
+          {{ getErrorDeadline() }}</mat-error
+        ></mat-form-field
+      >
       <button
         mat-raised-button
         type="submit"

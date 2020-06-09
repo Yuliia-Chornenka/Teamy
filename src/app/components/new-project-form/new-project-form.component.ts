@@ -6,6 +6,7 @@ import {
   FormControl,
   Validators,
   AbstractControl,
+  AbstractControlDirective,
 } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
@@ -55,12 +56,12 @@ export class NewProjectFormComponent implements OnInit {
     this.newProjectForm = this.fb.group({
       title: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(2),
       ]),
       deadline: new FormControl('', Validators.required),
       description: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(2),
       ]),
       requirements: this.fb.array([]),
     });
@@ -77,11 +78,59 @@ export class NewProjectFormComponent implements OnInit {
     return this.newProjectForm.get('requirements') as FormArray;
   }
 
+  get titleControl(): AbstractControl {
+    return this.newProjectForm.get('title');
+  }
+
+  get descriptionControl(): AbstractControl {
+    return this.newProjectForm.get('description');
+  }
+
+  get requirementConstrol(): AbstractControl {
+    return this.newProjectForm.get('requirements');
+  }
+
+  get deadlineControll(): AbstractControl {
+    return this.newProjectForm.get('deadline');
+  }
+
+  getErrorTitle(): string {
+    if (this.titleControl.hasError('required')) {
+      return 'You must enter a title';
+    }
+
+    if (this.titleControl.hasError('minlength')) {
+      return 'Title must be at least 2 characters';
+    }
+  }
+
+  getErrorDescription(): string {
+    if (this.descriptionControl.hasError('required')) {
+      return 'You must enter a description';
+    }
+
+    if (this.descriptionControl.hasError('minlength')) {
+      return 'Description must be at least 2 characters';
+    }
+  }
+
+  getErrorRequirement(): string {
+    if (this.descriptionControl.hasError('required')) {
+      return 'You must enter a requirement';
+    }
+  }
+
+  getErrorDeadline(): string {
+    if (this.deadlineControll.hasError('required')) {
+      return 'You must enter a deadline';
+    }
+  }
+
   addRequirement() {
     const requirement = this.fb.group({
       title: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(2),
       ]),
       priority: false,
     });
