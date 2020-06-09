@@ -51,6 +51,7 @@ import { ChatMentorComponent } from './components/chat/chat-mentor/chat-mentor.c
 import { ChatLinkComponent } from './components/chat/chat-link/chat-link.component';
 import { ChatLinkIconComponent } from './components/chat/chat-link/chat-link-icon/chat-link-icon.component';
 import { ChatAssessmentComponent } from './components/chat/chat-assessment/chat-assessment.component';
+import { CreatedTeamCardComponent } from './components/created-team-card/created-team-card.component';
 
 const config = new AuthServiceConfig([
   // {
@@ -101,6 +102,7 @@ export function provideConfig() {
     ChatLinkComponent,
     ChatLinkIconComponent,
     ChatAssessmentComponent,
+    CreatedTeamCardComponent,
   ],
   imports: [
     BrowserModule,

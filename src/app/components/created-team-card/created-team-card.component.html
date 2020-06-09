@@ -1,0 +1,24 @@
+<p class="title">Created teams:</p>
+
+<div class="card__wrapper">
+   <div class="card" *ngFor="let team of projectTeams let idx = index">
+      <p class="card__header">
+        Team {{ idx+1 }}
+      </p>
+
+      <ul>
+        <li *ngFor="let member of team" class="card__list">
+          <img src="{{member.photo ? member.photo : '/assets/default-user-image.png'}}" alt="avatar" class="card__avatar">
+         <div class="card__text">
+           <p class="card__name"> {{ member.name }} </p>
+           <p class="card__email">Email: {{ member.email }} </p>
+         </div>
+        </li>
+      </ul>
+
+      <button mat-raised-button color="primary" class="card__btn">
+        <a routerLink="/team/{{projectTeams[idx][0].teamId}}" class="card__link">Go to chat</a>
+      </button>
+   </div>
+</div>
+

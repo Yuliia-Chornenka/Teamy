@@ -51,4 +51,8 @@ export class ProjectService {
   sendEmailToMembers(infoForEmail): Observable<any> {
     return this.http.post(`/api/project/send-email`, infoForEmail);
   }
+
+  putTeamsToProject(projectId, teams): Observable<any> {
+    return this.http.patch(`/api/project/teams/${projectId}`, teams);
+  }
 }

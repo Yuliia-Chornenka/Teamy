@@ -293,6 +293,38 @@ router.post("/send-email", auth, async (req, res) => {
   }
 });
 
+
+
+
+router.patch("/teams/:projectId", auth, async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.projectId, (error) => {
+      if (error) {
+        return res.status(500).json({ message: "Failed to find a project" });
+      }
+    });
+    project.teams = req.body;
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      req.params.projectId,
+      project,
+      { new: true },
+      (error) => {
+        if (error) {
+          return res.status(500).json({ message: "Failed to update" });
+        }
+      }
+    );
+    await res.json(updatedProject);
+  } catch (e) {
+    res.status(500).json({
+      message: "Something went wrong. Try again later.",
+      error: e,
+    });
+  }
+});
+
+
 router.delete("/:projectId", auth, async (req, res) => {
   const { projectId } = req.params;
 
