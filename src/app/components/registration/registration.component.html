@@ -7,6 +7,7 @@
         <input matInput placeholder="Andrushka" formControlName="name" required>
         <mat-icon matSuffix>insert_emoticon</mat-icon>
         <mat-hint>or your nickname</mat-hint>
+        <mat-error *ngIf="form.get('name').invalid"> {{ getErrorMessageName() }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="form__field">
@@ -14,12 +15,14 @@
         <input matInput placeholder="Email" formControlName="email" required>
         <mat-icon matSuffix>local_post_office</mat-icon>
         <mat-hint>your secret email</mat-hint>
+        <mat-error *ngIf="form.get('email').invalid"> {{ getErrorMessageEmail() }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="form__field">
         <mat-label>Password</mat-label>
         <input matInput type="password" placeholder="Password" formControlName="password" required>
         <mat-hint>password</mat-hint>
+        <mat-error *ngIf="form.get('password').invalid"> {{ getErrorMessagePsw() }} </mat-error>
       </mat-form-field>
 
       <button mat-raised-button color="primary" (click)="register()">Register</button>

@@ -1,5 +1,5 @@
 <mat-horizontal-stepper class="stepper">
-  <mat-step label="Step 1" state="doc">
+  <mat-step label="Step 1">
     <div class="stepper__wrap">
       <p>Create profile</p>
       <img class="stepper__img" src="../../../assets/profile.jpg">
@@ -8,20 +8,20 @@
       <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step label="Step 2" state="doc">
+  <mat-step label="Step 2">
     <div class="stepper__wrap">
       <p>Start the project</p>
-      <img class="stepper__img" src="../../../assets/newproject.jpg">
+      <img class="stepper__img" src="../../../assets/projects.jpg">
     </div>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step label="Step 3" state="chat">
+  <mat-step label="Step 3">
     <div class="stepper__wrap">
       <p>Build a team</p>
-      <img class="stepper__img" src="../../../assets/projects.jpg">
+      <img class="stepper__img" src="../../../assets/teams.jpg">
     </div>
     <div>
       <button mat-button matStepperPrevious>Back</button>
@@ -30,17 +30,19 @@
   </mat-step>
   <mat-step label="Step 4">
     <div class="stepper__wrap">
+      <p>Receive confirmation</p>
+      <img class="stepper__img" src="../../../assets/email.jpg">
+    </div>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Step 5">
+    <div class="stepper__wrap">
       <p>Chat</p>
       <img class="stepper__img" src="../../../assets/chat.jpg">
     </div>
     <button mat-button matStepperPrevious>Back</button>
   </mat-step>
-
-  <!-- Icon overrides. -->
-  <ng-template matStepperIcon="doc">
-    <mat-icon>document</mat-icon>
-  </ng-template>
-  <ng-template matStepperIcon="chat">
-    <mat-icon>forum</mat-icon>
-  </ng-template>
 </mat-horizontal-stepper>
