@@ -61,7 +61,7 @@
         <button
           mat-raised-button
           color="accent"
-          *ngIf="isUserProjectCreator"
+          *ngIf="isUserProjectCreator && !project?.teams.length"
           (click)="openModalAddMentor()"
         >
           Add mentor
@@ -105,7 +105,7 @@
     <button
       mat-raised-button
       color="primary"
-      *ngIf="!isUserProjectCreator"
+      *ngIf="!isUserProjectCreator && !project?.teams.length"
       (click)="becomeMember()"
       class="project__member-button"
     >
