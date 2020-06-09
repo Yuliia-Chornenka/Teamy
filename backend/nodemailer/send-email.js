@@ -18,7 +18,7 @@ module.exports = async (userEmail, userName, projectTitle, projectId, teamId) =>
       subject: `Details about the project '${projectTitle}'`,
       html:
         `<p>Hello, <b>${userName}</b>!</p>
-        Your mentor has created teams in the project <b>${projectTitle}</b>.<br>
+        Your mentor has created teams in the project <b>'${projectTitle}'</b>.<br>
         We are glad to announce that a chat for your team has already been created:
         <a href="https://teamy-app.herokuapp.com/team/${teamId}" target="_blank">chat</a> <br>
         You can talk there with your teammates and save all necessary information.<br>

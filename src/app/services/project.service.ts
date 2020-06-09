@@ -55,4 +55,8 @@ export class ProjectService {
   removeProject(projectId: string): Observable<any> {
     return this.http.delete(`/api/project/${projectId}`);
   }
+
+  putTeamsToProject(projectId, teams): Observable<any> {
+    return this.http.patch(`/api/project/teams/${projectId}`, teams);
+  }
 }
