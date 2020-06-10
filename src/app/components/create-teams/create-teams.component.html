@@ -1,10 +1,12 @@
 <div class="create__teams-wrapper">
 
+  <p *ngIf="isEmailSend" class="teams__success">Teams accepting and emails sent to everybody.</p>
+
   <app-created-team-card
-    *ngIf="projectInfo?.teams.length">
+    *ngIf="projectInfo?.teams.length || isTeamAlreadyCreated">
   </app-created-team-card>
 
-  <ng-container *ngIf="!projectInfo?.teams.length">
+  <ng-container *ngIf="!projectInfo?.teams.length && !isTeamAlreadyCreated">
 
     <ng-container *ngIf="!isTeamExist">
       <p class="list__title">{{ members?.length ? "All members:" : "There are no participants on this project yet."}}</p>
@@ -57,8 +59,6 @@
           </mat-card-content>
         </mat-card>
       </div>
-
-      <p *ngIf="isEmailSend" class="teams__success">Teams accepting and emails sent to everybody.</p>
 
       <button mat-raised-button color="warn" class="teams__accept-btn"
               matTooltip="After accepting you will not be able to change the teams"
