@@ -31,6 +31,7 @@ export class CreateTeamsComponent implements OnInit {
   successCreation = true;
   projectInfo: IProject;
   isEmailSend = false;
+  isTeamAlreadyCreated = false;
 
   projectId: string;
   userId: string;
@@ -211,7 +212,7 @@ export class CreateTeamsComponent implements OnInit {
                 this.projectService.sendEmailToMembers(infoForEmail).subscribe({
                   next: (response) => {
                     this.isEmailSend = true;
-                    setTimeout('window.location.reload()', 3000);
+                    this.isTeamAlreadyCreated = true;
                   },
                   error: (err) => {
                     this.successCreation = false;
