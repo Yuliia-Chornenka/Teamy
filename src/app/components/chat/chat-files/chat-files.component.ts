@@ -34,9 +34,15 @@ export class ChatFilesComponent implements OnInit {
   }
 
   onFilePicked(event: Event): void {
+    this.isFileTooBig = false;
     this.fileObj = (event.target as HTMLInputElement).files[0];
-    this.fileName = this.fileObj.name;
-    this.isNewFile = true;
+    if (this.fileObj) {
+      this.fileName = this.fileObj.name;
+    } else {
+      this.fileName = '';
+      this.isFileTooBig = false;
+    }
+    this.isNewFile = !!this.fileName;
   }
 
   onFileUpload() {
@@ -53,6 +59,7 @@ export class ChatFilesComponent implements OnInit {
       error: (err) => {
         if (err.status === 413) {
           this.isFileTooBig = true;
+          this.isNewFile = false;
         } else {
           this.isFileUploadError = true;
         }

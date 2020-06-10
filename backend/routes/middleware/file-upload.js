@@ -14,7 +14,7 @@ const s3 = new aws.S3();
 
 const upload = multer({
   limits: {
-    fileSize: 3000000,
+    fileSize: 1000000,
   },
   storage: multerS3({
     acl: 'public-read',
