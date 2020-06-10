@@ -34,9 +34,15 @@ export class ChatImagesComponent implements OnInit {
   }
 
   onImagePicked(event: Event): void {
+    this.isImgTooBig = false;
     this.imageObj = (event.target as HTMLInputElement).files[0];
-    this.imageName = this.imageObj.name;
-    this.isNewPhoto = true;
+    if (this.imageObj) {
+      this.imageName = this.imageObj.name;
+    } else {
+      this.imageName = '';
+      this.isImgTooBig = false;
+    }
+    this.isNewPhoto = !!this.imageName;
   }
 
   onImageUpload() {
@@ -53,6 +59,7 @@ export class ChatImagesComponent implements OnInit {
       error: (err) => {
         if (err.status === 413) {
           this.isImgTooBig = true;
+          this.isNewPhoto = false;
         } else {
           this.isImgUploadError = true;
         }
