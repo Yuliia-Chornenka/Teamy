@@ -103,6 +103,8 @@ export class RegistrationComponent implements OnInit {
           this.dialog.open(ConfirmRegisterComponent);
         },
         error => {
+          this.invalidRegister = true;
+          this.store$.dispatch(new LoadingFinishAction());
           if (error.status === 400) {
             this.errorMessage = 'The email address you have used is already registered!';
           }
